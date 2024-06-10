@@ -1,3 +1,14 @@
 * {
     margin: 0;
 }
+
+:root {
+    --body-color: #646464;
+    --primary-color: #40C1AE;
+    --primary-color2: #339f90;
+    /*--headding-color: #1D4354;*/
+    /*--headding-color2: #EEEEEE;*/
+    --section-bg: #FFFFFF;
+    --body-color2: #282828;
+    --body-color3: #EEEEEE;
+}

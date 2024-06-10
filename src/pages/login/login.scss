@@ -1,14 +1,16 @@
 .login-container {
-  background-image: url("./loginPageBackground.jpeg");
   height: 100vh;
   width: 100%;
   align-content: center;
+  background-image: url("./loginPageBackground.jpeg");
+  background-position: center;
+  background-size: auto;
+  background-repeat: no-repeat;
 
   .login-form {
-    max-width: 800px;
+    max-width: 400px;
     background-color: white;
     margin: 0 auto;
-    text-align: center;
     border-radius: 5px;
 
     .login-page-logo {
@@ -17,15 +19,13 @@
     }
 
     .email-password-field {
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
     }
 
     .login-btn {
-      background-color: #40C1AE;
-      width: 80%;
+      width: 90%;
       margin-top: 10px;
-      color: #fff;
       margin-bottom: 50px;
     }
   }
