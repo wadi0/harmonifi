@@ -1,0 +1,85 @@
+.home-container {
+  margin-top: 42px;
+
+  .home-top {
+    display: flex;
+    gap: 25px;
+
+
+    .home-select-field {
+      width: 500px;
+      height: 50px;
+
+      .css-13cymwt-control {
+        height: 50px;
+      }
+
+      .css-art2ul-ValueContainer2 {
+        height: 50px !important;
+      }
+    }
+
+    .bootsrap-btn {
+      border: 1px solid var(--primary-color);
+      height: 50px;
+      padding: 0 10px;
+      align-content: center;
+      border-radius: 5px;
+      color: var(--primary-color);
+      background-color: var(--section-bg);
+      transition: background-color 3s;
+      font-size: 20px;
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: var(--section-bg);
+      }
+    }
+
+    .box-filter {
+      padding: 0 15px;
+    }
+  }
+
+}
+
+.modal.show .modal-dialog {
+  margin: 0 auto;
+  height: 100%;
+  align-content: center;
+}
+
+.saveBtn {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: var(--section-bg);
+  transition: background-color 3s;
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--section-bg);
+    border: none;
+  }
+}
+
+.cancelBtn {
+  border: 1px solid var(--body-color);
+  color: var(--body-color);
+  background-color: var(--section-bg);
+  transition: background-color 3s;
+
+  &:hover {
+    background-color: var(--body-color);
+    color: var(--section-bg);
+    border: none;
+  }
+
+}
+
+.module-label {
+  position: absolute;
+  background-color: white;
+  left: 35px;
+  font-size: 12px;
+  padding: 0 10px;
+}
