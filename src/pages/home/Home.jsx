@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import "./home.scss";
 import SelectField from "../../component/SelectField/SelectField.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faList, faPlus, faTableCellsLarge, faVideo} from "@fortawesome/free-solid-svg-icons";
+import {faBoxOpen, faList, faPlus, faTableCellsLarge, faVideo} from "@fortawesome/free-solid-svg-icons";
 import {Button, Modal} from "react-bootstrap";
 import InputField from "../../component/InputField/InputField.jsx";
 import {useFormik} from "formik";
@@ -95,6 +95,13 @@ const Home = () => {
                 <Button className="bootsrap-btn box-filter">
                     <FontAwesomeIcon icon={faList}/>
                 </Button>
+            </div>
+
+            <div className="home-data">
+                <div className="no-data-box">
+                    <FontAwesomeIcon className="empty-box" icon={faBoxOpen} />
+                    <span>No Video</span>
+                </div>
             </div>
 
             {/*---------------module modal---------*/}

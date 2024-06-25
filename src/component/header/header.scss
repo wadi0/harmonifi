@@ -2,15 +2,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 3rem;
+  height: 4rem;
   background-color: white;
   padding: 0 2rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
   .header-logo {
+    display: flex;
+    align-items: center;
+
+    .menu-icon {
+      font-size: 20px;
+      margin: 0 15px;
+    }
 
     img {
-      width: 150px;
+      height: 4rem;
     }
   }
 

@@ -2,11 +2,11 @@ import React from 'react';
 import Header from "../../header/Header.jsx";
 import {Outlet} from "react-router-dom";
 
-const HeaderLayout = () => {
+const HeaderLayout = ({toggleSidebar}) => {
     return (
         <div>
-            <Header />
-            <Outlet />
+            <Header toggleSidebar={toggleSidebar}/>
+            <Outlet/>
         </div>
     );
 };
