@@ -24,4 +24,34 @@
       }
     }
   }
+
+  .bottom-menu {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1000px) {
+
+  .sideMenu-container {
+    padding: 0 25px;
+    height: 100px;
+    align-content: center;
+
+    .sideMenu-list {
+      display: none;
+    }
+
+    .bottom-menu {
+      display: block;
+    }
+  }
+
+}
+
+@media only screen and (min-width: 1001px) and (max-width: 1200px) {
+
+  .sideMenu-container {
+    padding: 50px 2rem !important;
+    padding-right: 10px !important;
+  }
 }

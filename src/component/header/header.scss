@@ -10,6 +10,7 @@
   .header-logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     .menu-icon {
       font-size: 20px;
@@ -36,4 +37,28 @@
       color: white;
     }
   }
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1000px) {
+
+  .header-container {
+    padding: 0 1.5rem;
+    .menu-icon {
+      margin: 0 !important;
+      margin-right: 10px !important;
+    }
+  }
+
+}
+
+
+@media only screen and (min-width: 1001px) and (max-width: 1200px) {
+
+  .header-container {
+    .menu-icon {
+      margin: 0 !important;
+      margin-right: 10px !important;
+    }
+  }
+
 }

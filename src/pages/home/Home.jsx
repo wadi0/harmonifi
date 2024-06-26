@@ -7,9 +7,20 @@ import {Button, Modal} from "react-bootstrap";
 import InputField from "../../component/InputField/InputField.jsx";
 import {useFormik} from "formik";
 import CustomButton from "../../component/button/Button.jsx";
+import InputFileUploadDesign from "../../component/inputFileUpload/inputFileUploadDesign.jsx";
+import ThumbnailUpload from "../../component/thumbnailUpload/ThumbnailUpload.jsx";
 
 const Home = () => {
     const initialOptionsHomeSelect = [
+        {value: '', label: 'All'},
+        {value: 'chocolate', label: 'Chocolate'},
+        {value: 'strawberry', label: 'Strawberry'},
+        {value: 'vanilla', label: 'Vanilla'},
+        {value: 'eglo', label: 'Eaglo'}
+    ];
+
+    const selectModuleOptionVideo = [
+        {value: '', label: 'All'},
         {value: 'chocolate', label: 'Chocolate'},
         {value: 'strawberry', label: 'Strawberry'},
         {value: 'vanilla', label: 'Vanilla'},
@@ -83,10 +94,10 @@ const Home = () => {
                         placeholder="All"
                     />
                 </div>
-                <Button className="bootsrap-btn" onClick={handleShowModule}>
+                <Button className="bootsrap-btn module-btn" onClick={handleShowModule}>
                     <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                 </Button>
-                <Button className="bootsrap-btn" onClick={handleVideoShow}>
+                <Button className="bootsrap-btn upload-video-btn" onClick={handleVideoShow}>
                     <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
                 </Button>
                 <Button className="bootsrap-btn box-filter">
@@ -105,7 +116,7 @@ const Home = () => {
             </div>
 
             {/*---------------module modal---------*/}
-            <Modal show={showModule} onHide={handleCloseModule}>
+            <Modal className="module-modal-container" show={showModule} onHide={handleCloseModule}>
                 <Modal.Header closeButton>
                     <Modal.Title>Module</Modal.Title>
                 </Modal.Header>
@@ -146,28 +157,46 @@ const Home = () => {
 
             {/*    -----upload video modal----*/}
 
-            <Modal show={showVideo} onHide={handleCloseVideo}>
+            <Modal className="video-modal-container" show={showVideo} onHide={handleCloseVideo}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Video</Modal.Title>
+                    <Modal.Title>Upload video</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={moduleForm.handleSubmit}>
-                        <label className="module-label">Module Name</label>
+                    <div className="video-modal">
+                        <div className="select-add-module">
+                            <div className="video-modal-select-field">
+                                <SelectField
+                                    options={selectModuleOptionVideo}
+                                    placeholder="All"
+                                />
+                            </div>
+                            <Button className="bootsrap-btn" onClick={handleShowModule}>
+                                <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
+                            </Button>
+                        </div>
+                        {/*<form onSubmit={moduleForm.handleSubmit}>*/}
+                        {/*    <label className="module-label">Module Name</label>*/}
                         <InputField
-                            id="moduleName"
-                            placeholder='Module Name'
+                            inputClassName="video-modal-input-title"
+                            id="title"
+                            placeholder='Title'
                             textType="text"
-                            inputName="moduleName"
+                            inputName="title"
                             asterisk={true}
                             whiteSpace={false}
-                            onBlur={moduleForm.handleBlur}
-                            value={moduleForm.values.moduleName}
-                            onchangeCallback={moduleForm.handleChange}
-                            inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
-                            requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
-                            requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
+                            // onBlur={moduleForm.handleBlur}
+                            // value={moduleForm.values.moduleName}
+                            // onchangeCallback={moduleForm.handleChange}
+                            // inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
+                            // requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
+                            // requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
                         />
-                    </form>
+                    {/*</form>*/}
+                        <div className="file-upload-component">
+                        <InputFileUploadDesign />
+                            <ThumbnailUpload />
+                        </div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <CustomButton

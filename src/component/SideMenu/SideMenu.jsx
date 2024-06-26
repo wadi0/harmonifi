@@ -11,6 +11,9 @@ const SideMenu = () => {
                     <FontAwesomeIcon icon={faHouse} /><span className="ms-3">Home</span>
                 </li>
             </ul>
+            <div className="bottom-menu">
+                fafafafafasf
+            </div>
         </div>
     );
 };
