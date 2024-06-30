@@ -47,6 +47,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
+            <div className="login-area">
             <div className="login-form">
                 <div className="text-center">
                     <img className="login-page-logo" src={siteConfig.company_logo}/>
@@ -102,6 +103,7 @@ const Login = () => {
                     />
                 </div>
             </div>
+                </div>
         </div>
     );
 };
