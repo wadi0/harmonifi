@@ -3,11 +3,11 @@ import SideMenu from "../../SideMenu/SideMenu.jsx";
 import {Outlet} from "react-router-dom";
 import "./sideMenuLayout.scss"
 
-const SideMenuLayout = ({isOpen}) => {
+const SideMenuLayout = ({isOpen, onUploadVideoClick, onAddModuleClick}) => {
     return (
         <div className="sideMenuLayout-container">
             <div className={`sideMenuCom ${isOpen ? 'open' : ''}`}>
-                <SideMenu/>
+                <SideMenu onUploadVideoClick={onUploadVideoClick} onAddModuleClick={onAddModuleClick} />
             </div>
             <Outlet/>
         </div>

@@ -19,7 +19,7 @@ import ReactPlayer from "react-player";
 import sampleVideo from "../../component/inputFileUpload/SampleVideo_1280x720_1mb.mp4"
 import * as uuid from "uuid";
 
-const Home = () => {
+const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow }) => {
     const initialOptionsHomeSelect = [
         {value: '', label: 'All'},
         {value: 'chocolate', label: 'Chocolate'},
@@ -36,8 +36,8 @@ const Home = () => {
         {value: 'eglo', label: 'Eaglo'}
     ];
 
-    const [showModule, setShowModule] = useState(false);
-    const [showVideo, setShowVideo] = useState(false);
+    // const [showModule, setShowModule] = useState(false);
+    // const [showVideo, setShowVideo] = useState(false);
     const [showShare, setShowShare] = useState(false);
     const [optionsHomeSelect, setOptionsHomeSelect] = useState([]);
     const [shareHide, setShareHide] = useState(false);
@@ -52,7 +52,7 @@ const Home = () => {
     //     setPatientAdd(newPatientForms);
     // };
 
-     const removePatientForm = (index) => {
+    const removePatientForm = (index) => {
         setPatientAdd(patientAdd.filter((_, i) => i !== index));
     };
 
@@ -72,8 +72,8 @@ const Home = () => {
         }
     }, [optionsHomeSelect]);
 
-    const handleCloseModule = () => setShowModule(false);
-    const handleShowModule = () => setShowModule(true);
+    // const handleCloseModule = () => setShowModule(false);
+    // const handleShowModule = () => setShowModule(true);
 
     const moduleFormValidate = (values) => {
         const errors = {};
@@ -107,8 +107,8 @@ const Home = () => {
 
     // video code -----------------------
 
-    const handleCloseVideo = () => setShowVideo(false);
-    const handleVideoShow = () => setShowVideo(true);
+    // const handleCloseVideo = () => setShowVideo(false);
+    // const handleVideoShow = () => setShowVideo(true);
 
     const closeShareModal = () => setShowShare(false);
     const showShareModal = () => setShowShare(true);
@@ -190,54 +190,6 @@ const Home = () => {
                                 />
                             </div>
                         ))}
-                        {/*<div className="single-video-card">*/}
-                        {/*    <div className="card-check-option">*/}
-                        {/*        <input type="checkbox"/>*/}
-                        {/*        <FontAwesomeIcon className="option-icon" icon={faEllipsisVertical}/>*/}
-                        {/*    </div>*/}
-                        {/*    <ReactPlayer*/}
-                        {/*        url={sampleVideo}*/}
-                        {/*        controls={true}*/}
-                        {/*        width="100%"*/}
-                        {/*        height="100%"*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-                        {/*<div className="single-video-card">*/}
-                        {/*    <div className="card-check-option">*/}
-                        {/*        <input type="checkbox"/>*/}
-                        {/*        <FontAwesomeIcon className="option-icon" icon={faEllipsisVertical}/>*/}
-                        {/*    </div>*/}
-                        {/*    <ReactPlayer*/}
-                        {/*        url={sampleVideo}*/}
-                        {/*        controls={true}*/}
-                        {/*        width="100%"*/}
-                        {/*        height="100%"*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-                        {/*<div className="single-video-card">*/}
-                        {/*    <div className="card-check-option">*/}
-                        {/*        <input type="checkbox"/>*/}
-                        {/*        <FontAwesomeIcon className="option-icon" icon={faEllipsisVertical}/>*/}
-                        {/*    </div>*/}
-                        {/*    <ReactPlayer*/}
-                        {/*        url={sampleVideo}*/}
-                        {/*        controls={true}*/}
-                        {/*        width="100%"*/}
-                        {/*        height="100%"*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-                        {/*<div className="single-video-card">*/}
-                        {/*    <div className="card-check-option">*/}
-                        {/*        <input type="checkbox"/>*/}
-                        {/*        <FontAwesomeIcon className="option-icon" icon={faEllipsisVertical}/>*/}
-                        {/*    </div>*/}
-                        {/*    <ReactPlayer*/}
-                        {/*        url={sampleVideo}*/}
-                        {/*        controls={true}*/}
-                        {/*        width="100%"*/}
-                        {/*        height="100%"*/}
-                        {/*    />*/}
-                        {/*</div>*/}
                     </div>
                 </div>
                 {/*<div className="no-data-box">*/}
@@ -365,7 +317,7 @@ const Home = () => {
                     <form onSubmit={moduleForm.handleSubmit}>
                         {patientAdd.map((patient, index) => (
                             <>
-                                {index > 0 && ( <hr /> )}
+                                {index > 0 && (<hr/>)}
                                 <div className="patient-share" key={patient.id} index={index}>
                                     <div>
                                         <label className="module-label">Patient Name</label>
@@ -422,9 +374,9 @@ const Home = () => {
                                 </div>
                                 {index > 0 && (
 
-                                        <div className="me-3 mb-3 " style={{color: "red", cursor: "pointer"}}
-                                             onClick={() => removePatientForm(index)}>Remove Patient
-                                        </div>
+                                    <div className="me-3 mb-3 " style={{color: "red", cursor: "pointer"}}
+                                         onClick={() => removePatientForm(index)}>Remove Patient
+                                    </div>
 
                                 )}
                             </>

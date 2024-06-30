@@ -11,11 +11,19 @@ import {useState} from "react";
 
 function App() {
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+   const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [showModule, setShowModule] = useState(false);
+    const [showVideo, setShowVideo] = useState(false);
 
    const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+      const handleShowModule = () => setShowModule(true);
+    const handleCloseModule = () => setShowModule(false);
+
+    const handleVideoShow = () => setShowVideo(true);
+    const handleCloseVideo = () => setShowVideo(false);
 
   return (
 
@@ -25,8 +33,14 @@ function App() {
         <Routes>
           <Route path={path.login} element={<Login />} />
             <Route path = "/" element = {<HeaderLayout toggleSidebar={toggleSidebar} />}>
-                <Route path = "/" element = {<SideMenuLayout isOpen={sidebarOpen} />}>
-                    <Route path={path.home} element={<Home/>}/>
+                <Route path = "/" element = {<SideMenuLayout isOpen={sidebarOpen} onUploadVideoClick={handleVideoShow}
+                                onAddModuleClick={handleShowModule} />}>
+                    <Route path={path.home} element={<Home showModule={showModule}
+                                    handleCloseModule={handleCloseModule}
+                                    handleShowModule={handleShowModule}
+                                    showVideo={showVideo}
+                                    handleCloseVideo={handleCloseVideo}
+                                    handleVideoShow={handleVideoShow} />}/>
                     </Route>
             </Route>
           {/*<Route path="/products" element={<Products />} />*/}

@@ -135,6 +135,7 @@
   margin: 0 auto;
   top: 300px;
   align-content: center;
+  padding: 0 15px;
 }
 
 .saveBtn {
@@ -183,6 +184,7 @@
     top: 100px;
     align-content: center;
     max-width: 1000px;
+    padding: 0 20px;
   }
 
   .video-modal {
@@ -198,7 +200,7 @@
 
         .module-label-class {
           position: absolute;
-          z-index: 1;
+          z-index: 3;
           background-color: white;
           margin-left: 10px;
           font-size: 12px;
@@ -279,6 +281,7 @@
     top: 200px;
     align-content: center;
     max-width: 1000px;
+    padding: 0 20px;
   }
 }
 
@@ -306,14 +309,58 @@
 
 @media only screen and (min-width: 300px) and (max-width: 500px) {
 
+  .home-container {
+    .share-container {
+      margin: 0 15px;
+      margin-top: 20px;
+    }
+
+    .home-top {
+      gap: 10px;
+      padding: 0 15px;
+      .module-btn, .upload-video-btn {
+        display: none;
+      }
+    }
+    .home-data .video-card {
+      padding: 0 15px;
+
+      .video-all-card {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: auto;
+      }
+    }
+  }
+
+  .video-modal-container {
+
+    .modal-dialog {
+      max-width: 500px;
+    }
+
+    .video-modal {
+      .file-upload-component {
+        grid-template-columns: 100%;
+        gap: 30px;
+      }
+    }
+  }
+
+  .share-modal-container .patient-share {
+        grid-template-columns: auto;
+  }
+
 }
 
 @media only screen and (min-width: 501px) and (max-width: 750px) {
 
-}
-
-@media only screen and (min-width: 751px) and (max-width: 1000px) {
   .home-container {
+    .share-container {
+      margin: 0 25px;
+      margin-top: 20px;
+    }
+
     .home-top {
       padding: 0 25px;
       gap: 15px;
@@ -326,11 +373,83 @@
         display: none;
       }
     }
+
+    .home-data .video-card {
+      padding: 0 25px;
+
+      .video-all-card {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: auto auto;
+      }
+    }
+
+  }
+
+  .video-modal-container {
+
+    .modal-dialog {
+      max-width: 750px;
+    }
+
+    .video-modal {
+      .file-upload-component {
+        grid-template-columns: 100%;
+        gap: 30px;
+      }
+    }
+  }
+
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1000px) {
+  .home-container {
+    .share-container {
+      margin: 0 25px;
+      margin-top: 20px;
+    }
+
+    .home-top {
+      padding: 0 25px;
+      gap: 15px;
+
+      .bootsrap-btn {
+        font-size: 18px;
+      }
+
+      .module-btn, .upload-video-btn {
+        display: none;
+      }
+    }
+
+    .home-data .video-card {
+      padding: 0 25px;
+
+      .video-all-card {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: auto auto auto;
+      }
+    }
+  }
+
+  .video-modal-container {
+    .video-modal {
+      .file-upload-component {
+        grid-template-columns: 100%;
+        gap: 30px;
+      }
+    }
   }
 }
 
 @media only screen and (min-width: 1001px) and (max-width: 1200px) {
   .home-container {
+    .share-container {
+      margin: 0 30px;
+      margin-top: 20px;
+    }
+
     .home-top {
       padding: 0 30px;
       gap: 15px;

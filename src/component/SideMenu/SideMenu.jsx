@@ -1,9 +1,10 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHouse} from "@fortawesome/free-solid-svg-icons";
+import {faHouse, faSquarePlus, faVideo} from "@fortawesome/free-solid-svg-icons";
 import "./sideMenu.scss"
 
-const SideMenu = () => {
+const SideMenu = ({ onUploadVideoClick, onAddModuleClick }) => {
+
     return (
         <div className="sideMenu-container">
             <ul className="sideMenu-list">
@@ -12,7 +13,17 @@ const SideMenu = () => {
                 </li>
             </ul>
             <div className="bottom-menu">
-                fafafafafasf
+                <ul className="bottom-menu-list">
+                    <li className="home">
+                        <FontAwesomeIcon icon={faHouse} className="w-100"/><span className="w-100">Home</span>
+                    </li>
+                    <li className="video-module" onClick={onUploadVideoClick}>
+                        <FontAwesomeIcon icon={faVideo} className="w-100"/><span className="w-100">Upload Video</span>
+                    </li>
+                    <li className="video-module" onClick={onAddModuleClick}>
+                        <FontAwesomeIcon icon={faSquarePlus} className="w-100"/><span className="w-100">Add Module</span>
+                    </li>
+                </ul>
             </div>
         </div>
     );
