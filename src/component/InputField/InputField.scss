@@ -1,4 +1,9 @@
 .single-input {
+
+    .label-hide {
+            display: none;
+        }
+
     label {
         display: flex;
         justify-content: space-between;

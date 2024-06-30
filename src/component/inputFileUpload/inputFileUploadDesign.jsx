@@ -26,12 +26,12 @@ const InputFileUploadDesign = () => {
 
     return (
         <div className="file-Upload-Design">
-            <div className="parent">
+            {/*<div className="parent">*/}
                 <div className="file-upload">
                     {/*<img src={uploadImg} alt="upload"/>*/}
-                    {!preview ? <FontAwesomeIcon icon={faUpload} /> : null}
-                    {!preview ? <h3>Click box to upload</h3> : null}
-                    {!preview ? <p>Maximun file size 10mb</p> : null}
+                    {!preview ? <FontAwesomeIcon className="video-upload-icon" icon={faUpload} /> : null}
+                    {!preview ? <h3>Drag and drop video to upload</h3> : null}
+                    {/*{!preview ? <p>Maximun file size 10mb</p> : null}*/}
                     <input
                         type="file"
                         accept="video/*"
@@ -49,7 +49,7 @@ const InputFileUploadDesign = () => {
                         }
                 {/*{preview && <img src={preview} alt="Thumbnail preview" className="thumbnail-preview" />}*/}
                 </div>
-            </div>
+            {/*</div>*/}
         </div>
     );
 };

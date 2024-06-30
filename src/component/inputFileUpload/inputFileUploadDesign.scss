@@ -1,30 +1,50 @@
 .file-Upload-Design {
   width: 100%;
-  height: 30vh;
+  height: 25vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e9f3fe;
+  border-radius: 25px;
+  background-color: lightgrey;
 
-  .parent {
-    width: 450px;
-    margin: auto;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 25px;
-    box-shadow: 7px 20px 20px rgb(210, 227, 244);
+  //.parent {
+    //width: 450px;
+    //margin: auto;
+    //padding: 2rem;
+    //background: gray;
+    //box-shadow: 7px 20px 20px rgb(210, 227, 244);
 
     .file-upload {
+      width: 100%;
       text-align: center;
+      height: 25vh;
+      align-content: center;
       //border: 3px dashed rgb(210, 227, 244);
-      padding: 1.5rem;
+      //padding: 1.5rem;
       position: relative;
+      //align-content: center;
 
-      p {
-        font-size: 0.87rem;
-        margin-top: 10px;
-        color: #bbcada;
+      .video-upload-icon {
+        background-color: gray;
+        font-size: 20px;
+        padding: 15px;
+        border-radius: 50%;
+        color: lightgray;
+        margin-bottom: 10px;
       }
+
+      h3 {
+        font-size: 15px;
+        max-width: 200px;
+        color: gray;
+        margin: 0 auto;
+      }
+
+      //p {
+      //  font-size: 0.87rem;
+      //  margin-top: 10px;
+      //  color: #bbcada;
+      //}
 
       input {
         display: block;
@@ -39,5 +59,5 @@
         cursor: pointer;
       }
     }
-  }
+  //}
 }

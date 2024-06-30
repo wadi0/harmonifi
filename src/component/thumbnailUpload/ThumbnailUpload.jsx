@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './thumbnailUpload.scss';
-import {faUpload} from "@fortawesome/free-solid-svg-icons";
+import {faImage} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const ThumbnailUpload = () => {
@@ -35,12 +35,13 @@ const ThumbnailUpload = () => {
     };
 
     return (
-        <div className="thumbnail-upload">
-            <div className="thumbnail-upload-container">
+        <div className="thumbnail-upload-box">
+            {/*<div className="thumbnail-upload-container">*/}
                 <div className="thumbnail-upload">
                     {!preview ?
-                <FontAwesomeIcon icon={faUpload} /> : null
+                <FontAwesomeIcon className="thumb-upload-icon" icon={faImage} /> : null
                     }
+                    {!preview ? <h3>Upload thumbnail (1440 * 1080)</h3> : null}
                 <input
                     type="file"
                     accept="image/*"
@@ -50,7 +51,7 @@ const ThumbnailUpload = () => {
                 {preview && <img src={preview} alt="Thumbnail preview" className="thumbnail-preview" />}
                 {/*<button onClick={handleUpload}>Upload</button>*/}
                 </div>
-            </div>
+            {/*</div>*/}
         </div>
     );
 };
