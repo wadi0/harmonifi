@@ -94,8 +94,8 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         setModalIsOpen(false);
     };
 
-    const editDelDownload =()=> {
-         setEditDelDown(!editDelDown);
+    const editDelDownload = () => {
+        setEditDelDown(!editDelDown);
     }
 
     const addPatientForm = () => {
@@ -239,24 +239,25 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         onChange={() => handleCheckboxChange(index)}
                                     />
                                     <div className="option-icon">
-                                        <span onClick={editDelDownload}><FontAwesomeIcon className="three-dot-option" icon={faEllipsisVertical}/></span>
-                                         {editDelDown && (
-                                        <div className="share-all-option">
-                                            <div><FontAwesomeIcon className="arrow-background" icon={faPlay}/></div>
-                                            <div className="share-all-icon-option">
+                                        <span onClick={editDelDownload}><FontAwesomeIcon className="three-dot-option"
+                                                                                         icon={faEllipsisVertical}/></span>
+                                        {editDelDown && (
+                                            <div className="share-all-option">
+                                                <div><FontAwesomeIcon className="arrow-background" icon={faPlay}/></div>
+                                                <div className="share-all-icon-option">
                                                 <span className="edit-del-down"><FontAwesomeIcon className="me-2"
-                                                                       icon={faPen}/>Edit</span>
-                                                <span className="edit-del-down"><FontAwesomeIcon className="me-2"
-                                                                       icon={faTrash}/>Delete</span>
-                                                <span className="edit-del-down"><FontAwesomeIcon className="me-2"
-                                                                       icon={faDownload}/>Download</span>
+                                                                                                 icon={faPen}/>Edit</span>
+                                                    <span className="edit-del-down"><FontAwesomeIcon className="me-2"
+                                                                                                     icon={faTrash}/>Delete</span>
+                                                    <span className="edit-del-down"><FontAwesomeIcon className="me-2"
+                                                                                                     icon={faDownload}/>Download</span>
+                                                </div>
                                             </div>
-                                        </div>
                                         )}
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="video-thumbnail" onClick={()=>openModal(thumbnail)}>
+                                    <div className="video-thumbnail" onClick={() => openModal(thumbnail)}>
                                         <img src={thumbnail.thumbnail}/>
                                         <FontAwesomeIcon className="play-icon" icon={faPlay}/>
                                     </div>
@@ -264,20 +265,34 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                 </div>
                             </div>
                         )}
-                        <Modal show={modalIsOpen} onHide={closeModal}>
-
-                                        <Modal.Body>
-                                            <button onClick={closeModal}>Close</button>
-                                            <ReactPlayer
-                                                url={currentVideoUrl.video}
-                                                controls={true}
-                                                playing={modalIsOpen}
-                                                width="100%"
-                                                height="100%"
+                        <Modal className="video-player-modal" show={modalIsOpen} onHide={closeModal}>
+                            <Modal.Body>
+                                <div className="video-player-container">
+                                    <div className="close-option-icon">
+                                        <span onClick={editDelDownload}>
+                                            <FontAwesomeIcon
+                                                className="three-dot-option"
+                                                icon={faEllipsisVertical}
                                             />
-                                            <h6 className="mt-2">{currentVideoUrl.title}</h6>
-                                        </Modal.Body>
-                                    </Modal>
+                                        </span>
+                                        <span className="ms-3" onClick={closeModal}>
+                                            <FontAwesomeIcon icon={faXmark}/>
+                                        </span>
+
+                                    </div>
+                                    <div className="video-player-title">
+                                        <ReactPlayer
+                                            url={currentVideoUrl.video}
+                                            controls={true}
+                                            playing={modalIsOpen}
+                                            width="100%"
+                                            height="100%"
+                                        />
+                                        <h6 className="mt-2 ps-2 pe-2">{currentVideoUrl.title}</h6>
+                                    </div>
+                                </div>
+                            </Modal.Body>
+                        </Modal>
                         {/*))}*/}
                     </div>
                 </div>

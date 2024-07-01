@@ -3,7 +3,7 @@
   margin: 0 auto;
 
   .share-container {
-    margin: 0 40px;
+    margin: 0 15px;
     margin-top: 15px;
     background-color: rgba(64, 193, 174, 0.1607843137);
     height: 45px;
@@ -391,9 +391,35 @@
   }
 }
 
-          .modal-backdrop.show {
-            opacity: 0.2 !important;
-          }
+          //---------------------------video player modal------------------------
+
+.video-player-modal {
+
+  .modal-content{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .modal-body {
+    padding: 3px;
+  }
+  .video-player-container{
+    .close-option-icon{
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      color: white;
+    }
+  }
+}
+
+
+          //----------------------------------
+
+.modal-backdrop.show {
+  opacity: 0.2 !important;
+}
+
 
 
 @media only screen and (min-width: 300px) and (max-width: 500px) {
