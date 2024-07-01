@@ -16,11 +16,6 @@ const Header = ({toggleSidebar}) => {
     return (
         <header className="header-container">
             <div className="header-logo">
-                <FontAwesomeIcon
-                    icon={faBars}
-                    className="menu-icon"
-                    onClick={toggleSidebar}
-                />
                 <Link href={path.home}>
                     <img src={siteConfig.company_logo} alt="company_logo"/>
                 </Link>

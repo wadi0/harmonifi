@@ -3,10 +3,11 @@ import "./home.scss";
 import SelectField from "../../component/SelectField/SelectField.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faDownload,
     faEllipsisVertical,
-    faList,
+    faList, faPen, faPlay,
     faPlus, faShare,
-    faTableCellsLarge,
+    faTableCellsLarge, faTrash,
     faVideo, faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {Button, Modal} from "react-bootstrap";
@@ -19,7 +20,7 @@ import ReactPlayer from "react-player";
 import sampleVideo from "../../component/inputFileUpload/SampleVideo_1280x720_1mb.mp4"
 import * as uuid from "uuid";
 
-const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow }) => {
+const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
     const initialOptionsHomeSelect = [
         {value: '', label: 'All'},
         {value: 'chocolate', label: 'Chocolate'},
@@ -36,21 +37,70 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
         {value: 'eglo', label: 'Eaglo'}
     ];
 
-    // const [showModule, setShowModule] = useState(false);
-    // const [showVideo, setShowVideo] = useState(false);
+    const videoThumbnail = [
+        {
+            title: "dfad fadfa",
+            id: "1",
+            video: "https://media.istockphoto.com/id/1489761724/ru/%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE/%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%D0%B5%D1%80-%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%B8%D1%82-%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BE%D1%80%D0%B8%D0%B3%D0%B8%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD%D1%8B-%D0%B6%D0%B5%D0%BD%D1%81%D0%BA%D0%BE%D0%B9-%D0%BE%D0%B4%D0%B5%D0%B6%D0%B4%D1%8B-%D0%B2-%D0%B7%D0%B0%D0%BC%D0%B5%D0%B4%D0%BB%D0%B5%D0%BD%D0%BD%D0%BE%D0%B9-%D1%81%D1%8A%D0%B5%D0%BC%D0%BA%D0%B5.mp4?s=mp4-640x640-is&k=20&c=vChxzWCCZKLx7BFiBwPgCkVFYNqMX7Tx2RikbLJPTBU=",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLyWNyrFV8HYhjBnaDS7tY8eYOufhzAyWDCA&s"
+        },
+        {
+            title: "dfadf jjjkjk jjkjkj",
+            id: "2",
+            video: "https://media.istockphoto.com/id/1408287825/ru/%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE/%D0%B4%D0%B5%D0%B2%D0%BE%D1%87%D0%BA%D0%B0-%D0%B4%D0%B5%D0%BB%D0%B0%D0%B5%D1%82-%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2-%D1%85%D1%83%D0%B4%D0%BE%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B5.mp4?s=mp4-640x640-is&k=20&c=30TPWTNRRyyzOvLUx4dexZqoq9ycdqtumbe5zT3Jik4=",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-16NaWLP8pXrzOu0nbWx4bBwlqBDsLa3IZg&s"
+        },
+        {
+            title: "dfa dfa dfa",
+            id: "3",
+            video: "https://media.istockphoto.com/id/1847077101/ru/%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE/%D0%BD%D0%B5%D1%83%D0%B7%D0%BD%D0%B0%D0%B2%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F-%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B0%D1%8F-%D0%B4%D0%B5%D0%B2%D0%BE%D1%87%D0%BA%D0%B0-%D1%80%D1%83%D1%87%D0%BD%D0%B0%D1%8F-%D1%80%D0%BE%D1%81%D0%BF%D0%B8%D1%81%D1%8C-%D0%B0%D0%BA%D0%B2%D0%B0%D1%80%D0%B5%D0%BB%D1%8C%D1%8E-%D0%BD%D0%B0-%D0%B1%D1%83%D0%BC%D0%B0%D0%B3%D0%B5.mp4?s=mp4-640x640-is&k=20&c=pbIJaP3RxsrXRGjOubnh2KjZxHh6qj_dnHGevoKcU6I=",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLT-_Yiqmv5OO878NhTvQxoiE90DJz5Ble5Q&s"
+        },
+        {
+            title: "dfad fadfa jj",
+            id: "4",
+            video: "https://media.istockphoto.com/id/873338508/video/open-pantone-sample-colors-catalogue.mp4?s=mp4-640x640-is&k=20&c=zFXxSrARgKSP8C33nOdU6SEQ-R15-tdbvu5ow1g8Trw=",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWVbn1c-EdtuygEXnROMiyfhlfgQO3Gdn3GQ&s"
+        },
+        // {
+        //     title: "dfadf adfa lll",
+        //     id: "5",
+        //     video: "https://media.istockphoto.com/id/1351381072/video/unrecognizable-microbiology-scientist-sampling-with-a-sample-bottle-the-water-from-city-river.mp4?s=mp4-640x640-is&k=20&c=Ra9D4VW_iuGNJj2vLo7VC2xcgLVbdcDh-PYtolB6Wuw=",
+        //     thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWM5Iyp-dDFB2pkAu-VscjVyWwc7i5HA8S6w&s"
+        // },
+        // {
+        //     title: "dfa dfa dfa",
+        //     id: "6",
+        //     video: "https://media.istockphoto.com/id/1461319219/video/hand-choosing-a-carpet.mp4?s=mp4-640x640-is&k=20&c=Du6MFpyn-CDxHc1nqm4uZ5HEDurkN4Qv80jT0AFALsU=",
+        //     thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3wN61qXmrdIZmG8gt1FWP_hyBB_wrS1XY8w&s"
+        // },
+    ]
+
     const [showShare, setShowShare] = useState(false);
     const [optionsHomeSelect, setOptionsHomeSelect] = useState([]);
     const [shareHide, setShareHide] = useState(false);
     const [patientAdd, setPatientAdd] = useState([{id: uuid.v4(),}]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [currentVideoUrl, setCurrentVideoUrl] = useState('');
+    const [editDelDown, setEditDelDown] = useState(false);
+
+    const openModal = (videoUrl) => {
+        setCurrentVideoUrl(videoUrl);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = (videoUrl) => {
+        setCurrentVideoUrl("");
+        setModalIsOpen(false);
+    };
+
+    const editDelDownload =()=> {
+         setEditDelDown(!editDelDown);
+    }
 
     const addPatientForm = () => {
         setPatientAdd([...patientAdd, {id: uuid.v4(),}]);
     };
-
-    // const removePatientForm = (index) => {
-    //     const newPatientForms = patientAdd.filter((_, i) => i !== index);
-    //     setPatientAdd(newPatientForms);
-    // };
 
     const removePatientForm = (index) => {
         setPatientAdd(patientAdd.filter((_, i) => i !== index));
@@ -72,9 +122,6 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
         }
     }, [optionsHomeSelect]);
 
-    // const handleCloseModule = () => setShowModule(false);
-    // const handleShowModule = () => setShowModule(true);
-
     const moduleFormValidate = (values) => {
         const errors = {};
         if (!values.moduleName) {
@@ -90,7 +137,6 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
         };
         setOptionsHomeSelect([...optionsHomeSelect, payload]);
         resetForm();
-        setShowModule(false);
     };
 
     const moduleForm = useFormik({
@@ -107,14 +153,11 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
 
     // video code -----------------------
 
-    // const handleCloseVideo = () => setShowVideo(false);
-    // const handleVideoShow = () => setShowVideo(true);
-
     const closeShareModal = () => setShowShare(false);
     const showShareModal = () => setShowShare(true);
 
     const [checkedCount, setCheckedCount] = useState(0);
-    const [checkedState, setCheckedState] = useState(Array(4).fill(false)); // Assuming 4 checkboxes
+    const [checkedState, setCheckedState] = useState(Array(4).fill(false));
 
     const handleCheckboxChange = (index) => {
         const newCheckedState = [...checkedState];
@@ -125,71 +168,117 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
         setCheckedCount(newCount);
         setShareHide(newCount > 0)
     };
+    // const handleCheckboxChange = (index) => {
+    //     const updatedCheckedState = checkedState.map((item, idx) =>
+    //         idx === index ? !item : item
+    //     );
+    //     setCheckedState(updatedCheckedState);
+    // };
 
     const shareOnHide = () => {
-        setCheckedState(Array(4).fill(false)); // Reset all checkboxes
+        setCheckedState(Array(4).fill(false));
         setCheckedCount(0);
         setShareHide(false);
     };
-
 
     return (
         <div className="home-container">
             {shareHide ?
 
                 <div className="share-container">
-                    <div className="checked-count"><FontAwesomeIcon className="me-2" icon={faXmark}
-                                                                    onClick={shareOnHide}/> {checkedCount} selected
+                    <div className="checked-count">
+                        <FontAwesomeIcon
+                            className="me-2"
+                            icon={faXmark}
+                            onClick={shareOnHide}
+                        />
+                        {checkedCount} selected
                     </div>
-                    <button className="share" onClick={showShareModal}><FontAwesomeIcon className="me-2"
-                                                                                        icon={faShare}/> Share
+                    <button className="share" onClick={showShareModal}>
+                        <FontAwesomeIcon className="me-2" icon={faShare}/> Share
                     </button>
                 </div>
                 : null
             }
             <div className="home-top">
-                <div className="home-select-field">
-                    <SelectField
-                        options={optionsHomeSelect}
-                        placeholder="All"
-                    />
+                <div className="d-flex justify-content-between gap-3 home-header-left">
+                    <div className="home-select-field">
+                        <SelectField
+                            options={optionsHomeSelect}
+                            placeholder="All"
+                        />
+                    </div>
+                    <Button className="bootstrap-btn module-btn" onClick={handleShowModule}>
+                        <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
+                    </Button>
+                    <Button className="bootstrap-btn upload-video-btn" onClick={handleVideoShow}>
+                        <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
+                    </Button>
                 </div>
-                <Button className="bootsrap-btn module-btn" onClick={handleShowModule}>
-                    <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
-                </Button>
-                <Button className="bootsrap-btn upload-video-btn" onClick={handleVideoShow}>
-                    <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
-                </Button>
-                <Button className="bootsrap-btn box-filter">
-                    <FontAwesomeIcon icon={faTableCellsLarge}/>
-                </Button>
-                <Button className="bootsrap-btn box-filter">
-                    <FontAwesomeIcon icon={faList}/>
-                </Button>
+                <div className="d-flex justify-content-between gap-3">
+                    <Button className="bootstrap-btn box-filter">
+                        <FontAwesomeIcon icon={faTableCellsLarge}/>
+                    </Button>
+                    <Button className="bootstrap-btn box-filter">
+                        <FontAwesomeIcon icon={faList}/>
+                    </Button>
+                </div>
             </div>
 
             <div className="home-data">
                 <div className="video-card">
                     <h5>Harmony Health Intro's</h5>
                     <div className="video-all-card">
-                        {[...Array(4)].map((_, index) => (
-                            <div className="single-video-card" key={index}>
+                        {/*{[...Array(4)].map((_, index) => (*/}
+                        {videoThumbnail.map((thumbnail, index) =>
+                            <div className="single-video-card" key={thumbnail.id}>
                                 <div className="card-check-option">
                                     <input
                                         type="checkbox"
                                         checked={checkedState[index]}
                                         onChange={() => handleCheckboxChange(index)}
                                     />
-                                    <FontAwesomeIcon className="option-icon" icon={faEllipsisVertical}/>
+                                    <div className="option-icon">
+                                        <span onClick={editDelDownload}><FontAwesomeIcon className="three-dot-option" icon={faEllipsisVertical}/></span>
+                                         {editDelDown && (
+                                        <div className="share-all-option">
+                                            <div><FontAwesomeIcon className="arrow-background" icon={faPlay}/></div>
+                                            <div className="share-all-icon-option">
+                                                <span className="edit-del-down"><FontAwesomeIcon className="me-2"
+                                                                       icon={faPen}/>Edit</span>
+                                                <span className="edit-del-down"><FontAwesomeIcon className="me-2"
+                                                                       icon={faTrash}/>Delete</span>
+                                                <span className="edit-del-down"><FontAwesomeIcon className="me-2"
+                                                                       icon={faDownload}/>Download</span>
+                                            </div>
+                                        </div>
+                                        )}
+                                    </div>
                                 </div>
-                                <ReactPlayer
-                                    url={sampleVideo}
-                                    controls={true}
-                                    width="100%"
-                                    height="100%"
-                                />
+                                <div>
+                                    <div className="video-thumbnail" onClick={()=>openModal(thumbnail)}>
+                                        <img src={thumbnail.thumbnail}/>
+                                        <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                    </div>
+                                    <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                </div>
                             </div>
-                        ))}
+                        )}
+                        <Modal show={modalIsOpen} onHide={closeModal}>
+
+                                        <Modal.Body>
+                                            <button onClick={closeModal}>Close</button>
+                                            <ReactPlayer
+                                                url={currentVideoUrl.video}
+                                                controls={true}
+                                                playing={modalIsOpen}
+                                                width="100%"
+                                                height="100%"
+                                            />
+                                            <h6 className="mt-2">{currentVideoUrl.title}</h6>
+                                        </Modal.Body>
+                                    </Modal>
+                        {/*))}*/}
                     </div>
                 </div>
                 {/*<div className="no-data-box">*/}
@@ -255,7 +344,7 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
                                     placeholder="All"
                                 />
                             </div>
-                            <Button className="bootsrap-btn" onClick={handleShowModule}>
+                            <Button className="bootstrap-btn" onClick={handleShowModule}>
                                 <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                             </Button>
                         </div>
@@ -402,6 +491,25 @@ const Home = ({ showModule, handleCloseModule, handleShowModule, showVideo, hand
                 </Modal.Footer>
             </Modal>
 
+            {/*<Modal show={modalIsOpen} onHide={closeModal}>*/}
+            {/*    /!*<Modal.Header closeButton>*!/*/}
+            {/*    /!*    <Modal.Title>Share video</Modal.Title>*!/*/}
+            {/*    /!*</Modal.Header>*!/*/}
+            {/*    <Modal.Body>*/}
+            {/*        <button onClick={closeModal}>Close</button>*/}
+            {/*            <>*/}
+            {/*        <ReactPlayer*/}
+            {/*            url="https://media.istockphoto.com/id/1461319219/video/hand-choosing-a-carpet.mp4?s=mp4-640x640-is&k=20&c=Du6MFpyn-CDxHc1nqm4uZ5HEDurkN4Qv80jT0AFALsU="*/}
+            {/*            controls={true}*/}
+            {/*            playing={modalIsOpen}*/}
+            {/*            width="100%"*/}
+            {/*            height="100%"*/}
+            {/*        />*/}
+            {/*        </>*/}
+            {/*    </Modal.Body>*/}
+            {/*    /!*<Modal.Footer>*!/*/}
+            {/*    /!*</Modal.Footer>*!/*/}
+            {/*</Modal>*/}
         </div>
     );
 };
