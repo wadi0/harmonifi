@@ -101,11 +101,11 @@
             cursor: pointer;
 
             img {
-                width: 100%;
-                display: block;
-                max-width: 100%;
-                height: 200px;
-              }
+              width: 100%;
+              display: block;
+              max-width: 100%;
+              height: 200px;
+            }
 
             .play-icon {
               position: absolute;
@@ -176,16 +176,17 @@
                     font-size: 13px;
 
                     &:hover {
-                    color: var(--primary-color);
-                  }
+                      color: var(--primary-color);
+                    }
                   }
                 }
               }
             }
           }
+
           &:hover .card-check-option, &:hover .play-icon {
-          display: flex;
-        }
+            display: flex;
+          }
 
           &:hover img {
             opacity: 0.5;
@@ -391,11 +392,11 @@
   }
 }
 
-          //---------------------------video player modal------------------------
+//---------------------------video player modal------------------------
 
 .video-player-modal {
 
-  .modal-content{
+  .modal-content {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
@@ -403,8 +404,9 @@
   .modal-body {
     padding: 3px;
   }
-  .video-player-container{
-    .close-option-icon{
+
+  .video-player-container {
+    .close-option-icon {
       position: absolute;
       right: 20px;
       top: 20px;
@@ -434,7 +436,7 @@
           right: -15px;
         }
 
-        .player-share-icon-option{
+        .player-share-icon-option {
           background-color: var(--body-color3);
           color: var(--body-color);
           right: -30px;
@@ -462,12 +464,11 @@
 }
 
 
-          //----------------------------------
+//----------------------------------
 
 .modal-backdrop.show {
   opacity: 0.2 !important;
 }
-
 
 
 @media only screen and (min-width: 300px) and (max-width: 500px) {
@@ -481,10 +482,12 @@
     .home-top {
       gap: 10px;
       padding: 0 15px;
+
       .module-btn, .upload-video-btn {
         display: none;
       }
     }
+
     .home-data .video-card {
       padding: 0 15px;
 
@@ -511,7 +514,7 @@
   }
 
   .share-modal-container .patient-share {
-        grid-template-columns: auto;
+    grid-template-columns: auto;
   }
 
 }

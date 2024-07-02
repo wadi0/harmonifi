@@ -306,14 +306,14 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                             />
                                         </span>
                                             {shareEditDelDown && (
-                                            <div className="share-all-option-player">
-                                                <div>
-                                                    <FontAwesomeIcon
-                                                        className="background-player-option"
-                                                        icon={faPlay}
-                                                    />
-                                                </div>
-                                                <div className="player-share-icon-option">
+                                                <div className="share-all-option-player">
+                                                    <div>
+                                                        <FontAwesomeIcon
+                                                            className="background-player-option"
+                                                            icon={faPlay}
+                                                        />
+                                                    </div>
+                                                    <div className="player-share-icon-option">
                                                     <span className="share-edit-del-down">
                                                     <FontAwesomeIcon
                                                         className="me-2"
@@ -321,29 +321,29 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                     />
                                                     Share
                                                 </span>
-                                                    <span className="share-edit-del-down">
+                                                        <span className="share-edit-del-down">
                                                     <FontAwesomeIcon
                                                         className="me-2"
                                                         icon={faPen}
                                                     />
                                                     Edit
                                                 </span>
-                                                    <span className="share-edit-del-down">
+                                                        <span className="share-edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faTrash}
                                                         />
                                                         Delete
                                                     </span>
-                                                    <span className="share-edit-del-down">
+                                                        <span className="share-edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faDownload}
                                                         />
                                                         Download
                                                     </span>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             )}
                                         </div>
                                         <span className="ms-3" onClick={closeModal}>
