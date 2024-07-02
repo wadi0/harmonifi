@@ -83,6 +83,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentVideoUrl, setCurrentVideoUrl] = useState('');
     const [editDelDown, setEditDelDown] = useState(false);
+    const [shareEditDelDown, setShareEditDelDown] = useState(false);
 
     const openModal = (videoUrl) => {
         setCurrentVideoUrl(videoUrl);
@@ -96,6 +97,10 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
 
     const editDelDownload = () => {
         setEditDelDown(!editDelDown);
+    }
+
+    const shareEditDelDownload = () => {
+        setShareEditDelDown(!shareEditDelDown);
     }
 
     const addPatientForm = () => {
@@ -239,18 +244,42 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         onChange={() => handleCheckboxChange(index)}
                                     />
                                     <div className="option-icon">
-                                        <span onClick={editDelDownload}><FontAwesomeIcon className="three-dot-option"
-                                                                                         icon={faEllipsisVertical}/></span>
+                                        <span onClick={editDelDownload}>
+                                            <FontAwesomeIcon
+                                                className="three-dot-option"
+                                                icon={faEllipsisVertical}
+                                            />
+                                        </span>
                                         {editDelDown && (
                                             <div className="share-all-option">
-                                                <div><FontAwesomeIcon className="arrow-background" icon={faPlay}/></div>
+                                                <div>
+                                                    <FontAwesomeIcon
+                                                        className="arrow-background"
+                                                        icon={faPlay}
+                                                    />
+                                                </div>
                                                 <div className="share-all-icon-option">
-                                                <span className="edit-del-down"><FontAwesomeIcon className="me-2"
-                                                                                                 icon={faPen}/>Edit</span>
-                                                    <span className="edit-del-down"><FontAwesomeIcon className="me-2"
-                                                                                                     icon={faTrash}/>Delete</span>
-                                                    <span className="edit-del-down"><FontAwesomeIcon className="me-2"
-                                                                                                     icon={faDownload}/>Download</span>
+                                                <span className="edit-del-down">
+                                                    <FontAwesomeIcon
+                                                        className="me-2"
+                                                        icon={faPen}
+                                                    />
+                                                    Edit
+                                                </span>
+                                                    <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faTrash}
+                                                        />
+                                                        Delete
+                                                    </span>
+                                                    <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faDownload}
+                                                        />
+                                                        Download
+                                                    </span>
                                                 </div>
                                             </div>
                                         )}
@@ -269,16 +298,57 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                             <Modal.Body>
                                 <div className="video-player-container">
                                     <div className="close-option-icon">
-                                        <span onClick={editDelDownload}>
+                                        <div>
+                                        <span onClick={shareEditDelDownload}>
                                             <FontAwesomeIcon
-                                                className="three-dot-option"
+                                                className="three-dot-option option-close"
                                                 icon={faEllipsisVertical}
                                             />
                                         </span>
+                                            {shareEditDelDown && (
+                                            <div className="share-all-option-player">
+                                                <div>
+                                                    <FontAwesomeIcon
+                                                        className="background-player-option"
+                                                        icon={faPlay}
+                                                    />
+                                                </div>
+                                                <div className="player-share-icon-option">
+                                                    <span className="share-edit-del-down">
+                                                    <FontAwesomeIcon
+                                                        className="me-2"
+                                                        icon={faShare}
+                                                    />
+                                                    Share
+                                                </span>
+                                                    <span className="share-edit-del-down">
+                                                    <FontAwesomeIcon
+                                                        className="me-2"
+                                                        icon={faPen}
+                                                    />
+                                                    Edit
+                                                </span>
+                                                    <span className="share-edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faTrash}
+                                                        />
+                                                        Delete
+                                                    </span>
+                                                    <span className="share-edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faDownload}
+                                                        />
+                                                        Download
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            )}
+                                        </div>
                                         <span className="ms-3" onClick={closeModal}>
-                                            <FontAwesomeIcon icon={faXmark}/>
+                                            <FontAwesomeIcon className="option-close" icon={faXmark}/>
                                         </span>
-
                                     </div>
                                     <div className="video-player-title">
                                         <ReactPlayer
