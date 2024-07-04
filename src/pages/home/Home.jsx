@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import "./home.scss";
 import SelectField from "../../component/SelectField/SelectField.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faAngleLeft,
+    faAngleRight,
     faDownload,
     faEllipsisVertical,
     faList, faPen, faPlay,
@@ -17,8 +19,15 @@ import CustomButton from "../../component/button/Button.jsx";
 import InputFileUploadDesign from "../../component/inputFileUpload/inputFileUploadDesign.jsx";
 import ThumbnailUpload from "../../component/thumbnailUpload/ThumbnailUpload.jsx";
 import ReactPlayer from "react-player";
-import sampleVideo from "../../component/inputFileUpload/SampleVideo_1280x720_1mb.mp4"
 import * as uuid from "uuid";
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import 'swiper/css/navigation';
+import GooglePayComponent from "../../component/GooglePayComponent.jsx";
+import * as SwiperCore from "react";
+import {Navigation} from "swiper/modules";
+
+// SwiperCore.use([Navigation]);
 
 const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
     const initialOptionsHomeSelect = [
@@ -62,18 +71,18 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
             video: "https://media.istockphoto.com/id/873338508/video/open-pantone-sample-colors-catalogue.mp4?s=mp4-640x640-is&k=20&c=zFXxSrARgKSP8C33nOdU6SEQ-R15-tdbvu5ow1g8Trw=",
             thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWVbn1c-EdtuygEXnROMiyfhlfgQO3Gdn3GQ&s"
         },
-        // {
-        //     title: "dfadf adfa lll",
-        //     id: "5",
-        //     video: "https://media.istockphoto.com/id/1351381072/video/unrecognizable-microbiology-scientist-sampling-with-a-sample-bottle-the-water-from-city-river.mp4?s=mp4-640x640-is&k=20&c=Ra9D4VW_iuGNJj2vLo7VC2xcgLVbdcDh-PYtolB6Wuw=",
-        //     thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWM5Iyp-dDFB2pkAu-VscjVyWwc7i5HA8S6w&s"
-        // },
-        // {
-        //     title: "dfa dfa dfa",
-        //     id: "6",
-        //     video: "https://media.istockphoto.com/id/1461319219/video/hand-choosing-a-carpet.mp4?s=mp4-640x640-is&k=20&c=Du6MFpyn-CDxHc1nqm4uZ5HEDurkN4Qv80jT0AFALsU=",
-        //     thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3wN61qXmrdIZmG8gt1FWP_hyBB_wrS1XY8w&s"
-        // },
+        {
+            title: "dfadf adfa lll",
+            id: "5",
+            video: "https://media.istockphoto.com/id/1351381072/video/unrecognizable-microbiology-scientist-sampling-with-a-sample-bottle-the-water-from-city-river.mp4?s=mp4-640x640-is&k=20&c=Ra9D4VW_iuGNJj2vLo7VC2xcgLVbdcDh-PYtolB6Wuw=",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWM5Iyp-dDFB2pkAu-VscjVyWwc7i5HA8S6w&s"
+        },
+        {
+            title: "dfa dfa dfa",
+            id: "6",
+            video: "https://media.istockphoto.com/id/1461319219/video/hand-choosing-a-carpet.mp4?s=mp4-640x640-is&k=20&c=Du6MFpyn-CDxHc1nqm4uZ5HEDurkN4Qv80jT0AFALsU=",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3wN61qXmrdIZmG8gt1FWP_hyBB_wrS1XY8w&s"
+        },
     ]
 
     const [showShare, setShowShare] = useState(false);
@@ -82,8 +91,40 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
     const [patientAdd, setPatientAdd] = useState([{id: uuid.v4(),}]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentVideoUrl, setCurrentVideoUrl] = useState('');
-    const [editDelDown, setEditDelDown] = useState(false);
+    // const [editDelDown, setEditDelDown] = useState(false);
     const [shareEditDelDown, setShareEditDelDown] = useState(false);
+    const [sortListView, setSortListView] = useState(true);
+    const [activeCardIndex, setActiveCardIndex] = useState(null);
+
+    const swiperRef = useRef(null);
+    const [isBeginning, setIsBeginning] = useState(true);
+    const [isEnd, setIsEnd] = useState(false);
+
+    const slidePrev = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slidePrev();
+        }
+    };
+
+    const slideNext = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slideNext();
+        }
+    };
+
+    const handleSlideChange = (swiper) => {
+        setIsBeginning(swiper.isBeginning);
+        setIsEnd(swiper.isEnd);
+    };
+
+    const showSortView = () => {
+        setSortListView(true)
+    }
+
+    const showListView = () => {
+        setSortListView(false)
+    }
+
 
     const openModal = (videoUrl) => {
         setCurrentVideoUrl(videoUrl);
@@ -95,9 +136,13 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         setModalIsOpen(false);
     };
 
-    const editDelDownload = () => {
-        setEditDelDown(!editDelDown);
-    }
+    // const editDelDownload = () => {
+    //     setEditDelDown(!editDelDown);
+    // }
+
+    const editDelDownload = (index) => {
+        setActiveCardIndex((prevState) => (prevState === index ? null : index));
+    };
 
     const shareEditDelDownload = () => {
         setShareEditDelDown(!shareEditDelDown);
@@ -213,18 +258,20 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                             placeholder="All"
                         />
                     </div>
-                    <Button className="bootstrap-btn module-btn" onClick={handleShowModule}>
+                    <Button className="bootstrap-btnn module-btn" onClick={handleShowModule}>
                         <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                     </Button>
-                    <Button className="bootstrap-btn upload-video-btn" onClick={handleVideoShow}>
+                    <Button className="bootstrap-btnn upload-video-btn" onClick={handleVideoShow}>
                         <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
                     </Button>
                 </div>
                 <div className="d-flex justify-content-between gap-3">
-                    <Button className="bootstrap-btn box-filter">
+                    <Button className={`box-filter ${sortListView ? "btn-active" : "btn-unactive"}`}
+                            onClick={showSortView}>
                         <FontAwesomeIcon icon={faTableCellsLarge}/>
                     </Button>
-                    <Button className="bootstrap-btn box-filter">
+                    <Button className={`box-filter ${sortListView ? "btn-unactive" : "btn-active"}`}
+                            onClick={showListView}>
                         <FontAwesomeIcon icon={faList}/>
                     </Button>
                 </div>
@@ -232,25 +279,72 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
 
             <div className="home-data">
                 <div className="video-card">
-                    <h5>Harmony Health Intro's</h5>
-                    <div className="video-all-card">
-                        {/*{[...Array(4)].map((_, index) => (*/}
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h5>Harmony Health Intro's</h5>
+                        {!sortListView ? <div className="d-flex justify-content-end gap-3">
+                                <div
+                                    className={`custom-prev ${isBeginning ? "slider-btn-disabled" : "slider-btn-active"}`}
+                                    onClick={slidePrev}
+                                    disabled={isBeginning}
+                                >
+                                    <FontAwesomeIcon icon={faAngleLeft}/>
+                                </div>
+                                <div
+                                    className={`custom-next ${isEnd ? "slider-btn-disabled" : "slider-btn-active"}`}
+                                    onClick={slideNext}
+                                    disabled={isEnd}
+                                >
+                                    <FontAwesomeIcon icon={faAngleRight}/>
+                                </div>
+                            </div>
+                            : null
+                        }
+                    </div>
+                    <Swiper
+                        className={sortListView ? 'video-all-card' : 'list-video-all-Card'}
+                        spaceBetween={20}
+                        slidesPerView={sortListView ? 4 : 2}
+                        onSwiper={(swiper) => {
+                            swiperRef.current = swiper;
+                            setIsBeginning(swiper.isBeginning);
+                            setIsEnd(swiper.isEnd);
+                        }}
+                        onSlideChange={(swiper) => handleSlideChange(swiper)}
+                        modules={[Navigation]}
+                        navigation={{
+                            nextEl: '.custom-next',
+                            prevEl: '.custom-prev',
+                        }}
+                        // className={sortListView ? "video-all-card" : "list-video-all-Card"}
+                        // spaceBetween={20}
+                        // slidesPerView={sortListView ? 4 : 2}
+                        // onSlideChange={() => console.log('slide change')}
+                        // onSwiper={(swiper) => console.log(swiper)}
+                        // modules={[Navigation]}
+                        // navigation={{
+                        //     nextEl: '.swiper-button-next',
+                        //     prevEl: '.swiper-button-prev',
+                        // }}
+                    >
                         {videoThumbnail.map((thumbnail, index) =>
-                            <div className="single-video-card" key={thumbnail.id}>
-                                <div className="card-check-option">
-                                    <input
-                                        type="checkbox"
-                                        checked={checkedState[index]}
-                                        onChange={() => handleCheckboxChange(index)}
-                                    />
+                            <SwiperSlide className="single-video-card" key={thumbnail.id}>
+                                <div className={sortListView ? "card-check-option" : "list-card-check-option"}>
+                                    {sortListView ?
+                                        <input
+                                            type="checkbox"
+                                            checked={checkedState[index]}
+                                            onChange={() => handleCheckboxChange(index)}
+                                        />
+                                        : null
+                                    }
                                     <div className="option-icon">
-                                        <span onClick={editDelDownload}>
+                                        <span onClick={() => editDelDownload(index)}>
                                             <FontAwesomeIcon
                                                 className="three-dot-option"
                                                 icon={faEllipsisVertical}
                                             />
                                         </span>
-                                        {editDelDown && (
+                                        {activeCardIndex === index && (
                                             <div className="share-all-option">
                                                 <div>
                                                     <FontAwesomeIcon
@@ -285,14 +379,24 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         )}
                                     </div>
                                 </div>
-                                <div>
-                                    <div className="video-thumbnail" onClick={() => openModal(thumbnail)}>
-                                        <img src={thumbnail.thumbnail}/>
-                                        <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                <div className={sortListView ? null : "sortview-thumbnail-title"}>
+                                    <div className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
+                                        <div onClick={() => openModal(thumbnail)}>
+                                            <img src={thumbnail.thumbnail}/>
+                                            <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                        </div>
+                                        {!sortListView ?
+                                            <input
+                                                type="checkbox"
+                                                checked={checkedState[index]}
+                                                onChange={() => handleCheckboxChange(index)}
+                                            />
+                                            : null
+                                        }
                                     </div>
                                     <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
                                 </div>
-                            </div>
+                            </SwiperSlide>
                         )}
                         <Modal className="video-player-modal" show={modalIsOpen} onHide={closeModal}>
                             <Modal.Body>
@@ -363,13 +467,35 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                 </div>
                             </Modal.Body>
                         </Modal>
-                        {/*))}*/}
-                    </div>
+                        {/*<div className="swiper-button-prev"></div>*/}
+                        {/*<div className="swiper-button-next"></div>*/}
+                        {sortListView ?
+                            <>
+                                <div
+                                    className={`custom-prev ${isBeginning ? "slider-btn-disabled" : "slider-btn-active"}`}
+                                    onClick={slidePrev}
+                                    disabled={isBeginning}
+                                >
+                                    <FontAwesomeIcon icon={faAngleLeft}/>
+                                </div>
+                                <div
+                                    className={`custom-next ${isEnd ? "slider-btn-disabled" : "slider-btn-active"}`}
+                                    onClick={slideNext}
+                                    disabled={isEnd}
+                                >
+                                    <FontAwesomeIcon icon={faAngleRight}/>
+                                </div>
+                            </>
+                            : null
+                        }
+                    </Swiper>
                 </div>
                 {/*<div className="no-data-box">*/}
                 {/*    <FontAwesomeIcon className="empty-box" icon={faBoxOpen} />*/}
                 {/*    <span>No Video</span>*/}
                 {/*</div>*/}
+
+                <GooglePayComponent/>
             </div>
 
             {/*---------------module modal---------*/}
@@ -429,7 +555,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                     placeholder="All"
                                 />
                             </div>
-                            <Button className="bootstrap-btn" onClick={handleShowModule}>
+                            <Button className="bootstrap-btnn" onClick={handleShowModule}>
                                 <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                             </Button>
                         </div>

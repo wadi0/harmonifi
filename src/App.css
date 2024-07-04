@@ -4,7 +4,7 @@
 
 :root {
     --body-color: #646464;
-    --primary-color: #40C1AE;
+    --primary-color: rgba(64, 193, 174, 0.6);
     --primary-color2: #339f90;
     /*--headding-color: #1D4354;*/
     /*--headding-color2: #EEEEEE;*/
