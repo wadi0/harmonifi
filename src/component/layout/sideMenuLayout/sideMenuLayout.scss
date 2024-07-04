@@ -1,7 +1,4 @@
 .sideMenuLayout-container {
-  display: flex;
-  background-color: rgba(224, 228, 232, 0.11);
-  height: 100vh;
 }
 
 .open {
@@ -11,6 +8,7 @@
 .sideMenuCom {
   width: 100%;
   max-width: 15rem;
+  position: absolute;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 500px) {

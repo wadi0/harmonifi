@@ -1,6 +1,8 @@
 .home-container {
   width: 100%;
   margin: 0 auto;
+  padding-left: 15rem;
+  margin-bottom: 10rem;
 
   .share-container {
     margin: 0 15px;
@@ -109,6 +111,17 @@
         //border-color: var(--primary-color);
       }
     }
+
+    .back-btn-allPage {
+      cursor: pointer;
+      color: var(--body-color2);
+      transition: color 2s;
+
+      &:hover {
+        color: var(--primary-color);
+        transition: color 2s;
+      }
+    }
   }
 
   .home-data {
@@ -117,16 +130,39 @@
     .video-card {
       padding: 0 15px;
       margin-top: 25px;
-      max-width: 1674px;
+      //max-width: 1674px;
       margin-bottom: 50px;
 
       h5 {
         text-align: left;
       }
 
+      .view-all-btn {
+        height: 33px;
+        border-radius:50px;
+      }
+
+      .slider-btn-disabled, .slider-btn-disabled-sort {
+          opacity: 0.5;
+        }
+
+        .slider-btn-active, .slider-btn-active-sort {
+          opacity: 1;
+        }
+
+        .slider-btn-sort {
+          background-color: var(--body-color);
+          padding: 5px 12px;
+          border-radius: 50%;
+          color: var(--section-bg);
+        }
+
       .video-all-card {
-        display: flex !important;
-        gap: 20px;
+        //display: flex !important;
+        //gap: 20px;
+        display: grid !important;
+  gap: 20px;
+  grid-template-columns: auto auto auto auto;
 
         .single-video-card {
           max-width: 400px;
@@ -244,7 +280,7 @@
           color: white;
           position: absolute;
           z-index: 1;
-          top: 90px;
+          top: 83px;
           padding: 5px 14px;
           border-radius: 25px;
           font-size: 20px;
@@ -257,14 +293,6 @@
 
         .custom-prev {
           left: 0;
-        }
-
-        .slider-btn-disabled {
-          opacity: 0.5;
-        }
-
-        .slider-btn-active {
-          opacity: 1;
         }
       }
 
@@ -377,6 +405,10 @@
             }
           }
           }
+      }
+
+      .view-all-video-card {
+
       }
 
     }
@@ -658,6 +690,8 @@
 @media only screen and (min-width: 300px) and (max-width: 500px) {
 
   .home-container {
+    padding-left: 0;
+
     .share-container {
       margin: 0 15px;
       margin-top: 20px;
@@ -679,6 +713,18 @@
         display: grid;
         gap: 20px;
         grid-template-columns: auto;
+
+        .single-video-card {
+          max-width: 100%;
+
+          .video-thumbnail-img {
+            width: 100%;
+
+            img {
+              width: 100%;
+            }
+          }
+        }
       }
     }
   }
@@ -706,6 +752,8 @@
 @media only screen and (min-width: 501px) and (max-width: 750px) {
 
   .home-container {
+    padding-left: 0;
+
     .share-container {
       margin: 0 25px;
       margin-top: 20px;
@@ -754,6 +802,8 @@
 
 @media only screen and (min-width: 751px) and (max-width: 1000px) {
   .home-container {
+    padding-left: 0;
+
     .share-container {
       margin: 0 25px;
       margin-top: 20px;
@@ -801,7 +851,7 @@
     }
 
     .home-top {
-      padding: 0 30px;
+      padding: 0 15px;
       gap: 15px;
 
       .bootstrap-btnn {
