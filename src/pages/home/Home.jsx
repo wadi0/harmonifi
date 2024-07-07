@@ -4,7 +4,7 @@ import SelectField from "../../component/SelectField/SelectField.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faAngleLeft,
-    faAngleRight,
+    faAngleRight, faChevronLeft, faChevronRight,
     faDownload,
     faEllipsisVertical,
     faList, faPen, faPlay,
@@ -21,13 +21,13 @@ import ThumbnailUpload from "../../component/thumbnailUpload/ThumbnailUpload.jsx
 import ReactPlayer from "react-player";
 import * as uuid from "uuid";
 import {Swiper, SwiperSlide} from 'swiper/react';
-import 'swiper/swiper-bundle.css';
+import 'swiper/css';
 import 'swiper/css/navigation';
-import GooglePayComponent from "../../component/GooglePayComponent.jsx";
-import * as SwiperCore from "react";
-import {Navigation} from "swiper/modules";
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css/grid';
+import {Grid, Navigation, Pagination} from "swiper/modules";
 
-// SwiperCore.use([Navigation]);
 
 const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
     const initialOptionsHomeSelect = [
@@ -133,7 +133,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
     }, []);
 
 
-    const viewAllCardShow = ()=> {
+    const viewAllCardShow = () => {
         setViewAllCard(!viewAllCard)
     }
 
@@ -155,10 +155,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         setCurrentVideoUrl("");
         setModalIsOpen(false);
     };
-
-    // const editDelDownload = () => {
-    //     setEditDelDown(!editDelDown);
-    // }
 
     const editDelDownload = (index) => {
         setActiveCardIndex((prevState) => (prevState === index ? null : index));
@@ -238,12 +234,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         setCheckedCount(newCount);
         setShareHide(newCount > 0)
     };
-    // const handleCheckboxChange = (index) => {
-    //     const updatedCheckedState = checkedState.map((item, idx) =>
-    //         idx === index ? !item : item
-    //     );
-    //     setCheckedState(updatedCheckedState);
-    // };
 
     const shareOnHide = () => {
         setCheckedState(Array(4).fill(false));
@@ -272,21 +262,22 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
             }
             <div className="home-top">
                 {!viewAllCard ?
-                <div className="d-flex justify-content-between gap-3 home-header-left">
-                    <div className="home-select-field">
-                        <SelectField
-                            options={optionsHomeSelect}
-                            placeholder="All"
-                        />
+                    <div className="d-flex justify-content-between gap-3 home-header-left">
+                        <div className="home-select-field">
+                            <SelectField
+                                options={optionsHomeSelect}
+                                placeholder="All"
+                            />
+                        </div>
+                        <Button className="bootstrap-btnn module-btn" onClick={handleShowModule}>
+                            <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
+                        </Button>
+                        <Button className="bootstrap-btnn upload-video-btn" onClick={handleVideoShow}>
+                            <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
+                        </Button>
                     </div>
-                    <Button className="bootstrap-btnn module-btn" onClick={handleShowModule}>
-                        <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
-                    </Button>
-                    <Button className="bootstrap-btnn upload-video-btn" onClick={handleVideoShow}>
-                        <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
-                    </Button>
-                </div>
-                    : <span className="back-btn-allPage" onClick={viewAllCardShow}><FontAwesomeIcon className="me-2" icon={faAngleLeft} /> Back</span>
+                    : <span className="back-btn-allPage" onClick={viewAllCardShow}><FontAwesomeIcon className="me-2"
+                                                                                                    icon={faAngleLeft}/> Back</span>
                 }
                 <div className="d-flex justify-content-between gap-3">
                     <Button className={`box-filter ${sortListView ? "btn-active" : "btn-unactive"}`}
@@ -304,97 +295,96 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                 <div className="video-card">
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                        <h5>Harmony Health Intro's</h5>
+                        <h5 className="m-0">Harmony Health Intro's</h5>
                         {!viewAllCard ?
-                        <div className="d-flex justify-content-end gap-3">
-                            <button onClick={viewAllCardShow} className="view-all-btn bootstrap-btnn">View all</button>
-                            {!sortListView ?
-                                <div className="d-flex justify-content-end gap-3">
-                                    <div
-                                        className={`slider-btn-sort ${isBeginning ? "slider-btn-disabled-sort" : "slider-btn-active-sort"}`}
-                                        onClick={slidePrev}
-                                    >
-                                        <FontAwesomeIcon icon={faAngleLeft}/>
+                            <div className="d-flex justify-content-end gap-3">
+                                <button onClick={viewAllCardShow} className="view-all-btn bootstrap-btnn">View all
+                                </button>
+                                {!sortListView ?
+                                    <div className="d-flex justify-content-end gap-4">
+
+                                        <div className="swiper-button-prev">
+                                            <FontAwesomeIcon icon={faChevronLeft}/>
+                                        </div>
+                                        <div className="swiper-button-next">
+                                            <FontAwesomeIcon icon={faChevronRight}/>
+                                        </div>
                                     </div>
-                                    <div
-                                        className={`slider-btn-sort ${isEnd ? "slider-btn-disabled-sort" : "slider-btn-active-sort"}`}
-                                        onClick={slideNext}
-                                    >
-                                        <FontAwesomeIcon icon={faAngleRight}/>
-                                    </div>
-                                </div>
-                                : null
-                            }
-                        </div>
+                                    : null
+                                }
+                            </div>
                             : null
                         }
                     </div>
                     {!viewAllCard ?
-                    <Swiper
-                        className={sortListView ? 'video-all-card' : 'list-video-all-Card'}
-                        spaceBetween={20}
-                        slidesPerView={sortListView ? 4 : 2}
-                        onSwiper={(swiper) => {
-                            swiperRef.current = swiper;
-                            setIsBeginning(swiper.isBeginning);
-                            setIsEnd(swiper.isEnd);
-                        }}
-                        onSlideChange={handleSlideChange}
-                        navigation={{
-                            nextEl: '.custom-next',
-                            prevEl: '.custom-prev',
-                        }}
-                        breakpoints={{
-                            300: {
-                                slidesPerView: 1,
-                            },
-                            500: {
-                                slidesPerView: 2,
-                            },
-                            800: {
-                                slidesPerView: 3,
-                            },
-                            1000: {
-                                slidesPerView: 2,
-                            },
-                            1100: {
-                                slidesPerView: 3,
-                            },
-                            1200: {
-                                slidesPerView: 3,
-                            },
-                            1300: {
-                                slidesPerView: 4,
-                            },
-                        }}
-                    >
-                        {videoThumbnail.map((thumbnail, index) =>
-                            <SwiperSlide className="single-video-card" key={thumbnail.id}>
-                                <div className={sortListView ? "card-check-option" : "list-card-check-option"}>
-                                    {sortListView ?
-                                        <input
-                                            type="checkbox"
-                                            checked={checkedState[index]}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                        : null
-                                    }
-                                    <div className="option-icon">
+                        <>
+                            {sortListView ?
+                                <Swiper
+                                    className='video-all-card'
+                                    spaceBetween={20}
+                                    slidesPerView={4}
+                                    onSwiper={(swiper) => {
+                                        swiperRef.current = swiper;
+                                        setIsBeginning(swiper.isBeginning);
+                                        setIsEnd(swiper.isEnd);
+                                    }}
+                                    onSlideChange={handleSlideChange}
+                                    navigation={{
+                                        nextEl: '.custom-next',
+                                        prevEl: '.custom-prev',
+                                    }}
+                                    breakpoints={{
+                                        300: {
+                                            slidesPerView: 1,
+                                        },
+                                        500: {
+                                            slidesPerView: 2,
+                                        },
+                                        800: {
+                                            slidesPerView: 3,
+                                        },
+                                        1000: {
+                                            slidesPerView: 3,
+                                        },
+                                        1100: {
+                                            slidesPerView: 3,
+                                        },
+                                        1200: {
+                                            slidesPerView: 3,
+                                        },
+                                        1300: {
+                                            slidesPerView: 4,
+                                        },
+                                    }}
+                                >
+                                    {videoThumbnail.map((thumbnail, index) =>
+                                        <SwiperSlide className="single-video-card" key={thumbnail.id}>
+                                            <div
+                                                className={sortListView ? "card-check-option" : "list-card-check-option"}>
+                                                {sortListView ?
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={checkedState[index]}
+                                                        onChange={() => handleCheckboxChange(index)}
+                                                    />
+                                                    : null
+                                                }
+                                                <div className="option-icon">
                                         <span onClick={() => editDelDownload(index)}>
                                             <FontAwesomeIcon
                                                 className="three-dot-option"
                                                 icon={faEllipsisVertical}
                                             />
                                         </span>
-                                        {activeCardIndex === index && (
-                                            <div className="share-all-option">
-                                                <div>
-                                                    <FontAwesomeIcon
-                                                        className="arrow-background"
-                                                        icon={faPlay}
-                                                    />
-                                                </div>
-                                                <div className="share-all-icon-option">
+                                                    {activeCardIndex === index && (
+                                                        <div className="share-all-option">
+                                                            <div>
+                                                                <FontAwesomeIcon
+                                                                    className="arrow-background"
+                                                                    icon={faPlay}
+                                                                />
+                                                            </div>
+                                                            <div className="share-all-icon-option">
                                                     <span className="edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
@@ -402,66 +392,182 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                         />
                                                         Edit
                                                     </span>
-                                                    <span className="edit-del-down">
+                                                                <span className="edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faTrash}
                                                         />
                                                         Delete
                                                     </span>
-                                                    <span className="edit-del-down">
+                                                                <span className="edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faDownload}
                                                         />
                                                         Download
                                                     </span>
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className={sortListView ? null : "sortview-thumbnail-title"}>
-                                    <div className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
-                                        <div className=" video-thumbnail-img" onClick={() => openModal(thumbnail)}>
-                                            <img src={thumbnail.thumbnail}/>
-                                            <FontAwesomeIcon className="play-icon" icon={faPlay}/>
-                                        </div>
-                                        {!sortListView ?
-                                            <input
-                                                type="checkbox"
-                                                checked={checkedState[index]}
-                                                onChange={() => handleCheckboxChange(index)}
-                                            />
-                                            : null
-                                        }
-                                    </div>
-                                    <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
-                                </div>
-                            </SwiperSlide>
-                        )}
-                        {sortListView ?
-                            <>
-                                <div
-                                    className={`custom-prev ${isBeginning ? "slider-btn-disabled" : "slider-btn-active"}`}
-                                    onClick={slidePrev}
-                                    disabled={isBeginning}
-                                >
-                                    <FontAwesomeIcon icon={faAngleLeft}/>
-                                </div>
-                                <div
-                                    className={`custom-next ${isEnd ? "slider-btn-disabled" : "slider-btn-active"}`}
-                                    onClick={slideNext}
-                                    disabled={isEnd}
-                                >
-                                    <FontAwesomeIcon icon={faAngleRight}/>
-                                </div>
-                            </>
-                            : null
-                        }
-                    </Swiper>
+                                            <div className={sortListView ? null : "sortview-thumbnail-title"}>
+                                                <div
+                                                    className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
+                                                    <div className=" video-thumbnail-img"
+                                                         onClick={() => openModal(thumbnail)}>
+                                                        <img src={thumbnail.thumbnail}/>
+                                                        <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                                    </div>
+                                                    {!sortListView ?
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={checkedState[index]}
+                                                            onChange={() => handleCheckboxChange(index)}
+                                                        />
+                                                        : null
+                                                    }
+                                                </div>
+                                                <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                            </div>
+                                        </SwiperSlide>
+                                    )}
+                                    {sortListView ?
+                                        <>
+                                            <div
+                                                className={`custom-prev ${isBeginning ? "slider-btn-disabled" : "slider-btn-active"}`}
+                                                onClick={slidePrev}
+                                                disabled={isBeginning}
+                                            >
+                                                <FontAwesomeIcon icon={faAngleLeft}/>
+                                            </div>
+                                            <div
+                                                className={`custom-next ${isEnd ? "slider-btn-disabled" : "slider-btn-active"}`}
+                                                onClick={slideNext}
+                                                disabled={isEnd}
+                                            >
+                                                <FontAwesomeIcon icon={faAngleRight}/>
+                                            </div>
+                                        </>
+                                        : null
+                                    }
+                                </Swiper>
+                                :
+                                null
+                            }
+                        </>
                         : null
                     }
+
+                    {!viewAllCard ?
+                        <>
+                            {sortListView ? null :
+
+                                <Swiper
+                                    spaceBetween={10}
+                                    slidesPerView={2}
+                                    grid={{
+                                        rows: 2,
+                                    }}
+                                    // pagination={{
+                                    //     clickable: true,
+                                    // }}
+                                    navigation={{
+                                        nextEl: '.swiper-button-next',
+                                        prevEl: '.swiper-button-prev',
+                                    }}
+                                    modules={[Pagination, Grid, Navigation ]}
+                                    className="list-video-all-Card"
+                                    breakpoints={{
+                                        300: {
+                                            slidesPerView: 1,
+                                        },
+                                        1300: {
+                                            slidesPerView: 2,
+                                        },
+                                    }}
+                                >
+                                    {videoThumbnail.map((thumbnail, index) =>
+                                        <SwiperSlide className="single-video-card" key={thumbnail.id}>
+                                            <div
+                                                className={sortListView ? "card-check-option" : "list-card-check-option"}>
+                                                {sortListView ?
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={checkedState[index]}
+                                                        onChange={() => handleCheckboxChange(index)}
+                                                    />
+                                                    : null
+                                                }
+                                                <div className="option-icon">
+                                        <span onClick={() => editDelDownload(index)}>
+                                            <FontAwesomeIcon
+                                                className="three-dot-option"
+                                                icon={faEllipsisVertical}
+                                            />
+                                        </span>
+                                                    {activeCardIndex === index && (
+                                                        <div className="share-all-option">
+                                                            <div>
+                                                                <FontAwesomeIcon
+                                                                    className="arrow-background"
+                                                                    icon={faPlay}
+                                                                />
+                                                            </div>
+                                                            <div className="share-all-icon-option">
+                                                    <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faPen}
+                                                        />
+                                                        Edit
+                                                    </span>
+                                                                <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faTrash}
+                                                        />
+                                                        Delete
+                                                    </span>
+                                                                <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faDownload}
+                                                        />
+                                                        Download
+                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className={sortListView ? null : "sortview-thumbnail-title"}>
+                                                <div
+                                                    className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
+                                                    <div className=" video-thumbnail-img"
+                                                         onClick={() => openModal(thumbnail)}>
+                                                        <img src={thumbnail.thumbnail}/>
+                                                        <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                                    </div>
+                                                    {!sortListView ?
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={checkedState[index]}
+                                                            onChange={() => handleCheckboxChange(index)}
+                                                        />
+                                                        : null
+                                                    }
+                                                </div>
+                                                <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                            </div>
+                                        </SwiperSlide>
+                                    )}
+                                </Swiper>
+                            }
+                        </>
+                        : null
+                    }
+
                     <Modal className="video-player-modal" show={modalIsOpen} onHide={closeModal}>
                         <Modal.Body>
                             <div className="video-player-container">
@@ -537,69 +643,13 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                     {/*------------view all data---------------------------*/}
 
                     {viewAllCard ?
-                    <div className={sortListView ? 'video-all-card' : 'list-video-all-Card'}
-                        // className={sortListView ? (!viewAllCard ? 'video-all-card' : 'view-all-video-card') : 'list-video-all-Card'}
-                    >
-                        {videoThumbnail.map((thumbnail, index) =>
-                            <div className="single-video-card" key={thumbnail.id}>
-                                <div className={sortListView ? "card-check-option" : "list-card-check-option"}>
-                                    {sortListView ?
-                                        <input
-                                            type="checkbox"
-                                            checked={checkedState[index]}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                        : null
-                                    }
-                                    <div className="option-icon">
-                                        <span onClick={() => editDelDownload(index)}>
-                                            <FontAwesomeIcon
-                                                className="three-dot-option"
-                                                icon={faEllipsisVertical}
-                                            />
-                                        </span>
-                                        {activeCardIndex === index && (
-                                            <div className="share-all-option">
-                                                <div>
-                                                    <FontAwesomeIcon
-                                                        className="arrow-background"
-                                                        icon={faPlay}
-                                                    />
-                                                </div>
-                                                <div className="share-all-icon-option">
-                                                    <span className="edit-del-down">
-                                                        <FontAwesomeIcon
-                                                            className="me-2"
-                                                            icon={faPen}
-                                                        />
-                                                        Edit
-                                                    </span>
-                                                    <span className="edit-del-down">
-                                                        <FontAwesomeIcon
-                                                            className="me-2"
-                                                            icon={faTrash}
-                                                        />
-                                                        Delete
-                                                    </span>
-                                                    <span className="edit-del-down">
-                                                        <FontAwesomeIcon
-                                                            className="me-2"
-                                                            icon={faDownload}
-                                                        />
-                                                        Download
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className={sortListView ? null : "sortview-thumbnail-title"}>
-                                    <div className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
-                                        <div className=" video-thumbnail-img" onClick={() => openModal(thumbnail)}>
-                                            <img src={thumbnail.thumbnail}/>
-                                            <FontAwesomeIcon className="play-icon" icon={faPlay}/>
-                                        </div>
-                                        {!sortListView ?
+                        <div className={sortListView ? 'video-all-card' : 'list-video-all-Card'}
+                            // className={sortListView ? (!viewAllCard ? 'video-all-card' : 'view-all-video-card') : 'list-video-all-Card'}
+                        >
+                            {videoThumbnail.map((thumbnail, index) =>
+                                <div className="single-video-card" key={thumbnail.id}>
+                                    <div className={sortListView ? "card-check-option" : "list-card-check-option"}>
+                                        {sortListView ?
                                             <input
                                                 type="checkbox"
                                                 checked={checkedState[index]}
@@ -607,13 +657,69 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                             />
                                             : null
                                         }
+                                        <div className="option-icon">
+                                        <span onClick={() => editDelDownload(index)}>
+                                            <FontAwesomeIcon
+                                                className="three-dot-option"
+                                                icon={faEllipsisVertical}
+                                            />
+                                        </span>
+                                            {activeCardIndex === index && (
+                                                <div className="share-all-option">
+                                                    <div>
+                                                        <FontAwesomeIcon
+                                                            className="arrow-background"
+                                                            icon={faPlay}
+                                                        />
+                                                    </div>
+                                                    <div className="share-all-icon-option">
+                                                    <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faPen}
+                                                        />
+                                                        Edit
+                                                    </span>
+                                                        <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faTrash}
+                                                        />
+                                                        Delete
+                                                    </span>
+                                                        <span className="edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faDownload}
+                                                        />
+                                                        Download
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                    <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                    <div className={sortListView ? null : "sortview-thumbnail-title"}>
+                                        <div className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
+                                            <div className=" video-thumbnail-img" onClick={() => openModal(thumbnail)}>
+                                                <img src={thumbnail.thumbnail}/>
+                                                <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                            </div>
+                                            {!sortListView ?
+                                                <input
+                                                    type="checkbox"
+                                                    checked={checkedState[index]}
+                                                    onChange={() => handleCheckboxChange(index)}
+                                                />
+                                                : null
+                                            }
+                                        </div>
+                                        <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
-                    : null
+                            )}
+                        </div>
+                        : null
                     }
                 </div>
                 {/*<div className="no-data-box">*/}
@@ -624,9 +730,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                 {/*<GooglePayComponent/>*/}
 
             </div>
-
-
-
 
 
             {/*---------------module modal---------*/}
