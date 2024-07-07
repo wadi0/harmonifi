@@ -101,6 +101,9 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
     const [isEnd, setIsEnd] = useState(false);
     const swiperRef = useRef(null);
 
+    const secondSwiperRef = useRef(null);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
     const slideNext = () => {
         if (swiperRef.current && !isEnd) {
             swiperRef.current.slideNext();
@@ -131,6 +134,37 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+            if (secondSwiperRef.current) {
+                secondSwiperRef.current.swiper.update();
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+     useEffect(() => {
+        if (secondSwiperRef.current && secondSwiperRef.current.swiper) {
+            secondSwiperRef.current.swiper.update();
+        }
+    }, [windowWidth]);
+
+    // const getBreakpoints = () => ({
+    //     300: {
+    //         slidesPerView: 1,
+    //     },
+    //     1300: {
+    //         slidesPerView: 2,
+    //     }
+    // });
 
 
     const viewAllCardShow = () => {
@@ -337,16 +371,10 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         300: {
                                             slidesPerView: 1,
                                         },
-                                        500: {
+                                        400: {
                                             slidesPerView: 2,
                                         },
-                                        800: {
-                                            slidesPerView: 3,
-                                        },
-                                        1000: {
-                                            slidesPerView: 3,
-                                        },
-                                        1100: {
+                                        650: {
                                             slidesPerView: 3,
                                         },
                                         1200: {
@@ -418,6 +446,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                          onClick={() => openModal(thumbnail)}>
                                                         <img src={thumbnail.thumbnail}/>
                                                         <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                                        <div className="overlay"></div>
                                                     </div>
                                                     {!sortListView ?
                                                         <input
@@ -464,6 +493,8 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                             {sortListView ? null :
 
                                 <Swiper
+                                    key={windowWidth}
+                                    ref={secondSwiperRef}
                                     spaceBetween={10}
                                     slidesPerView={2}
                                     grid={{
@@ -478,9 +509,13 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                     }}
                                     modules={[Pagination, Grid, Navigation ]}
                                     className="list-video-all-Card"
+                                    // breakpoints={getBreakpoints()}
                                     breakpoints={{
                                         300: {
                                             slidesPerView: 1,
+                                        },
+                                        751: {
+                                            slidesPerView: 2,
                                         },
                                         1300: {
                                             slidesPerView: 2,
@@ -548,6 +583,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                          onClick={() => openModal(thumbnail)}>
                                                         <img src={thumbnail.thumbnail}/>
                                                         <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                                        <div className="overlay"></div>
                                                     </div>
                                                     {!sortListView ?
                                                         <input
