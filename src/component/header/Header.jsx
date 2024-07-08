@@ -21,7 +21,7 @@ const Header = ({toggleSidebar}) => {
                 </Link>
             </div>
             <button className="logout-btn" onClick={logout}>
-                <span className="me-2">Log out</span>
+                <span className="me-2 nunito-500">Log out</span>
                 <FontAwesomeIcon icon={faArrowRightFromBracket}/>
             </button>
         </header>

@@ -14,38 +14,72 @@
     --body-color3: #EEEEEE;
 }
 
-.roboto-thin {
-  font-family: "Roboto", sans-serif;
-  font-weight: 100;
+.nunito-200 {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
   font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.roboto-light {
-  font-family: "Roboto", sans-serif;
+.nunito-300 {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.roboto-regular {
-  font-family: "Roboto", sans-serif;
+.nunito-400 {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.roboto-medium {
-  font-family: "Roboto", sans-serif;
+.nunito-500 {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.roboto-bold {
-  font-family: "Roboto", sans-serif;
+.nunito-600{
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
+}
+
+.nunito-700 {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.roboto-black {
-  font-family: "Roboto", sans-serif;
-  font-weight: 900;
+.nunito-800 {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
   font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }

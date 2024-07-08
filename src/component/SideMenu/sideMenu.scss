@@ -50,7 +50,7 @@
 
       .home {
         color: var(--primary-color);
-        transition: color 0.5s;
+        transition: color 0.3s;
 
         &:hover {
           color: var(--primary-color);
@@ -59,11 +59,11 @@
 
       .video-module {
         color: var(--body-color2);
-        transition: color 0.5s;
+        transition: color 0.3s;
 
         &:hover {
           color: var(--primary-color);
-          transition: color 3s;
+          transition: color 0.3s;
         }
       }
 
