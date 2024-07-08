@@ -297,17 +297,17 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
             }
             <div className="home-top">
                 {!viewAllCard ?
-                    <div className="d-flex justify-content-between gap-3 home-header-left">
+                    <div className="d-flex gap-3 home-header-left">
                         <div className="home-select-field">
                             <SelectField
                                 options={optionsHomeSelect}
                                 placeholder="All"
                             />
                         </div>
-                        <button className="add-module-button module-btn-width module-btn" onClick={handleShowModule}>
+                        <button className="add-module-button roboto-regular module-btn-width module-btn" onClick={handleShowModule}>
                             <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                         </button>
-                        <button className="upload-module-button module-btn-width upload-video-btn" onClick={handleVideoShow}>
+                        <button className="upload-module-button roboto-regular module-btn-width upload-video-btn" onClick={handleVideoShow}>
                             <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
                         </button>
                     </div>
@@ -330,10 +330,10 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                 <div className="video-card">
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                        <h5 className="m-0">Harmony Health Intro's</h5>
+                        <h5 className="card-title-header roboto-bold">Harmony Health Intro's</h5>
                         {!viewAllCard ?
                             <div className="d-flex justify-content-end gap-3">
-                                <button onClick={viewAllCardShow} className="view-all-btn add-module-button">View all
+                                <button onClick={viewAllCardShow} className="view-all-btn roboto-regular add-module-button">View all
                                 </button>
                                 {!sortListView ?
                                     <div className="d-flex justify-content-end gap-4">
@@ -458,7 +458,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                         : null
                                                     }
                                                 </div>
-                                                <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                                <h6 className="roboto-regular mt-2 mb-0 text-capitalize">{thumbnail.title}</h6>
                                             </div>
                                         </SwiperSlide>
                                     )}
@@ -595,7 +595,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                         : null
                                                     }
                                                 </div>
-                                                <h6 className="mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                                <h6 className="roboto-regular mt-3 mb-0 text-capitalize">{thumbnail.title}</h6>
                                             </div>
                                         </SwiperSlide>
                                     )}
@@ -669,7 +669,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         width="100%"
                                         height="100%"
                                     />
-                                    <h6 className="mt-2 ps-2 pe-2">{currentVideoUrl.title}</h6>
+                                    <h6 className="text-capitalize roboto-regular mt-2 ps-2 pe-2">{currentVideoUrl.title}</h6>
                                 </div>
                             </div>
                         </Modal.Body>
@@ -741,6 +741,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                             <div className=" video-thumbnail-img" onClick={() => openModal(thumbnail)}>
                                                 <img src={thumbnail.thumbnail}/>
                                                 <FontAwesomeIcon className="play-icon" icon={faPlay}/>
+                                                <div className="overlay"></div>
                                             </div>
                                             {!sortListView ?
                                                 <input
@@ -854,11 +855,11 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         {/*</form>*/}
                         <div className="file-upload-component">
                             <div>
-                                <h5 className="title-name">Dr. Rohrer</h5>
+                                <h5 className="title-name roboto-regular">Dr. Rohrer</h5>
                                 <InputFileUploadDesign/>
                             </div>
                             <div>
-                                <h5 className="thumbnail-name">Thumbnail</h5>
+                                <h5 className="thumbnail-name roboto-regular">Thumbnail</h5>
                                 <ThumbnailUpload/>
                             </div>
                         </div>
