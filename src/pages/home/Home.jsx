@@ -632,7 +632,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                     />
                                                     Share
                                                 </span>
-                                                    <span className="share-edit-del-down">
+                                                    <span className="share-edit-del-down" onClick={handleVideoShow}>
                                                     <FontAwesomeIcon
                                                         className="me-2"
                                                         icon={faPen}
@@ -710,7 +710,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                         />
                                                     </div>
                                                     <div className="share-all-icon-option">
-                                                    <span className="edit-del-down">
+                                                    <span className="edit-del-down" onClick={handleVideoShow}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faPen}
