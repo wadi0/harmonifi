@@ -13,15 +13,16 @@
 
     li {
       padding: 10px;
-      background-color: #40C1AE29;
+      //background-color: #40C1AE29;
       border-radius: 5px;
       color: var(--primary-color);
       cursor: pointer;
-      transition: background-color 1s;
+      //transition: background-color 1s;
+      font-size: 15px;
 
       &:hover {
-        background-color: var(--primary-color);
-        color: white;
+        //background-color: var(--primary-color);
+        //color: white;
       }
     }
   }
@@ -49,7 +50,7 @@
 
       .home {
         color: var(--primary-color);
-        transition: color 3s;
+        transition: color 0.5s;
 
         &:hover {
           color: var(--primary-color);
@@ -58,7 +59,7 @@
 
       .video-module {
         color: var(--body-color2);
-        transition: color 3s;
+        transition: color 0.5s;
 
         &:hover {
           color: var(--primary-color);

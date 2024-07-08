@@ -237,6 +237,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         };
         setOptionsHomeSelect([...optionsHomeSelect, payload]);
         resetForm();
+        handleCloseModule(true)
     };
 
     const moduleForm = useFormik({
@@ -303,22 +304,22 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                 placeholder="All"
                             />
                         </div>
-                        <Button className="bootstrap-btnn module-btn" onClick={handleShowModule}>
+                        <button className="add-module-button module-btn-width module-btn" onClick={handleShowModule}>
                             <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
-                        </Button>
-                        <Button className="bootstrap-btnn upload-video-btn" onClick={handleVideoShow}>
+                        </button>
+                        <button className="upload-module-button module-btn-width upload-video-btn" onClick={handleVideoShow}>
                             <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
-                        </Button>
+                        </button>
                     </div>
                     : <span className="back-btn-allPage" onClick={viewAllCardShow}><FontAwesomeIcon className="me-2"
                                                                                                     icon={faAngleLeft}/> Back</span>
                 }
                 <div className="d-flex justify-content-between gap-3">
-                    <Button className={`box-filter ${sortListView ? "btn-active" : "btn-unactive"}`}
+                    <button className={`box-filter ${sortListView ? "btn-active" : "btn-unactive add-module-button"}`}
                             onClick={showSortView}>
                         <FontAwesomeIcon icon={faTableCellsLarge}/>
-                    </Button>
-                    <Button className={`box-filter ${sortListView ? "btn-unactive" : "btn-active"}`}
+                    </button>
+                    <Button className={`box-filter ${sortListView ? "btn-unactive add-module-button" : "btn-active"}`}
                             onClick={showListView}>
                         <FontAwesomeIcon icon={faList}/>
                     </Button>
@@ -332,7 +333,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         <h5 className="m-0">Harmony Health Intro's</h5>
                         {!viewAllCard ?
                             <div className="d-flex justify-content-end gap-3">
-                                <button onClick={viewAllCardShow} className="view-all-btn bootstrap-btnn">View all
+                                <button onClick={viewAllCardShow} className="view-all-btn add-module-button">View all
                                 </button>
                                 {!sortListView ?
                                     <div className="d-flex justify-content-end gap-4">
@@ -371,7 +372,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         300: {
                                             slidesPerView: 1,
                                         },
-                                        400: {
+                                        370: {
                                             slidesPerView: 2,
                                         },
                                         650: {
@@ -413,7 +414,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                                 />
                                                             </div>
                                                             <div className="share-all-icon-option">
-                                                    <span className="edit-del-down">
+                                                    <span className="edit-del-down" onClick={handleVideoShow}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faPen}
@@ -550,7 +551,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                                 />
                                                             </div>
                                                             <div className="share-all-icon-option">
-                                                    <span className="edit-del-down">
+                                                    <span className="edit-del-down" onClick={handleVideoShow}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faPen}
@@ -793,18 +794,20 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <CustomButton
+                    <button
                         type="button"
-                        btnText="Cancel"
-                        className="cancelBtn"
-                        onClickCallback={handleCloseModule}
-                    />
-                    <CustomButton
+                        // btnText="Cancel"
+                        className="cancelBtn add-module-button"
+                        onClick={handleCloseModule}
+                    >
+                        Cancel
+                    </button>
+                    <button
                         type="submit"
-                        btnText="Save"
-                        btnClassName="saveBtn"
-                        onClickCallback={moduleForm.handleSubmit}
-                    />
+                        // btnText="Save"
+                        className="saveBtn add-module-button"
+                        onClick={moduleForm.handleSubmit}
+                    >Save</button>
                 </Modal.Footer>
             </Modal>
 
@@ -825,9 +828,9 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                     placeholder="All"
                                 />
                             </div>
-                            <Button className="bootstrap-btnn" onClick={handleShowModule}>
+                            <button className="add-module-button upload-video-add-module" onClick={handleShowModule}>
                                 <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
-                            </Button>
+                            </button>
                         </div>
                         {/*<form onSubmit={moduleForm.handleSubmit}>*/}
                         {/*    <label className="module-label">Module Name</label>*/}
@@ -864,18 +867,18 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <CustomButton
+                    <button
                         type="button"
-                        btnText="Cancel"
-                        className="cancelBtn"
-                        onClickCallback={handleCloseVideo}
-                    />
-                    <CustomButton
+                        // btnText="Cancel"
+                        className="cancelBtn add-module-button"
+                        onClick={handleCloseVideo}
+                    >Cancel</button>
+                    <button
                         type="submit"
-                        btnText="Save"
-                        btnClassName="saveBtn"
-                        onClickCallback={moduleForm.handleSubmit}
-                    />
+                        // btnText="Save"
+                        className="saveBtn add-module-button"
+                        onClick={handleCloseVideo}
+                    >Save</button>
                 </Modal.Footer>
             </Modal>
 

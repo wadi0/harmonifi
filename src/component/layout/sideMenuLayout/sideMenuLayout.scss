@@ -11,14 +11,14 @@
   position: absolute;
 }
 
-@media only screen and (min-width: 300px) and (max-width: 500px) {
+@media only screen and (min-width: 50px) and (max-width: 500px) {
 
   .sideMenuLayout-container {
     .sideMenuCom {
       bottom: 0;
       position: fixed;
       max-width: 100%;
-      z-index: 2;
+      z-index: 11;
       background-color: white;
     }
   }
@@ -31,7 +31,7 @@
       bottom: 0;
       position: fixed;
       max-width: 100%;
-      z-index: 2;
+      z-index: 11;
       background-color: white;
     }
   }
@@ -44,7 +44,7 @@
       bottom: 0;
       position: fixed;
       max-width: 100%;
-      z-index: 2;
+      z-index: 11;
       background-color: white;
     }
   }
