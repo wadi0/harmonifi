@@ -27,6 +27,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/grid';
 import {Grid, Navigation, Pagination} from "swiper/modules";
+import AxiosServices from "../../component/network/AxiosServices.js";
+import ApiUrlServices from "../../component/network/ApiUrlServices.js";
+import {image_url, video_url} from "../../config/config.js";
 
 
 const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
@@ -97,6 +100,15 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
     const [activeCardIndex, setActiveCardIndex] = useState(null);
     const [viewAllCard, setViewAllCard] = useState(false);
 
+    // ----------------------------------------------------------------
+
+    const [moduleList, setModuleList] = useState([])
+    const [moduleListLoading, setModuleListLoading] = useState(false);
+    const [moduleAllCardData, setModuleAllCardData] = useState([])
+    const [moduleVideoData, setModuleVideoData] = useState([])
+
+    // ----------------------------------------------------------------
+
     const [isBeginning, setIsBeginning] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
     const swiperRef = useRef(null);
@@ -151,20 +163,11 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         };
     }, []);
 
-     useEffect(() => {
+    useEffect(() => {
         if (secondSwiperRef.current && secondSwiperRef.current.swiper) {
             secondSwiperRef.current.swiper.update();
         }
     }, [windowWidth]);
-
-    // const getBreakpoints = () => ({
-    //     300: {
-    //         slidesPerView: 1,
-    //     },
-    //     1300: {
-    //         slidesPerView: 2,
-    //     }
-    // });
 
 
     const viewAllCardShow = () => {
@@ -206,7 +209,59 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
         setPatientAdd(patientAdd.filter((_, i) => i !== index));
     };
 
-    // module code----------------
+
+    // ---------module list-----------------------------------------------------------------------------
+
+    useEffect(() => {
+        setModuleListLoading(true)
+        let payload = {
+            page: 1,
+            limit: 100,
+        }
+        AxiosServices.get(ApiUrlServices.MODULE_LIST, payload)
+            .then((response) => {
+                console.log(response.data.data)
+                setModuleList(response.data.data.modules)
+                let moduleAllList = response.data.data.modules.map(module => ({
+                    value: module.id,
+                    label: module.name
+                }));
+                // console.log(moduleAllList)
+                setModuleList(moduleAllList)
+            }).catch((error) => {
+            console.log(error)
+        }).finally(() => {
+            setModuleListLoading(false)
+        })
+
+    }, []);
+
+
+    // ----------------module all card data ----------------------------------------------------
+
+    useEffect(() => {
+        let payload = {
+            module_limit: 10,
+            module_page: 1,
+        }
+
+        AxiosServices.get(ApiUrlServices.MODULE_ALL_CARD_DATA, payload)
+            .then((response) => {
+                console.log(response.data.data)
+                // setModuleAllCardData(response.data.data.modules)
+                let moduleDetails = response.data.data.modules.map(data => data.videos).flat()
+                console.log(moduleDetails)
+                setModuleVideoData(moduleDetails)
+            }).catch((error) => {
+            console.log(error)
+        }).finally(() => {
+        })
+    }, []);
+
+
+    //---------------------------------- add module code---------------------------------------------------
+
+
     useEffect(() => {
         const savedOptions = localStorage.getItem('optionsHomeSelect');
         if (savedOptions) {
@@ -235,6 +290,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
             value: values.moduleName.toLowerCase(),
             label: values.moduleName
         };
+
         setOptionsHomeSelect([...optionsHomeSelect, payload]);
         resetForm();
         handleCloseModule(true)
@@ -300,14 +356,16 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                     <div className="d-flex gap-3 home-header-left">
                         <div className="home-select-field nunito-500">
                             <SelectField
-                                options={optionsHomeSelect}
-                                placeholder="All"
+                                options={!moduleListLoading ? moduleList : "Loading..."}
+                                placeholder={!moduleListLoading ? "All" : "Loading..."}
                             />
                         </div>
-                        <button className="add-module-button nunito-500 module-btn-width module-btn" onClick={handleShowModule}>
+                        <button className="add-module-button nunito-500 module-btn-width module-btn"
+                                onClick={handleShowModule}>
                             <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                         </button>
-                        <button className="upload-module-button nunito-500 module-btn-width upload-video-btn" onClick={handleVideoShow}>
+                        <button className="upload-module-button nunito-500 module-btn-width upload-video-btn"
+                                onClick={handleVideoShow}>
                             <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
                         </button>
                     </div>
@@ -333,7 +391,8 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         <h5 className="card-title-header nunito-800">Harmony Health Intro's</h5>
                         {!viewAllCard ?
                             <div className="d-flex justify-content-end gap-3">
-                                <button onClick={viewAllCardShow} className="view-all-btn nunito-600 add-module-button">View all
+                                <button onClick={viewAllCardShow}
+                                        className="view-all-btn nunito-600 add-module-button">View all
                                 </button>
                                 {!sortListView ?
                                     <div className="d-flex justify-content-end gap-4">
@@ -386,8 +445,8 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         },
                                     }}
                                 >
-                                    {videoThumbnail.map((thumbnail, index) =>
-                                        <SwiperSlide className="single-video-card" key={thumbnail.id}>
+                                    {moduleVideoData.map((data, index) =>
+                                        <SwiperSlide className="single-video-card" key={data.id}>
                                             <div
                                                 className={sortListView ? "card-check-option" : "list-card-check-option"}>
                                                 {sortListView ?
@@ -444,8 +503,8 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                 <div
                                                     className={sortListView ? "video-thumbnail" : "sort-video-thumbnail"}>
                                                     <div className=" video-thumbnail-img"
-                                                         onClick={() => openModal(thumbnail)}>
-                                                        <img src={thumbnail.thumbnail}/>
+                                                         onClick={() => openModal(data)}>
+                                                        <img src={`${image_url}${data.thumbnail_path}`}/>
                                                         <FontAwesomeIcon className="play-icon" icon={faPlay}/>
                                                         <div className="overlay"></div>
                                                     </div>
@@ -458,8 +517,81 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                         : null
                                                     }
                                                 </div>
-                                                <h6 className="nunito-700 mt-2 mb-0 text-capitalize">{thumbnail.title}</h6>
+                                                <h6 className="nunito-700 mt-2 mb-0 text-capitalize">{data.title}</h6>
                                             </div>
+                                            <Modal className="video-player-modal" show={modalIsOpen}
+                                                   onHide={closeModal}>
+                                                <Modal.Body>
+                                                    <div className="video-player-container">
+                                                        <div className="close-option-icon">
+                                                            <div>
+                                        <span onClick={shareEditDelDownload}>
+                                            <FontAwesomeIcon
+                                                className="three-dot-option option-close"
+                                                icon={faEllipsisVertical}
+                                            />
+                                        </span>
+                                                                {shareEditDelDown && (
+                                                                    <div className="share-all-option-player">
+                                                                        <div>
+                                                                            <FontAwesomeIcon
+                                                                                className="background-player-option"
+                                                                                icon={faPlay}
+                                                                            />
+                                                                        </div>
+                                                                        <div className="player-share-icon-option">
+                                                    <span className="share-edit-del-down">
+                                                    <FontAwesomeIcon
+                                                        className="me-2"
+                                                        icon={faShare}
+                                                    />
+                                                    Share
+                                                </span>
+                                                                            <span className="share-edit-del-down"
+                                                                                  onClick={handleVideoShow}>
+                                                    <FontAwesomeIcon
+                                                        className="me-2"
+                                                        icon={faPen}
+                                                    />
+                                                    Edit
+                                                </span>
+                                                                            <span className="share-edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faTrash}
+                                                        />
+                                                        Delete
+                                                    </span>
+                                                                            <span className="share-edit-del-down">
+                                                        <FontAwesomeIcon
+                                                            className="me-2"
+                                                            icon={faDownload}
+                                                        />
+                                                        Download
+                                                    </span>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <span className="ms-3" onClick={closeModal}>
+                                            <FontAwesomeIcon className="option-close" icon={faXmark}/>
+                                        </span>
+                                                        </div>
+                                                        <div className="video-player-title">
+                                                            <ReactPlayer
+                                                                key={data.id}
+                                                                url={`${video_url}${data.video_file_path}`}
+                                                                controls={true}
+                                                                playing={modalIsOpen}
+                                                                width="100%"
+                                                                height="100%"
+                                                            />
+                                                            <h6 className="text-capitalize nunito-700 mt-2 ps-2 pe-2">{currentVideoUrl.title}</h6>
+                                                        </div>
+                                                    </div>
+                                                </Modal.Body>
+                                            </Modal>
+
                                         </SwiperSlide>
                                     )}
                                     {sortListView ?
@@ -508,7 +640,7 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                         nextEl: '.swiper-button-next',
                                         prevEl: '.swiper-button-prev',
                                     }}
-                                    modules={[Pagination, Grid, Navigation ]}
+                                    modules={[Pagination, Grid, Navigation]}
                                     className="list-video-all-Card"
                                     // breakpoints={getBreakpoints()}
                                     breakpoints={{
@@ -604,76 +736,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         </>
                         : null
                     }
-
-                    <Modal className="video-player-modal" show={modalIsOpen} onHide={closeModal}>
-                        <Modal.Body>
-                            <div className="video-player-container">
-                                <div className="close-option-icon">
-                                    <div>
-                                        <span onClick={shareEditDelDownload}>
-                                            <FontAwesomeIcon
-                                                className="three-dot-option option-close"
-                                                icon={faEllipsisVertical}
-                                            />
-                                        </span>
-                                        {shareEditDelDown && (
-                                            <div className="share-all-option-player">
-                                                <div>
-                                                    <FontAwesomeIcon
-                                                        className="background-player-option"
-                                                        icon={faPlay}
-                                                    />
-                                                </div>
-                                                <div className="player-share-icon-option">
-                                                    <span className="share-edit-del-down">
-                                                    <FontAwesomeIcon
-                                                        className="me-2"
-                                                        icon={faShare}
-                                                    />
-                                                    Share
-                                                </span>
-                                                    <span className="share-edit-del-down" onClick={handleVideoShow}>
-                                                    <FontAwesomeIcon
-                                                        className="me-2"
-                                                        icon={faPen}
-                                                    />
-                                                    Edit
-                                                </span>
-                                                    <span className="share-edit-del-down">
-                                                        <FontAwesomeIcon
-                                                            className="me-2"
-                                                            icon={faTrash}
-                                                        />
-                                                        Delete
-                                                    </span>
-                                                    <span className="share-edit-del-down">
-                                                        <FontAwesomeIcon
-                                                            className="me-2"
-                                                            icon={faDownload}
-                                                        />
-                                                        Download
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <span className="ms-3" onClick={closeModal}>
-                                            <FontAwesomeIcon className="option-close" icon={faXmark}/>
-                                        </span>
-                                </div>
-                                <div className="video-player-title">
-                                    <ReactPlayer
-                                        url={currentVideoUrl.video}
-                                        controls={true}
-                                        playing={modalIsOpen}
-                                        width="100%"
-                                        height="100%"
-                                    />
-                                    <h6 className="text-capitalize nunito-700 mt-2 ps-2 pe-2">{currentVideoUrl.title}</h6>
-                                </div>
-                            </div>
-                        </Modal.Body>
-                    </Modal>
                     {/*<div className="swiper-button-prev"></div>*/}
                     {/*<div className="swiper-button-next"></div>*/}
 
@@ -808,7 +870,8 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         // btnText="Save"
                         className="saveBtn add-module-button"
                         onClick={moduleForm.handleSubmit}
-                    >Save</button>
+                    >Save
+                    </button>
                 </Modal.Footer>
             </Modal>
 
@@ -873,13 +936,15 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         // btnText="Cancel"
                         className="cancelBtn add-module-button"
                         onClick={handleCloseVideo}
-                    >Cancel</button>
+                    >Cancel
+                    </button>
                     <button
                         type="submit"
                         // btnText="Save"
                         className="saveBtn add-module-button"
                         onClick={handleCloseVideo}
-                    >Save</button>
+                    >Save
+                    </button>
                 </Modal.Footer>
             </Modal>
 
@@ -975,26 +1040,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                     />
                 </Modal.Footer>
             </Modal>
-
-            {/*<Modal show={modalIsOpen} onHide={closeModal}>*/}
-            {/*    /!*<Modal.Header closeButton>*!/*/}
-            {/*    /!*    <Modal.Title>Share video</Modal.Title>*!/*/}
-            {/*    /!*</Modal.Header>*!/*/}
-            {/*    <Modal.Body>*/}
-            {/*        <button onClick={closeModal}>Close</button>*/}
-            {/*            <>*/}
-            {/*        <ReactPlayer*/}
-            {/*            url="https://media.istockphoto.com/id/1461319219/video/hand-choosing-a-carpet.mp4?s=mp4-640x640-is&k=20&c=Du6MFpyn-CDxHc1nqm4uZ5HEDurkN4Qv80jT0AFALsU="*/}
-            {/*            controls={true}*/}
-            {/*            playing={modalIsOpen}*/}
-            {/*            width="100%"*/}
-            {/*            height="100%"*/}
-            {/*        />*/}
-            {/*        </>*/}
-            {/*    </Modal.Body>*/}
-            {/*    /!*<Modal.Footer>*!/*/}
-            {/*    /!*</Modal.Footer>*!/*/}
-            {/*</Modal>*/}
         </div>
     );
 };

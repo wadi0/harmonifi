@@ -1,0 +1,78 @@
+.home-container {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 15rem;
+  margin-bottom: 10rem;
+  font-family: "Nunito Sans", sans-serif;
+
+  .video-card-container {
+    padding: 0 25px;
+
+    .video-category-title {
+      margin-bottom: 20px;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+
+    .video-all-card {
+      display: flex;
+      gap: 21.5px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+
+      .single-video-card {
+        //max-width: 24%;
+        //margin-right: 21.5px !important;
+
+        img {
+          width: 100%;
+          border-radius: 5px;
+          object-fit: cover;
+        }
+
+      }
+
+    }
+  }
+
+}
+
+//-----modal video player--------------
+
+.video-player-modal {
+
+  .modal-content {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+  }
+
+  .modal-body {
+    padding: 1px !important;
+  }
+
+  .video-title-modal {
+    font-weight: 400;
+    font-size: 18px;
+    text-transform: capitalize;
+    padding-left: 15px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+
+  .video-player-description {
+    padding-left: 15px;
+    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+}
+
+//.modal-backdrop {
+//    --bs-backdrop-bg: #00000008 !important;
+//}
+
+.modal-content {
+  //border: none !important;
+  //border-radius: 5px !important;
+}

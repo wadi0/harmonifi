@@ -2,6 +2,8 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouse, faSquarePlus, faVideo} from "@fortawesome/free-solid-svg-icons";
 import "./sideMenu.scss"
+import {Link} from "react-router-dom";
+import path from "../../routes/path.js";
 
 const SideMenu = ({ onUploadVideoClick, onAddModuleClick }) => {
 
@@ -9,7 +11,10 @@ const SideMenu = ({ onUploadVideoClick, onAddModuleClick }) => {
         <div className="sideMenu-container">
             <ul className="sideMenu-list">
                 <li>
-                    <FontAwesomeIcon icon={faHouse} /><span className="ms-3 nunito-600">Home</span>
+                    <FontAwesomeIcon icon={faHouse}/><span className="ms-3 nunito-600">Home</span>
+                </li>
+                <li>
+                    <Link to={path.home2} ><FontAwesomeIcon icon={faHouse}/><span className="ms-3 nunito-600">Home</span></Link>
                 </li>
             </ul>
             <div className="bottom-menu">
