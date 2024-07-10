@@ -3,20 +3,22 @@ import "./home2.scss"
 import {Swiper, SwiperSlide} from "swiper/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faAngleLeft,
     faChevronLeft,
     faChevronRight,
     faDownload,
-    faEllipsisVertical,
+    faEllipsisVertical, faList,
     faPen,
-    faPlay, faShare,
-    faTrash, faXmark
+    faPlay, faPlus, faShare, faTableCellsLarge,
+    faTrash, faVideo, faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {image_url, video_url} from "../../config/config.js";
 import AxiosServices from "../../component/network/AxiosServices.js";
 import ApiUrlServices from "../../component/network/ApiUrlServices.js";
 import {Grid, Navigation, Pagination} from "swiper/modules";
-import {Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import ReactPlayer from "react-player";
+import SelectField from "../../component/SelectField/SelectField.jsx";
 
 const Home2 = () => {
 
@@ -27,12 +29,35 @@ const Home2 = () => {
     const [threeDotToggle, setThreeDotToggle] = useState(false)
     const [selectedCardId, setSelectedCardId] = useState(null);
     const [videoShareOptions, setVideoShareOptions] = useState(false)
+    const [viewAllCard, setViewAllCard] = useState(false);
+    const [sortListView, setSortListView] = useState(true);
+
 
     const [windowWidthSwiperCard, setWindowWidthSwiperCard] = useState(window.innerWidth);
     const cardSwiperRef = useRef(null);
 
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const cardRef = useRef(null);
+
+    // -------------------------------sort list view open close ---------------------------------
+
+    const showSortView = () => {
+        setSortListView(true)
+    }
+
+    const showListView = () => {
+        setSortListView(false)
+    }
+
+    // ----------------------------------------------------------------
+
+    // ------------------------view all card----------------------------------------
+
+    const viewAllCardShow = () => {
+        setViewAllCard(!viewAllCard)
+    }
+
+    // ----------------------------------------------------------------
 
     // ----------------------------share option video modal------------------------------------
 
@@ -105,11 +130,13 @@ const Home2 = () => {
     const videoModalIsOpen = (id) => {
         setSelectedVideoId(id);
         setVideoModalOpen(true);
+        setThreeDotToggle(false)
     }
 
     const videoModalIsClose = () => {
         setVideoModalOpen(false);
         setSelectedVideoId(null);
+        setVideoShareOptions(false);
     }
 
     // ----------------------------------------------------------------
@@ -163,10 +190,48 @@ const Home2 = () => {
 
     return (
         <div className="home-container">
+            <div className="home-top">
+                {!viewAllCard ?
+                    <div className="d-flex gap-3 home-header-left">
+                        <div className="home-select-field nunito-500">
+                            <SelectField
+                                // options={!moduleListLoading ? moduleList : "Loading..."}
+                                // placeholder={!moduleListLoading ? "All" : "Loading..."}
+                            />
+                        </div>
+                        <button className="add-module-button nunito-500 module-btn-width module-btn"
+                            // onClick={handleShowModule}
+                        >
+                            <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
+                        </button>
+                        <button className="upload-module-button nunito-500 module-btn-width upload-video-btn"
+                            // onClick={handleVideoShow}
+                        >
+                            <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
+                        </button>
+                    </div>
+                    :
+                    <span className="back-btn-allPage" onClick={viewAllCardShow}
+                    ><FontAwesomeIcon className="me-2"
+                                      icon={faAngleLeft}/> Back</span>
+                }
+                <div className="d-flex justify-content-between align-items-center gap-3">
+                    <button className={ `${sortListView ? "btn-active " : "btn-unactive add-module-button"}`} onClick={showSortView}>
+                        <FontAwesomeIcon icon={faTableCellsLarge}/>
+                    </button>
+
+                    <button className={` ${sortListView ? "btn-unactive add-module-button" : "btn-active"}`} onClick={showListView}>
+                        <FontAwesomeIcon icon={faList}/>
+                    </button>
+                </div>
+            </div>
             {moduleAllCardData.map((module) => (
                 <div className="video-card-container" key={module.id}>
-                    <div>
+                    <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
                         <h4 className="video-category-title">{module.name}</h4>
+                        <button onClick={viewAllCardShow}
+                                className="view-all-btn add-module-button">View all
+                        </button>
                     </div>
                     <Swiper
                         className="video-all-card"
@@ -198,36 +263,36 @@ const Home2 = () => {
                         {moduleVideoData.map((data) => {
                             return data.module_id === module.id ? (
                                 <SwiperSlide className="single-video-card" key={data.id} ref={cardRef}>
-                                        <div className="video-thumbnail">
-                                            <div className="video-thumbnail-img">
-                                                <img
-                                                    onClick={() => videoModalIsOpen(data.id)}
-                                                    src={`${image_url}${data.thumbnail_path}`}
-                                                    alt={data.title}
-                                                />
-                                                <FontAwesomeIcon onClick={() => videoModalIsOpen(data.id)}
-                                                                 className="play-icon" icon={faPlay}/>
-                                                <input
-                                                    className={`video-checkbox ${checkedIds.includes(data.id) ? 'video-checkbox-visibility' : ''}`}
-                                                    type="checkbox"
-                                                    checked={checkedIds.includes(data.id)}
-                                                    onChange={() => handleCheckboxChange(data.id)}
-                                                />
+                                    <div className="video-thumbnail">
+                                        <div className="video-thumbnail-img">
+                                            <img
+                                                onClick={() => videoModalIsOpen(data.id)}
+                                                src={`${image_url}${data.thumbnail_path}`}
+                                                alt={data.title}
+                                            />
+                                            <FontAwesomeIcon onClick={() => videoModalIsOpen(data.id)}
+                                                             className="play-icon" icon={faPlay}/>
+                                            <input
+                                                className={`video-checkbox ${checkedIds.includes(data.id) ? 'video-checkbox-visibility' : ''}`}
+                                                type="checkbox"
+                                                checked={checkedIds.includes(data.id)}
+                                                onChange={() => handleCheckboxChange(data.id)}
+                                            />
 
-                                                <FontAwesomeIcon
-                                                    onClick={() => editDelDownload(data.id)}
-                                                    className={`three-dot-option ${selectedCardId === data.id && threeDotToggle ? 'three-dot-visibility' : ''}`}
-                                                    icon={faEllipsisVertical}
-                                                />
+                                            <FontAwesomeIcon
+                                                onClick={() => editDelDownload(data.id)}
+                                                className={`three-dot-option ${selectedCardId === data.id && threeDotToggle ? 'three-dot-visibility' : ''}`}
+                                                icon={faEllipsisVertical}
+                                            />
 
-                                                {selectedCardId === data.id && threeDotToggle && (
-                                                    <FontAwesomeIcon className="message-angel" icon={faPlay}/>
-                                                )}
+                                            {selectedCardId === data.id && threeDotToggle && (
+                                                <FontAwesomeIcon className="message-angel" icon={faPlay}/>
+                                            )}
 
 
-                                                {selectedCardId === data.id && threeDotToggle && (
+                                            {selectedCardId === data.id && threeDotToggle && (
 
-                                                    <div className="edit-del-down-box">
+                                                <div className="edit-del-down-box">
                                                     <span className="edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
@@ -235,45 +300,48 @@ const Home2 = () => {
                                                         />
                                                         Edit
                                                     </span>
-                                                        <span className="edit-del-down">
+                                                    <span className="edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faTrash}
                                                         />
                                                         Delete
                                                     </span>
-                                                        <span className="edit-del-down">
+                                                    <span className="edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faDownload}
                                                         />
                                                         Download
                                                     </span>
-                                                    </div>
-                                                )}
-                                                <div className="overlay"
-                                                     onClick={() => videoModalIsOpen(data.id)}></div>
-                                            </div>
+                                                </div>
+                                            )}
+                                            <div className="overlay"
+                                                 onClick={() => videoModalIsOpen(data.id)}></div>
                                         </div>
-                                        <h6 className="nunito-600 mt-2 mb-0 text-capitalize text-truncate">{data.title}</h6>
-                                        <Modal className="video-player-modal"
-                                               show={videoModalOpen && selectedVideoId === data.id}
-                                               onHide={videoModalIsClose}>
-                                            <Modal.Body>
-                                                <FontAwesomeIcon
-                                                    onClick={() => shareEditDelDownload(data.id)}
-                                                    className={`share-option ${selectedCardId === data.id && threeDotToggle ? 'three-dot-visibility' : ''}`}
-                                                    icon={faEllipsisVertical}
-                                                />
+                                    </div>
+                                    <h6 className="nunito-600 mt-2 mb-0 text-capitalize text-truncate">{data.title}</h6>
+                                    <Modal className="video-player-modal"
+                                           show={videoModalOpen && selectedVideoId === data.id}
+                                           onHide={videoModalIsClose}>
+                                        <Modal.Body>
+                                            <FontAwesomeIcon
+                                                onClick={() => shareEditDelDownload(data.id)}
+                                                className={`share-option ${selectedCardId === data.id && threeDotToggle ? 'three-dot-visibility' : ''}`}
+                                                icon={faEllipsisVertical}
+                                            />
 
-                                                {selectedCardId === data.id && videoShareOptions && (
-                                                    <FontAwesomeIcon className="message-angel-share-modal" icon={faPlay}/>
-                                                )}
+                                            {selectedCardId === data.id && videoShareOptions && (
+                                                <FontAwesomeIcon className="message-angel-share-modal" icon={faPlay}/>
+                                            )}
 
 
-                                                {selectedCardId === data.id && videoShareOptions && (
+                                            {selectedCardId === data.id && videoShareOptions && (
 
-                                                    <div className="share-edit-del-down-box">
+                                                <div className="share-edit-del-down-box">
+                                                        <span className="share-edit-del-down">
+                                                            <FontAwesomeIcon className="me-2" icon={faShare}/> Share
+                                                        </span>
                                                     <span className="share-edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
@@ -281,34 +349,35 @@ const Home2 = () => {
                                                         />
                                                         Edit
                                                     </span>
-                                                        <span className="share-edit-del-down">
+                                                    <span className="share-edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faTrash}
                                                         />
                                                         Delete
                                                     </span>
-                                                        <span className="share-edit-del-down">
+                                                    <span className="share-edit-del-down">
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faDownload}
                                                         />
                                                         Download
                                                     </span>
-                                                    </div>
-                                                )}
-                                                <FontAwesomeIcon className="video-modal-close-btn" icon={faXmark} onClick={videoModalIsClose} />
-                                                <ReactPlayer
-                                                    url={`${video_url}${data.video_file_path}`}
-                                                    controls={true}
-                                                    playing={videoModalOpen}
-                                                    width="100%"
-                                                    height="100%"
-                                                />
-                                                <h6 className="video-title-modal">{data.title}</h6>
-                                                <p className="video-player-description">{data.description}</p>
-                                            </Modal.Body>
-                                        </Modal>
+                                                </div>
+                                            )}
+                                            <FontAwesomeIcon className="video-modal-close-btn" icon={faXmark}
+                                                             onClick={videoModalIsClose}/>
+                                            <ReactPlayer
+                                                url={`${video_url}${data.video_file_path}`}
+                                                controls={true}
+                                                playing={videoModalOpen}
+                                                width="100%"
+                                                height="100%"
+                                            />
+                                            <h6 className="video-title-modal">{data.title}</h6>
+                                            <p className="video-player-description">{data.description}</p>
+                                        </Modal.Body>
+                                    </Modal>
 
                                 </SwiperSlide>
                             ) : null;

@@ -6,6 +6,10 @@
   background-color: white;
   padding: 0 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 4;
 
   .header-logo {
     display: flex;

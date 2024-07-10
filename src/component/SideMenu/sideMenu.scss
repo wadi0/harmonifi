@@ -1,10 +1,13 @@
 .sideMenu-container {
   padding: 30px 1rem;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 0px -8px, rgba(50, 50, 93, 0.25) 5px 9px 27px -5px;
   border-bottom-right-radius: 10px;
   height: 100vh;
   padding-right: 15px;
   width: 15rem;
+  position: fixed;
+  background-color: var(--section-bg);
+  z-index: 3;
+  border-right: 3px solid whitesmoke;
 
   .sideMenu-list {
     list-style-type: none;
