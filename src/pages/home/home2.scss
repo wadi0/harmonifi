@@ -59,14 +59,16 @@
     .video-category-title {
       font-weight: 800;
       text-transform: capitalize;
-      margin: 0;
+      margin-bottom: 0;
+      margin-right: 10px;
     }
 
     .view-all-btn {
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-weight: 600;
-      }
+      padding: 5px 0px;
+      border-radius: 20px;
+      font-weight: 600;
+      width: 100px;
+    }
 
     .video-all-card {
       display: flex;
@@ -451,6 +453,10 @@
         display: none;
       }
     }
+
+    .video-card-container {
+
+    }
   }
 }
 
@@ -477,6 +483,7 @@
 
 @media only screen and (min-width: 751px) and (max-width: 1000px) {
   .home-container {
+    margin-bottom: 100px;
     padding-left: 0;
 
     .home-top {

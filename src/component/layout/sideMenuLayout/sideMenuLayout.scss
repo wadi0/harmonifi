@@ -12,15 +12,16 @@
   top: 65px;
 }
 
-@media only screen and (min-width: 50px) and (max-width: 500px) {
+@media only screen and (min-width: 0px) and (max-width: 500px) {
 
   .sideMenuLayout-container {
     .sideMenuCom {
-      bottom: 0;
+      width: 100%;
+      height: 100px;
       position: fixed;
-      max-width: 100%;
-      z-index: 11;
-      background-color: white;
+      bottom: 0;
+      z-index: 40;
+      background-color: bisque;
       top: auto;
     }
   }
@@ -30,11 +31,12 @@
 @media only screen and (min-width: 501px) and (max-width: 750px) {
   .sideMenuLayout-container {
     .sideMenuCom {
-      bottom: 0;
+      width: 100%;
+      height: 100px;
       position: fixed;
-      max-width: 100%;
-      z-index: 11;
-      background-color: white;
+      bottom: 0;
+      z-index: 40;
+      background-color: bisque;
       top: auto;
     }
   }
@@ -44,11 +46,12 @@
 
   .sideMenuLayout-container {
     .sideMenuCom {
-      bottom: 0;
+      width: 100%;
+      height: 100px;
       position: fixed;
-      max-width: 100%;
-      z-index: 11;
-      background-color: white;
+      bottom: 0;
+      z-index: 40;
+      background-color: bisque;
       top: auto;
     }
   }

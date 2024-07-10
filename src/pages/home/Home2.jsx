@@ -19,6 +19,7 @@ import {Grid, Navigation, Pagination} from "swiper/modules";
 import {Button, Modal} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import SelectField from "../../component/SelectField/SelectField.jsx";
+import Select from "react-select";
 
 const Home2 = () => {
 
@@ -31,6 +32,9 @@ const Home2 = () => {
     const [videoShareOptions, setVideoShareOptions] = useState(false)
     const [viewAllCard, setViewAllCard] = useState(false);
     const [sortListView, setSortListView] = useState(true);
+    const [moduleListLoading, setModuleListLoading] = useState(false);
+    const [moduleList, setModuleList] = useState([])
+    const [selectedModuleId, setSelectedModuleId] = useState(null);
 
 
     const [windowWidthSwiperCard, setWindowWidthSwiperCard] = useState(window.innerWidth);
@@ -169,6 +173,10 @@ const Home2 = () => {
     // -----------------------------------------------------
 
 
+
+    // -------------------------all card api ------------------------
+
+
     useEffect(() => {
         let payload = {
             module_limit: 10,
@@ -188,6 +196,46 @@ const Home2 = () => {
         })
     }, []);
 
+    // --------------------------------------------------
+
+    // ----------------------module list api----------------------------
+
+
+    useEffect(() => {
+        setModuleListLoading(true)
+        let payload = {
+            page: 1,
+            limit: 100,
+        }
+        AxiosServices.get(ApiUrlServices.MODULE_LIST, payload)
+            .then((response) => {
+                console.log(response.data.data)
+                setModuleList(response.data.data.modules)
+                let moduleAllList = response.data.data.modules.map(module => ({
+                    value: module.id,
+                    label: module.name
+                }));
+                // console.log(moduleAllList)
+                setModuleList(moduleAllList)
+            }).catch((error) => {
+            console.log(error)
+        }).finally(() => {
+            setModuleListLoading(false)
+        })
+
+    }, []);
+
+
+
+    const handleSelectChange = (selectedOption) => {
+        console.log(selectedOption)
+        setSelectedModuleId(selectedOption.value);
+        console.log("Selected Module ID:", selectedOption.value);
+    };
+
+
+    // --------------------------------------------------
+
     return (
         <div className="home-container">
             <div className="home-top">
@@ -195,8 +243,9 @@ const Home2 = () => {
                     <div className="d-flex gap-3 home-header-left">
                         <div className="home-select-field nunito-500">
                             <SelectField
-                                // options={!moduleListLoading ? moduleList : "Loading..."}
-                                // placeholder={!moduleListLoading ? "All" : "Loading..."}
+                                options={!moduleListLoading ? moduleList : "Loading..."}
+                                placeholder={!moduleListLoading ? "All" : "Loading..."}
+                                onChange={(selectedOption)=>handleSelectChange(selectedOption)}
                             />
                         </div>
                         <button className="add-module-button nunito-500 module-btn-width module-btn"

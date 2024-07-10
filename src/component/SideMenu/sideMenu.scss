@@ -77,12 +77,13 @@
   }
 }
 
-@media only screen and (min-width: 300px) and (max-width: 500px) {
+@media only screen and (min-width: 0px) and (max-width: 500px) {
   .sideMenu-container {
     padding: 0 15px;
     height: 100px;
     align-content: center;
     width: 100%;
+    border-top: 2px solid whitesmoke;
 
     .sideMenu-list {
       display: none;
@@ -101,6 +102,7 @@
     height: 100px;
     align-content: center;
     width: 100%;
+    border-top: 2px solid whitesmoke;
 
     .sideMenu-list {
       display: none;
@@ -120,6 +122,7 @@
     height: 100px;
     align-content: center;
     width: 100%;
+    border-top: 2px solid whitesmoke;
 
     .sideMenu-list {
       display: none;
