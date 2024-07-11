@@ -35,6 +35,8 @@ const Home2 = () => {
     const [moduleListLoading, setModuleListLoading] = useState(false);
     const [moduleList, setModuleList] = useState([])
     const [selectedModuleId, setSelectedModuleId] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [editDelDownId, setEditDelDownId] = useState(null)
 
 
     const [windowWidthSwiperCard, setWindowWidthSwiperCard] = useState(window.innerWidth);
@@ -42,6 +44,37 @@ const Home2 = () => {
 
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const cardRef = useRef(null);
+
+    // ----------------------------delete modal------------------------------------
+
+    const deleteModalOpen = () => {
+        setDeleteModal(true);
+        setVideoModalOpen(false);
+        console.log("klkkl")
+        console.log(editDelDownId)
+    }
+
+    const deleteModalClose = () => {
+        setDeleteModal(false);
+        setEditDelDownId(null)
+    }
+
+    const deleteMouleCard = () => {
+        AxiosServices.remove(ApiUrlServices.DELETE_MODULE_DATA_CARD(editDelDownId))
+            .then((response) =>{
+                console.log(response)
+                console.log("deleted successfully")
+                setDeleteModal(false)
+                window.location.reload()
+            }).catch((error) =>{
+            console.log(error)
+        }).finally(() =>{
+
+        })
+
+    }
+
+    // ----------------------------------------------------------------------------
 
     // -------------------------------sort list view open close ---------------------------------
 
@@ -90,6 +123,7 @@ const Home2 = () => {
             setSelectedCardId(id);
             setThreeDotToggle(true);
         }
+        setEditDelDownId(id)
         console.log("Clicked card ID:", id);
         console.log("Selected card data:", selectedData);
         // Add your logic here to handle the selected data, e.g., opening a menu with options
@@ -173,28 +207,36 @@ const Home2 = () => {
     // -----------------------------------------------------
 
 
-
     // -------------------------all card api ------------------------
 
-
     useEffect(() => {
-        let payload = {
-            module_limit: 10,
-            module_page: 1,
+        if (selectedModuleId) {
+            AxiosServices.get(ApiUrlServices.MODULE_SELECTED_DATA(selectedModuleId))
+                .then((response) => {
+                    console.log(response.data.data.module);
+                    setModuleAllCardData(response.data.data.module);
+                    // console.log(moduleAllCardData.name);
+                    setModuleVideoData(response.data.data.module.videos);
+                }).catch((error) => {
+                console.log(error);
+            });
+        } else {
+            let payload = {
+                module_limit: 10,
+                module_page: 1,
+            };
+            AxiosServices.get(ApiUrlServices.MODULE_ALL_CARD_DATA, payload)
+                .then((response) => {
+                    console.log(response.data.data);
+                    setModuleAllCardData(response.data.data.modules);
+                    let moduleDetails = response.data.data.modules.map(data => data.videos).flat();
+                    console.log(moduleDetails);
+                    setModuleVideoData(moduleDetails);
+                }).catch((error) => {
+                console.log(error);
+            });
         }
-
-        AxiosServices.get(ApiUrlServices.MODULE_ALL_CARD_DATA, payload)
-            .then((response) => {
-                console.log(response.data.data)
-                setModuleAllCardData(response.data.data.modules)
-                let moduleDetails = response.data.data.modules.map(data => data.videos).flat()
-                console.log(moduleDetails)
-                setModuleVideoData(moduleDetails)
-            }).catch((error) => {
-            console.log(error)
-        }).finally(() => {
-        })
-    }, []);
+    }, [selectedModuleId]);
 
     // --------------------------------------------------
 
@@ -226,10 +268,10 @@ const Home2 = () => {
     }, []);
 
 
-
     const handleSelectChange = (selectedOption) => {
         console.log(selectedOption)
         setSelectedModuleId(selectedOption.value);
+        console.log(selectedModuleId)
         console.log("Selected Module ID:", selectedOption.value);
     };
 
@@ -245,7 +287,7 @@ const Home2 = () => {
                             <SelectField
                                 options={!moduleListLoading ? moduleList : "Loading..."}
                                 placeholder={!moduleListLoading ? "All" : "Loading..."}
-                                onChange={(selectedOption)=>handleSelectChange(selectedOption)}
+                                onChange={(selectedOption) => handleSelectChange(selectedOption)}
                             />
                         </div>
                         <button className="add-module-button nunito-500 module-btn-width module-btn"
@@ -265,19 +307,28 @@ const Home2 = () => {
                                       icon={faAngleLeft}/> Back</span>
                 }
                 <div className="d-flex justify-content-between align-items-center gap-3">
-                    <button className={ `${sortListView ? "btn-active " : "btn-unactive add-module-button"}`} onClick={showSortView}>
+                    <button className={`${sortListView ? "btn-active " : "btn-unactive add-module-button"}`}
+                            onClick={showSortView}>
                         <FontAwesomeIcon icon={faTableCellsLarge}/>
                     </button>
 
-                    <button className={` ${sortListView ? "btn-unactive add-module-button" : "btn-active"}`} onClick={showListView}>
+                    <button className={` ${sortListView ? "btn-unactive add-module-button" : "btn-active"}`}
+                            onClick={showListView}>
                         <FontAwesomeIcon icon={faList}/>
                     </button>
                 </div>
             </div>
-            {moduleAllCardData.map((module) => (
+            {(selectedModuleId === null ? moduleAllCardData : [{
+                id: selectedModuleId,
+                videos: moduleVideoData
+            }]).map((module) => (
                 <div className="video-card-container" key={module.id}>
                     <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
-                        <h4 className="video-category-title">{module.name}</h4>
+                        {selectedModuleId ?
+                            <h4 className="video-category-title">{moduleAllCardData.name}</h4>
+                            :
+                            <h4 className="video-category-title">{module.name}</h4>
+                        }
                         <button onClick={viewAllCardShow}
                                 className="view-all-btn add-module-button">View all
                         </button>
@@ -349,7 +400,7 @@ const Home2 = () => {
                                                         />
                                                         Edit
                                                     </span>
-                                                    <span className="edit-del-down">
+                                                    <span className="edit-del-down" onClick={deleteModalOpen}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faTrash}
@@ -398,7 +449,7 @@ const Home2 = () => {
                                                         />
                                                         Edit
                                                     </span>
-                                                    <span className="share-edit-del-down">
+                                                    <span className="share-edit-del-down" onClick={deleteModalOpen}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faTrash}
@@ -440,6 +491,13 @@ const Home2 = () => {
                     </Swiper>
                 </div>
             ))}
+
+            <Modal className="delete-modal" show={deleteModal} onHide={deleteModalClose}>
+                <Modal.Body>
+                    <button onClick={deleteModalClose}>Cancel</button>
+                    <button onClick={deleteMouleCard}>Delete</button>
+                </Modal.Body>
+            </Modal>
 
             {checkedIds.length > 0 && (
                 <>

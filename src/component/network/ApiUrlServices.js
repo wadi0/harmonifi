@@ -1,7 +1,10 @@
 const ApiUrlServices = {
     MODULE_LIST : `modules`,
     MODULE_ALL_CARD_DATA : `admin/home`,
-// MODULE_LIST : `modules?page=1&limit=1000`,
+    MODULE_SELECTED_DATA : (module_id)=> `modules/${module_id}/videos`,
+    DELETE_MODULE_DATA_CARD : (videos_id)=> `videos/${videos_id}`,
+
+    // MODULE_LIST : `modules?page=1&limit=1000`,
     // ADD_TO_CART: (userId) => `course/users/${userId}/cart`,
     // CART_COURSE_COUNT: (userId) => `course/users/${userId}/cart-course-count`,
     // CART_COURSE_REMOVE: (userId,courseId) => `course/users/${userId}/cart/${courseId}`,
