@@ -21,11 +21,11 @@ import ThumbnailUpload from "../../component/thumbnailUpload/ThumbnailUpload.jsx
 import ReactPlayer from "react-player";
 import * as uuid from "uuid";
 import {Swiper, SwiperSlide} from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import 'swiper/css/grid';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
+// import 'swiper/css/scrollbar';
+// import 'swiper/css/grid';
 import {Grid, Navigation, Pagination} from "swiper/modules";
 import AxiosServices from "../../component/network/AxiosServices.js";
 import ApiUrlServices from "../../component/network/ApiUrlServices.js";
@@ -634,9 +634,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                     grid={{
                                         rows: 2,
                                     }}
-                                    // pagination={{
-                                    //     clickable: true,
-                                    // }}
                                     navigation={{
                                         nextEl: '.swiper-button-next',
                                         prevEl: '.swiper-button-prev',
