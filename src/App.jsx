@@ -13,18 +13,18 @@ import Home2 from "./pages/home/Home2.jsx";
 function App() {
 
     // const [sidebarOpen, setSidebarOpen] = useState(false);
-    // const [showModule, setShowModule] = useState(false);
-    // const [showVideo, setShowVideo] = useState(false);
+    const [showModule, setShowModule] = useState(false);
+    const [showVideo, setShowVideo] = useState(false);
     //
     // const toggleSidebar = () => {
     //     setSidebarOpen(!sidebarOpen);
     // };
     //
-    // const handleShowModule = () => setShowModule(true);
-    // const handleCloseModule = () => setShowModule(false);
-    //
-    // const handleVideoShow = () => setShowVideo(true);
-    // const handleCloseVideo = () => setShowVideo(false);
+    const handleShowModule = () => setShowModule(true);
+    const handleCloseModule = () => setShowModule(false);
+
+    const handleVideoShow = () => setShowVideo(true);
+    const handleCloseVideo = () => setShowVideo(false);
 
     return (
 
@@ -54,7 +54,15 @@ function App() {
                             />
 
                             <Route path={path.home2}
-                                   element={<Home2 />}
+                                   element={
+                                      <Home2
+                                         showModule={showModule}
+                                         handleCloseModule={handleCloseModule}
+                                         handleShowModule={handleShowModule}
+                                         showVideo={showVideo}
+                                         handleCloseVideo={handleCloseVideo}
+                                         handleVideoShow={handleVideoShow}
+                                      />}
                             />
 
 

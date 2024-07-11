@@ -19,9 +19,13 @@ import {Grid, Navigation, Pagination} from "swiper/modules";
 import {Button, Modal} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import SelectField from "../../component/SelectField/SelectField.jsx";
-import Select from "react-select";
+import Select, {components} from "react-select";
+import InputField from "../../component/InputField/InputField.jsx";
+import {useFormik} from "formik";
+import InputFileUploadDesign from "../../component/inputFileUpload/inputFileUploadDesign.jsx";
+import ThumbnailUpload from "../../component/thumbnailUpload/ThumbnailUpload.jsx";
 
-const Home2 = () => {
+const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
 
     const [moduleAllCardData, setModuleAllCardData] = useState([])
     const [moduleVideoData, setModuleVideoData] = useState([])
@@ -61,14 +65,14 @@ const Home2 = () => {
 
     const deleteMouleCard = () => {
         AxiosServices.remove(ApiUrlServices.DELETE_MODULE_DATA_CARD(editDelDownId))
-            .then((response) =>{
+            .then((response) => {
                 console.log(response)
                 console.log("deleted successfully")
                 setDeleteModal(false)
                 window.location.reload()
-            }).catch((error) =>{
+            }).catch((error) => {
             console.log(error)
-        }).finally(() =>{
+        }).finally(() => {
 
         })
 
@@ -213,10 +217,10 @@ const Home2 = () => {
         if (selectedModuleId) {
             AxiosServices.get(ApiUrlServices.MODULE_SELECTED_DATA(selectedModuleId))
                 .then((response) => {
-                    console.log(response.data.data.module);
-                    setModuleAllCardData(response.data.data.module);
-                    // console.log(moduleAllCardData.name);
-                    setModuleVideoData(response.data.data.module.videos);
+                    const module = response.data.data.module;
+                    console.log(module);
+                    setModuleAllCardData([module]);
+                    setModuleVideoData(module.videos);
                 }).catch((error) => {
                 console.log(error);
             });
@@ -227,9 +231,10 @@ const Home2 = () => {
             };
             AxiosServices.get(ApiUrlServices.MODULE_ALL_CARD_DATA, payload)
                 .then((response) => {
-                    console.log(response.data.data);
-                    setModuleAllCardData(response.data.data.modules);
-                    let moduleDetails = response.data.data.modules.map(data => data.videos).flat();
+                    const modules = response.data.data.modules;
+                    console.log(modules);
+                    setModuleAllCardData(modules);
+                    let moduleDetails = modules.map(data => data.videos).flat();
                     console.log(moduleDetails);
                     setModuleVideoData(moduleDetails);
                 }).catch((error) => {
@@ -267,16 +272,69 @@ const Home2 = () => {
 
     }, []);
 
-
     const handleSelectChange = (selectedOption) => {
-        console.log(selectedOption)
-        setSelectedModuleId(selectedOption.value);
-        console.log(selectedModuleId)
-        console.log("Selected Module ID:", selectedOption.value);
+        setSelectedModuleId(selectedOption ? selectedOption.value : null);
+        // console.log(selectedOption);
+        console.log("Selected Module ID:", selectedOption ? selectedOption.value : null);
     };
 
 
     // --------------------------------------------------
+
+    // --------------------add module------------------------------------
+
+    const moduleFormValidate = (values) => {
+        const errors = {};
+        if (!values.moduleName) {
+            errors.moduleName = "Module name is required";
+        }
+        return errors;
+    };
+
+    const submitModuleForm = (values, {resetForm}) => {
+        const payload = {
+            name: values.moduleName,
+        };
+        AxiosServices.post(ApiUrlServices.MODULE_LIST, payload)
+            .then((response) => {
+                console.log(response);
+                resetForm();
+                handleCloseModule(true)
+            }).catch((error) => {
+            console.log(error);
+        }).finally(() => {
+
+        })
+    };
+
+    const moduleForm = useFormik({
+        initialValues: {
+            moduleName: "",
+        },
+        validateOnChange: true,
+        validateOnBlur: true,
+        validate: moduleFormValidate,
+        onSubmit: submitModuleForm,
+    });
+
+    // ----------------------------------------------------------------
+
+    const CustomDropdownIndicator = (props) => {
+        return (
+            <components.DropdownIndicator {...props}>
+                {/* Replace this with your custom icon */}
+                <span>🔽</span>
+            </components.DropdownIndicator>
+        );
+    };
+
+    // ----------------------------------------------------------------
+
+    const removeSelectModule = () => {
+        setSelectedModuleId(null)
+        console.log("nullllllllllllllllllllll")
+    }
+
 
     return (
         <div className="home-container">
@@ -284,19 +342,33 @@ const Home2 = () => {
                 {!viewAllCard ?
                     <div className="d-flex gap-3 home-header-left">
                         <div className="home-select-field nunito-500">
-                            <SelectField
-                                options={!moduleListLoading ? moduleList : "Loading..."}
+                            {/*                <SelectField*/}
+                            {/*                    options={!moduleListLoading ? moduleList : "Loading..."}*/}
+                            {/*                    placeholder={!moduleListLoading ? "All" : "Loading..."}*/}
+                            {/*                    onChange={(selectedOption) => handleSelectChange(selectedOption)}*/}
+                            {/*                />*/}
+                            {/*                {selectedModuleId && (*/}
+                            {/*    <FontAwesomeIcon className="selected-option-close" icon={faXmark} onClick={removeSelectModule} />*/}
+                            {/*)}*/}
+
+                            <Select
+                                options={!moduleListLoading ? moduleList : []}
                                 placeholder={!moduleListLoading ? "All" : "Loading..."}
-                                onChange={(selectedOption) => handleSelectChange(selectedOption)}
+                                onChange={handleSelectChange}
+                                value={moduleList.find(option => option.value === selectedModuleId)}
+                                isClearable
+                                classNamePrefix="react-select"
                             />
+
+
                         </div>
                         <button className="add-module-button nunito-500 module-btn-width module-btn"
-                            // onClick={handleShowModule}
+                                onClick={handleShowModule}
                         >
                             <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
                         </button>
                         <button className="upload-module-button nunito-500 module-btn-width upload-video-btn"
-                            // onClick={handleVideoShow}
+                                onClick={handleVideoShow}
                         >
                             <FontAwesomeIcon icon={faVideo}/><span className="ms-2">Upload Video</span>
                         </button>
@@ -320,15 +392,12 @@ const Home2 = () => {
             </div>
             {(selectedModuleId === null ? moduleAllCardData : [{
                 id: selectedModuleId,
+                name: moduleAllCardData.length > 0 ? moduleAllCardData[0].name : '', // Assuming name is in the moduleAllCardData
                 videos: moduleVideoData
             }]).map((module) => (
                 <div className="video-card-container" key={module.id}>
                     <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
-                        {selectedModuleId ?
-                            <h4 className="video-category-title">{moduleAllCardData.name}</h4>
-                            :
-                            <h4 className="video-category-title">{module.name}</h4>
-                        }
+                        <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
                         <button onClick={viewAllCardShow}
                                 className="view-all-btn add-module-button">View all
                         </button>
@@ -393,7 +462,7 @@ const Home2 = () => {
                                             {selectedCardId === data.id && threeDotToggle && (
 
                                                 <div className="edit-del-down-box">
-                                                    <span className="edit-del-down">
+                                                    <span className="edit-del-down" onClick={handleVideoShow}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faPen}
@@ -442,7 +511,7 @@ const Home2 = () => {
                                                         <span className="share-edit-del-down">
                                                             <FontAwesomeIcon className="me-2" icon={faShare}/> Share
                                                         </span>
-                                                    <span className="share-edit-del-down">
+                                                    <span className="share-edit-del-down" onClick={handleVideoShow}>
                                                         <FontAwesomeIcon
                                                             className="me-2"
                                                             icon={faPen}
@@ -492,12 +561,141 @@ const Home2 = () => {
                 </div>
             ))}
 
+            {/*-------------------------delete modal----------------------*/}
             <Modal className="delete-modal" show={deleteModal} onHide={deleteModalClose}>
                 <Modal.Body>
                     <button onClick={deleteModalClose}>Cancel</button>
                     <button onClick={deleteMouleCard}>Delete</button>
                 </Modal.Body>
             </Modal>
+
+            {/*--------------------------------------------------------------------*/}
+            {/*------------------------add module modal--------------------------*/}
+
+            <Modal className="module-modal-container" show={showModule} onHide={handleCloseModule}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Module</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form onSubmit={moduleForm.handleSubmit}>
+                        <label className="module-label">Module Name</label>
+                        <InputField
+                            id="moduleName"
+                            placeholder='Module Name'
+                            textType="text"
+                            inputName="moduleName"
+                            asterisk={true}
+                            whiteSpace={false}
+                            onBlur={moduleForm.handleBlur}
+                            value={moduleForm.values.moduleName}
+                            onchangeCallback={moduleForm.handleChange}
+                            inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
+                            requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
+                            requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
+                        />
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button
+                        type="button"
+                        // btnText="Cancel"
+                        className="cancelBtn add-module-button"
+                        onClick={handleCloseModule}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        // btnText="Save"
+                        className="saveBtn add-module-button"
+                        onClick={moduleForm.handleSubmit}
+                    >Save
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+            {/*------------------------------------------------------------------*/}
+
+            {/*-----------------upload modal----------------------*/}
+
+            <Modal className="video-modal-container" show={showVideo} onHide={handleCloseVideo}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Upload video</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="video-modal">
+                        <div className="select-add-module">
+                            <div className="video-modal-select-field">
+                                {/*<SelectField*/}
+                                {/*    label="Select module"*/}
+                                {/*    labelClass="module-label-class"*/}
+                                {/*    // options={selectModuleOptionVideo}*/}
+                                {/*    placeholder="All"*/}
+                                {/*/>*/}
+                                <Select
+                                    options={moduleList}
+                                    placeholder="All"
+                                    onChange={handleSelectChange}
+                                    components={{DropdownIndicator: CustomDropdownIndicator}}
+                                />
+                            </div>
+                            <button className="add-module-button upload-video-add-module" onClick={handleShowModule}>
+                                <FontAwesomeIcon icon={faPlus}/><span className="ms-2">Add Module</span>
+                            </button>
+                        </div>
+                        {/*<form onSubmit={moduleForm.handleSubmit}>*/}
+                        {/*    <label className="module-label">Module Name</label>*/}
+                        <InputField
+                            labelName="Title"
+                            labelClass="title-label-class"
+                            inputClassName="video-modal-input-title"
+                            id="title"
+                            placeholder='Title'
+                            textType="text"
+                            inputName="title"
+                            asterisk={true}
+                            whiteSpace={false}
+                            // onBlur={moduleForm.handleBlur}
+                            // value={moduleForm.values.moduleName}
+                            // onchangeCallback={moduleForm.handleChange}
+                            // inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
+                            // requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
+                            // requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
+                        />
+                        {/*</form>*/}
+                        <div className="file-upload-component">
+                            <div>
+                                <h5 className="title-name nunito-700">Dr. Rohrer</h5>
+                                <InputFileUploadDesign/>
+                            </div>
+                            <div>
+                                <h5 className="thumbnail-name nunito-700">Thumbnail</h5>
+                                <ThumbnailUpload/>
+                            </div>
+                        </div>
+                        <label className="textarea-label">Description</label>
+                        <textarea placeholder="Description"></textarea>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button
+                        type="button"
+                        // btnText="Cancel"
+                        className="cancelBtn add-module-button"
+                        onClick={handleCloseVideo}
+                    >Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        // btnText="Save"
+                        className="saveBtn add-module-button"
+                        onClick={handleCloseVideo}
+                    >Save
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+            {/*--------------------------------------------------------*/}
 
             {checkedIds.length > 0 && (
                 <>
@@ -514,45 +712,3 @@ const Home2 = () => {
 };
 
 export default Home2;
-
-
-{/*<Modal show={videoModalOpen && selectedVideoId === data.id}*/
-}
-{/*                                   onHide={videoModalIsClose}>*/
-}
-{/*                                <Modal.Header closeButton>*/
-}
-{/*                                    <Modal.Title>{data.title}</Modal.Title>*/
-}
-{/*                                </Modal.Header>*/
-}
-{/*                                <Modal.Body>*/
-}
-{/*                                    <ReactPlayer*/
-}
-{/*                                        url={`${video_url}${data.video_file_path}`}*/
-}
-{/*                                        controls={true}*/
-}
-{/*                                        playing={videoModalOpen}*/
-}
-{/*                                        width="100%"*/
-}
-{/*                                        height="100%"*/
-}
-{/*                                    />*/
-}
-{/*                                </Modal.Body>*/
-}
-{/*                                <Modal.Footer>*/
-}
-{/*                                    <button onClick={videoModalIsClose}>*/
-}
-{/*                                        Close*/
-}
-{/*                                    </button>*/
-}
-{/*                                </Modal.Footer>*/
-}
-{/*                            </Modal>*/
-}
