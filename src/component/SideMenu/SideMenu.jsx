@@ -10,11 +10,11 @@ const SideMenu = ({ onUploadVideoClick, onAddModuleClick }) => {
     return (
         <div className="sideMenu-container">
             <ul className="sideMenu-list">
+                {/*<li>*/}
+                {/*    <FontAwesomeIcon icon={faHouse}/><span className="ms-3 nunito-600">Home</span>*/}
+                {/*</li>*/}
                 <li>
-                    <FontAwesomeIcon icon={faHouse}/><span className="ms-3 nunito-600">Home</span>
-                </li>
-                <li>
-                    <Link to={path.home2} ><FontAwesomeIcon icon={faHouse}/><span className="ms-3 nunito-600">Home</span></Link>
+                    <Link className="link-side-menu" to={path.home2} ><FontAwesomeIcon icon={faHouse}/><span className="ms-3 nunito-600">Home</span></Link>
                 </li>
             </ul>
             <div className="bottom-menu">

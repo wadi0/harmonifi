@@ -88,15 +88,13 @@
     }
 
     .video-all-card {
-      display: flex;
-      gap: 21.5px;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-      //position: relative;
+      display: grid;
+      grid-template-columns: 24% 24% 24% 24%;
+      justify-content: space-between;
+      overflow: hidden;
 
       .single-video-card {
-        //max-width: 24%;
-        //margin-right: 21.5px !important;
+        margin-bottom: 20px;
 
         .video-thumbnail {
           position: relative;
@@ -222,7 +220,7 @@
         z-index: 1;
         top: 50%;
         left: 0;
-        transform: translateY(-90%);
+        transform: translateY(-100%);
         background-color: whitesmoke;
         font-size: 20px;
         border-radius: 50%;
@@ -275,6 +273,9 @@
   }
 
   .list-video-all-Card {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    justify-content: space-between;
 
     .swiper-wrapper {
       flex-direction: initial !important;
@@ -282,14 +283,37 @@
 
     .sort-single-video-card {
       display: grid;
-      grid-template-columns: 40% 60%;
+      grid-template-columns: 40% 43%;
+      //grid-template-columns: 40% 60%;
       gap: 20px;
       margin-top: 0 !important;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      position: relative;
 
       .video-thumbnail {
 
         .video-thumbnail-img {
+          //position: relative;
+
+          .overly-control {
+            position: relative;
+
+            .overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0); /* Initially transparent */
+              transition: background 0.3s ease; /* Smooth transition */
+              border-radius: 5px;
+              z-index: 9999;
+            }
+
+            &:hover .overlay {
+              background: rgba(0, 0, 0, 0.31);
+            }
+          }
 
           img {
             width: 100%;
@@ -297,24 +321,9 @@
             object-fit: cover;
           }
 
-          .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 40%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0); /* Initially transparent */
-            transition: background 0.3s ease; /* Smooth transition */
-            border-radius: 5px;
-          }
-
-          &:hover .overlay {
-            background: rgba(0, 0, 0, 0.31);
-          }
-
           .play-icon {
             position: absolute;
-            left: 20%;
+            left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
             font-size: 40px;
@@ -354,9 +363,9 @@
           //  display: flex;
           //}
 
-          &:hover .play-icon, &:hover .video-checkbox, &:hover .three-dot-option {
-            display: flex;
-          }
+          //&:hover .play-icon, &:hover .video-checkbox, &:hover .three-dot-option {
+          //  display: flex;
+          //}
 
           .message-angel {
             rotate: 30deg;
@@ -523,6 +532,7 @@
 
 //-----modal video player--------------
 
+
 .video-player-modal {
 
   .modal-content {
@@ -604,6 +614,27 @@
 
 }
 
+//----------------------file upload modal------------------------------------------
+
+
+//.video-modal-select-field {
+//  width: 100%;
+//
+//  .css-13cymwt-control {
+//    height: 45px !important;
+//  }
+//}
+//
+//.select-add-module {
+//  display: flex;
+//  align-items: center;
+//  justify-content: space-between;
+//  gap: 15px;
+//  margin-bottom: 20px;
+//}
+
+//----------------------------------------------------------------
+
 
 @media only screen and (min-width: 0px) and (max-width: 500px) {
   .home-container {
@@ -622,8 +653,31 @@
       }
     }
 
-    .video-card-container {
+    .video-category-title {
+      font-size: 16px;
+    }
 
+    .video-all-card {
+      grid-template-columns: 48% 48% !important;
+    }
+
+    .list-video-all-Card {
+      .video-checkbox {
+        left: 5px !important;
+        top: 5px !important;
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      .three-dot-option {
+        right: 0px !important;
+      }
+    }
+
+  }
+  .video-modal-container {
+    .add-module-btn-text {
+      display: none;
     }
   }
 }
@@ -644,6 +698,10 @@
       .module-btn, .upload-video-btn {
         display: none;
       }
+    }
+
+    .video-all-card {
+      grid-template-columns: 32% 32% 32% !important;
     }
   }
 }

@@ -39,30 +39,30 @@ function App() {
                         <Route path="/"
                                element={<SideMenuLayout
                                    // isOpen={sidebarOpen}
-                                   //                      onUploadVideoClick={handleVideoShow}
-                                   //                      onAddModuleClick={handleShowModule}
+                                   onUploadVideoClick={handleVideoShow}
+                                   onAddModuleClick={handleShowModule}
                                />}>
-                            <Route path={path.home}
-                                   element={<Home
-                                       // showModule={showModule}
-                                       //            handleCloseModule={handleCloseModule}
-                                       //            handleShowModule={handleShowModule}
-                                       //            showVideo={showVideo}
-                                       //            handleCloseVideo={handleCloseVideo}
-                                       //            handleVideoShow={handleVideoShow}
-                                   />}
-                            />
+                            {/*<Route path={path.home}*/}
+                            {/*       element={<Home*/}
+                            {/*           // showModule={showModule}*/}
+                            {/*           //            handleCloseModule={handleCloseModule}*/}
+                            {/*           //            handleShowModule={handleShowModule}*/}
+                            {/*           //            showVideo={showVideo}*/}
+                            {/*           //            handleCloseVideo={handleCloseVideo}*/}
+                            {/*           //            handleVideoShow={handleVideoShow}*/}
+                            {/*       />}*/}
+                            {/*/>*/}
 
                             <Route path={path.home2}
                                    element={
-                                      <Home2
-                                         showModule={showModule}
-                                         handleCloseModule={handleCloseModule}
-                                         handleShowModule={handleShowModule}
-                                         showVideo={showVideo}
-                                         handleCloseVideo={handleCloseVideo}
-                                         handleVideoShow={handleVideoShow}
-                                      />}
+                                       <Home2
+                                           showModule={showModule}
+                                           handleCloseModule={handleCloseModule}
+                                           handleShowModule={handleShowModule}
+                                           showVideo={showVideo}
+                                           handleCloseVideo={handleCloseVideo}
+                                           handleVideoShow={handleVideoShow}
+                                       />}
                             />
 
 

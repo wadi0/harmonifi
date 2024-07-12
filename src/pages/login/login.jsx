@@ -31,7 +31,7 @@ const Login = () => {
             password: values.password
         }
         console.log(payload)
-        navigate(path.home)
+        navigate(path.home2)
     }
 
     const loginForm = useFormik({
