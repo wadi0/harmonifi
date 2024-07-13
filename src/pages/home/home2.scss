@@ -635,6 +635,11 @@
 
 //----------------------------------------------------------------
 
+.disabled-button {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
 
 @media only screen and (min-width: 0px) and (max-width: 500px) {
   .home-container {
