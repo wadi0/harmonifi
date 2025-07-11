@@ -520,79 +520,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                                                 </div>
                                                 <h6 className="nunito-700 mt-2 mb-0 text-capitalize">{data.title}</h6>
                                             </div>
-                                        {/*    <Modal className="video-player-modal" show={modalIsOpen}*/}
-                                        {/*           onHide={closeModal}>*/}
-                                        {/*        <Modal.Body>*/}
-                                        {/*            <div className="video-player-container">*/}
-                                        {/*                <div className="close-option-icon">*/}
-                                        {/*                    <div>*/}
-                                        {/*<span onClick={shareEditDelDownload}>*/}
-                                        {/*    <FontAwesomeIcon*/}
-                                        {/*        className="three-dot-option option-close"*/}
-                                        {/*        icon={faEllipsisVertical}*/}
-                                        {/*    />*/}
-                                        {/*</span>*/}
-                                        {/*                        {shareEditDelDown && (*/}
-                                        {/*                            <div className="share-all-option-player">*/}
-                                        {/*                                <div>*/}
-                                        {/*                                    <FontAwesomeIcon*/}
-                                        {/*                                        className="background-player-option"*/}
-                                        {/*                                        icon={faPlay}*/}
-                                        {/*                                    />*/}
-                                        {/*                                </div>*/}
-                                        {/*                                <div className="player-share-icon-option">*/}
-                                        {/*            <span className="share-edit-del-down">*/}
-                                        {/*            <FontAwesomeIcon*/}
-                                        {/*                className="me-2"*/}
-                                        {/*                icon={faShare}*/}
-                                        {/*            />*/}
-                                        {/*            Share*/}
-                                        {/*        </span>*/}
-                                        {/*                                    <span className="share-edit-del-down"*/}
-                                        {/*                                          onClick={handleVideoShow}>*/}
-                                        {/*            <FontAwesomeIcon*/}
-                                        {/*                className="me-2"*/}
-                                        {/*                icon={faPen}*/}
-                                        {/*            />*/}
-                                        {/*            Edit*/}
-                                        {/*        </span>*/}
-                                        {/*                                    <span className="share-edit-del-down">*/}
-                                        {/*                <FontAwesomeIcon*/}
-                                        {/*                    className="me-2"*/}
-                                        {/*                    icon={faTrash}*/}
-                                        {/*                />*/}
-                                        {/*                Delete*/}
-                                        {/*            </span>*/}
-                                        {/*                                    <span className="share-edit-del-down">*/}
-                                        {/*                <FontAwesomeIcon*/}
-                                        {/*                    className="me-2"*/}
-                                        {/*                    icon={faDownload}*/}
-                                        {/*                />*/}
-                                        {/*                Download*/}
-                                        {/*            </span>*/}
-                                        {/*                                </div>*/}
-                                        {/*                            </div>*/}
-                                        {/*                        )}*/}
-                                        {/*                    </div>*/}
-                                        {/*                    <span className="ms-3" onClick={closeModal}>*/}
-                                        {/*    <FontAwesomeIcon className="option-close" icon={faXmark}/>*/}
-                                        {/*</span>*/}
-                                        {/*                </div>*/}
-                                        {/*                <div className="video-player-title">*/}
-                                        {/*                    <ReactPlayer*/}
-                                        {/*                        key={data.id}*/}
-                                        {/*                        url={`${video_url}${data.video_file_path}`}*/}
-                                        {/*                        controls={true}*/}
-                                        {/*                        playing={modalIsOpen}*/}
-                                        {/*                        width="100%"*/}
-                                        {/*                        height="100%"*/}
-                                        {/*                    />*/}
-                                        {/*                    <h6 className="text-capitalize nunito-700 mt-2 ps-2 pe-2">{currentVideoUrl.title}</h6>*/}
-                                        {/*                </div>*/}
-                                        {/*            </div>*/}
-                                        {/*        </Modal.Body>*/}
-                                        {/*    </Modal>*/}
-
                                         </SwiperSlide>
                                     )}
                                     {sortListView ?
@@ -734,15 +661,11 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         </>
                         : null
                     }
-                    {/*<div className="swiper-button-prev"></div>*/}
-                    {/*<div className="swiper-button-next"></div>*/}
 
                     {/*------------view all data---------------------------*/}
 
                     {viewAllCard ?
-                        <div className={sortListView ? 'video-all-card' : 'list-video-all-Card'}
-                            // className={sortListView ? (!viewAllCard ? 'video-all-card' : 'view-all-video-card') : 'list-video-all-Card'}
-                        >
+                        <div className={sortListView ? 'video-all-card' : 'list-video-all-Card'}>
                             {videoThumbnail.map((thumbnail, index) =>
                                 <div className="single-video-card" key={thumbnail.id}>
                                     <div className={sortListView ? "card-check-option" : "list-card-check-option"}>
@@ -820,15 +743,6 @@ const Home = ({showModule, handleCloseModule, handleShowModule, showVideo, handl
                         : null
                     }
                 </div>
-
-
-                {/*<div className="no-data-box">*/}
-                {/*    <FontAwesomeIcon className="empty-box" icon={faBoxOpen} />*/}
-                {/*    <span>No Video</span>*/}
-                {/*</div>*/}
-
-                {/*<GooglePayComponent/>*/}
-
             </div>
 
 

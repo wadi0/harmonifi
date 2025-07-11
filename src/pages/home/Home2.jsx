@@ -11,7 +11,7 @@ import {
     faEllipsisVertical, faList,
     faPen,
     faPlay, faPlus, faShare, faSpinner, faTableCellsLarge,
-    faTrash, faVideo, faXmark
+    faTrash, faVideo, faXmark,faClose
 } from "@fortawesome/free-solid-svg-icons";
 import {image_url, video_url} from "../../config/config.js";
 import AxiosServices from "../../component/network/AxiosServices.js";
@@ -30,6 +30,7 @@ import 'swiper/css';
 // import 'swiper/css/pagination';
 // import 'swiper/css/scrollbar';
 import 'swiper/css/grid';
+import {Dialog} from "@headlessui/react";
 
 const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
 
@@ -48,6 +49,8 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
     const [deleteModal, setDeleteModal] = useState(false);
     const [editDelDownId, setEditDelDownId] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
+    const [hoveredCardId, setHoveredCardId] = useState(null);
+
 
 
     const [windowWidthSwiperCard, setWindowWidthSwiperCard] = useState(window.innerWidth);
@@ -149,18 +152,16 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
     // -------------------------option icons ------------------------------
 
     const editDelDownload = (id) => {
-        const selectedData = moduleVideoData.find(video => video.id === id);
-        if (selectedCardId === id) {
-            setThreeDotToggle(!threeDotToggle);
-        } else {
-            setSelectedCardId(id);
-            setThreeDotToggle(true);
-        }
-        setEditDelDownId(id)
-        console.log("Clicked card ID:", id);
-        console.log("Selected card data:", selectedData);
-        // Add your logic here to handle the selected data, e.g., opening a menu with options
-    };
+  const selectedData = moduleVideoData.find(video => video.id === id);
+  if (selectedCardId === id) {
+    setThreeDotToggle(!threeDotToggle);
+  } else {
+    setSelectedCardId(id);
+    setThreeDotToggle(true);
+  }
+  setEditDelDownId(id);
+};
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -388,6 +389,17 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
         );
     };
 
+    useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (!e.target.closest('.three-dot-option') && !e.target.closest('.edit-del-down-box')) {
+      setThreeDotToggle(false);
+    }
+  };
+  document.addEventListener('click', handleClickOutside);
+  return () => document.removeEventListener('click', handleClickOutside);
+}, []);
+
+
     // ----------------------------------------------------------------
 
 
@@ -454,10 +466,14 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                         <div className="video-card-container" key={module.id}>
                                             <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
                                                 <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
-                                                <button
-                                                    onClick={() => viewAllCardShow(module.id)}
-                                                    className="view-all-btn add-module-button">View all
-                                                </button>
+                                                {!viewAllCard && (
+  <button
+    onClick={() => viewAllCardShow(module.id)}
+    className="view-all-btn add-module-button"
+  >
+    View all
+  </button>
+)}
                                             </div>
                                             <Swiper
                                                 className="video-all-card"
@@ -491,7 +507,11 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                         <SwiperSlide className="single-video-card" key={data.id}
                                                                      ref={cardRef}>
                                                             <div className="video-thumbnail">
-                                                                <div className="video-thumbnail-img">
+                                                                <div
+                                                                    className="video-thumbnail-img"
+                                                                    onMouseEnter={() => setHoveredCardId(data.id)}
+                                                                    onMouseLeave={() => setHoveredCardId(null)}
+                                                                >
                                                                     <img
                                                                         onClick={() => videoModalIsOpen(data.id)}
                                                                         src={`${image_url}${data.thumbnail_path}`}
@@ -507,35 +527,44 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                                         onChange={() => handleCheckboxChange(data.id)}
                                                                     />
 
-                                                                    <FontAwesomeIcon
-                                                                        onClick={() => editDelDownload(data.id)}
-                                                                        className={`three-dot-option ${selectedCardId === data.id && threeDotToggle ? 'three-dot-visibility' : ''}`}
-                                                                        icon={faEllipsisVertical}
-                                                                    />
+                                                                     {hoveredCardId === data.id && !(selectedCardId === data.id && threeDotToggle) && (
+                                                                        <FontAwesomeIcon
+                                                                          onClick={() => editDelDownload(data.id)}
+                                                                          className="three-dot-option"
+                                                                          icon={faEllipsisVertical}
+                                                                        />
+                                                                      )}
 
-                                                                    {selectedCardId === data.id && threeDotToggle && (
-                                                                        <FontAwesomeIcon className="message-angel"
-                                                                                         icon={faPlay}/>
-                                                                    )}
+                                                                    {/*{selectedCardId === data.id && threeDotToggle && (*/}
+                                                                    {/*    <FontAwesomeIcon className="message-angel"*/}
+                                                                    {/*                     icon={faPlay}/>*/}
+                                                                    {/*)}*/}
 
 
                                                                     {selectedCardId === data.id && threeDotToggle && (
                                                                         <div className="edit-del-down-box">
-                                                                            <span className="edit-del-down" onClick={handleVideoShow}>
-                                                                                <FontAwesomeIcon className="me-2" icon={faPen}/>
-                                                                                Edit
+                                                                            <span className="edit-del-down"
+                                                                                  onClick={handleVideoShow}>
+                                                                                <FontAwesomeIcon icon={faPen} color='lightseagreen'/>
+                                                                                {/*Edit*/}
                                                                             </span>
-                                                                            <span className="edit-del-down" onClick={deleteModalOpen}>
-                                                                                <FontAwesomeIcon className="me-2" icon={faTrash}/>
-                                                                                Delete
+                                                                            <span className="edit-del-down"
+                                                                                  onClick={deleteModalOpen}>
+                                                                                <FontAwesomeIcon icon={faTrash} color='darkorange'/>
+                                                                                {/*Delete*/}
                                                                             </span>
                                                                             <span className="edit-del-down">
-                                                                                <FontAwesomeIcon className="me-2" icon={faDownload}/>
-                                                                                Download
+                                                                                <FontAwesomeIcon icon={faDownload} color='blue'/>
+                                                                                {/*Download*/}
+                                                                            </span>
+                                                                            <span className="edit-del-down" onClick={() => editDelDownload(data.id)}>
+                                                                                <FontAwesomeIcon icon={faClose} color='red'/>
+                                                                                {/*Close*/}
                                                                             </span>
                                                                         </div>
                                                                     )}
-                                                                    <div className="overlay" onClick={() => videoModalIsOpen(data.id)}></div>
+                                                                    <div className="overlay"
+                                                                         onClick={() => videoModalIsOpen(data.id)}></div>
                                                                 </div>
                                                             </div>
                                                             <h6 className="nunito-600 mt-2 mb-0 text-capitalize text-truncate">{data.title}</h6>
@@ -639,9 +668,14 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                     <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
                                         <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
                                         <div className="d-flex justify-content-between align-items-center gap-3">
-                                            <button onClick={() => viewAllCardShow(module.id)}
-                                                    className="view-all-btn add-module-button">View all
-                                            </button>
+                                            {!viewAllCard && (
+  <button
+    onClick={() => viewAllCardShow(module.id)}
+    className="view-all-btn add-module-button"
+  >
+    View all
+  </button>
+)}
                                             <div className="swiper-button-prev">
                                                 <FontAwesomeIcon className="" icon={faChevronLeft}/>
                                             </div>
@@ -837,9 +871,14 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                         <div className="video-card-container" key={module.id}>
                             <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
                                 <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
-                                <button onClick={() => viewAllCardShow(module.id)}
-                                        className="view-all-btn add-module-button">View all
-                                </button>
+                                {!viewAllCard && (
+  <button
+    onClick={() => viewAllCardShow(module.id)}
+    className="view-all-btn add-module-button"
+  >
+    View all
+  </button>
+)}
                             </div>
                             <div className={sortListView ? "video-all-card" : "list-video-all-Card"}>
                                 {moduleVideoData.map((data) => {
@@ -1004,7 +1043,7 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                     <Modal.Title>Module</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <form onSubmit={moduleForm.handleSubmit}>
+                    <form onSubmit={moduleForm.handleSubmit}>
                         <label className="module-label">Module Name</label>
                         <InputField
                             id="moduleName"
@@ -1048,85 +1087,83 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
 
             {/*-----------------upload modal----------------------*/}
 
-            <Modal className="video-modal-container" show={showVideo} onHide={handleCloseVideo}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Upload video</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="video-modal">
-                        <div className="select-add-module">
-                            <div className="video-modal-select-field">
-                                {/*<SelectField*/}
-                                {/*    label="Select module"*/}
-                                {/*    labelClass="module-label-class"*/}
-                                {/*    // options={selectModuleOptionVideo}*/}
-                                {/*    placeholder="All"*/}
-                                {/*/>*/}
-                                <Select
-                                    className="modal-module-select"
-                                    options={moduleList}
-                                    placeholder="All"
-                                    onChange={handleSelectChange}
-                                    components={{DropdownIndicator: CustomDropdownIndicator}}
+            <Dialog open={showVideo} onClose={handleCloseVideo} className="video-upload-modal-overlay">
+                <div className="video-upload-modal-wrapper">
+                    <Dialog.Panel className="video-upload-modal-container">
+                        <Dialog.Title className="video-modal-title">Upload video</Dialog.Title>
+                        <div className="video-modal">
+                            <div className="select-add-module">
+                                <div className="video-modal-select-field">
+                                    <Select
+                                        className="modal-module-select"
+                                        classNamePrefix="modal-module-select"
+                                        options={moduleList}
+                                        placeholder="All"
+                                        onChange={handleSelectChange}
+                                        components={{DropdownIndicator: CustomDropdownIndicator}}
+                                    />
+                                </div>
+                                <button className="add-module-button upload-video-add-module"
+                                        onClick={handleShowModule}>
+                                    <FontAwesomeIcon icon={faPlus}/><span
+                                    className="ms-2 add-module-btn-text">Add Module</span>
+                                </button>
+                            </div>
+                            {/*<form onSubmit={moduleForm.handleSubmit}>*/}
+                            {/*    <label className="module-label">Module Name</label>*/}
+                            <div className='mt-3 mb-2'>
+                                <InputField
+                                    labelName="Title"
+                                    labelClass="title-label-class"
+                                    inputClassName="video-modal-input-title"
+                                    id="title"
+                                    placeholder='Title'
+                                    textType="text"
+                                    inputName="title"
+                                    asterisk={true}
+                                    whiteSpace={false}
+                                    // onBlur={moduleForm.handleBlur}
+                                    // value={moduleForm.values.moduleName}
+                                    // onchangeCallback={moduleForm.handleChange}
+                                    // inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
+                                    // requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
+                                    // requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
                                 />
                             </div>
-                            <button className="add-module-button upload-video-add-module" onClick={handleShowModule}>
-                                <FontAwesomeIcon icon={faPlus}/><span
-                                className="ms-2 add-module-btn-text">Add Module</span>
+                            {/*</form>*/}
+                            <div className="file-upload-component mt-3">
+                                <div>
+                                    <h5 className="title-name nunito-700">Dr. Rohrer</h5>
+                                    <InputFileUploadDesign/>
+                                </div>
+                                <div className="mt-3">
+                                    <h5 className="thumbnail-name nunito-700">Thumbnail</h5>
+                                    <ThumbnailUpload/>
+                                </div>
+                            </div>
+                            <label className="textarea-label nunito-700 mt-3">Description</label>
+                            <textarea className="custom-textarea" placeholder="Description" rows={4}></textarea>
+                        </div>
+
+                        <div className="video-modal-footer">
+                            <button
+                                type="button"
+                                // btnText="Cancel"
+                                className="cancelBtn add-modal-button add-module-button"
+                                onClick={handleCloseVideo}
+                            >Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                // btnText="Save"
+                                className="saveBtn add-modal-button add-module-button"
+                                onClick={handleCloseVideo}
+                            >Save
                             </button>
                         </div>
-                        {/*<form onSubmit={moduleForm.handleSubmit}>*/}
-                        {/*    <label className="module-label">Module Name</label>*/}
-                        <InputField
-                            labelName="Title"
-                            labelClass="title-label-class"
-                            inputClassName="video-modal-input-title"
-                            id="title"
-                            placeholder='Title'
-                            textType="text"
-                            inputName="title"
-                            asterisk={true}
-                            whiteSpace={false}
-                            // onBlur={moduleForm.handleBlur}
-                            // value={moduleForm.values.moduleName}
-                            // onchangeCallback={moduleForm.handleChange}
-                            // inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
-                            // requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
-                            // requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
-                        />
-                        {/*</form>*/}
-                        <div className="file-upload-component">
-                            <div>
-                                <h5 className="title-name nunito-700">Dr. Rohrer</h5>
-                                <InputFileUploadDesign/>
-                            </div>
-                            <div>
-                                <h5 className="thumbnail-name nunito-700">Thumbnail</h5>
-                                <ThumbnailUpload/>
-                            </div>
-                        </div>
-                        <label className="textarea-label">Description</label>
-                        <textarea placeholder="Description"></textarea>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button
-                        type="button"
-                        // btnText="Cancel"
-                        className="cancelBtn add-module-button"
-                        onClick={handleCloseVideo}
-                    >Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        // btnText="Save"
-                        className="saveBtn add-module-button"
-                        onClick={handleCloseVideo}
-                    >Save
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
+                    </Dialog.Panel>
+                </div>
+            </Dialog>
             {/*--------------------------------------------------------*/}
 
             {checkedIds.length > 0 && (

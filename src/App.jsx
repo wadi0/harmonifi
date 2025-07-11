@@ -20,7 +20,10 @@ function App() {
     //     setSidebarOpen(!sidebarOpen);
     // };
     //
-    const handleShowModule = () => setShowModule(true);
+    const handleShowModule = () =>{
+        setShowModule(true)
+        setShowVideo(false)
+    };
     const handleCloseModule = () => setShowModule(false);
 
     const handleVideoShow = () => setShowVideo(true);
