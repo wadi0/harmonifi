@@ -11,7 +11,7 @@ import {
     faEllipsisVertical, faList,
     faPen,
     faPlay, faPlus, faShare, faSpinner, faTableCellsLarge,
-    faTrash, faVideo, faXmark,faClose
+    faTrash, faVideo, faXmark, faClose
 } from "@fortawesome/free-solid-svg-icons";
 import {image_url, video_url} from "../../config/config.js";
 import AxiosServices from "../../component/network/AxiosServices.js";
@@ -50,7 +50,6 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
     const [editDelDownId, setEditDelDownId] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
     const [hoveredCardId, setHoveredCardId] = useState(null);
-
 
 
     const [windowWidthSwiperCard, setWindowWidthSwiperCard] = useState(window.innerWidth);
@@ -152,15 +151,15 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
     // -------------------------option icons ------------------------------
 
     const editDelDownload = (id) => {
-  const selectedData = moduleVideoData.find(video => video.id === id);
-  if (selectedCardId === id) {
-    setThreeDotToggle(!threeDotToggle);
-  } else {
-    setSelectedCardId(id);
-    setThreeDotToggle(true);
-  }
-  setEditDelDownId(id);
-};
+        const selectedData = moduleVideoData.find(video => video.id === id);
+        if (selectedCardId === id) {
+            setThreeDotToggle(!threeDotToggle);
+        } else {
+            setSelectedCardId(id);
+            setThreeDotToggle(true);
+        }
+        setEditDelDownId(id);
+    };
 
 
     useEffect(() => {
@@ -390,14 +389,14 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
     };
 
     useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (!e.target.closest('.three-dot-option') && !e.target.closest('.edit-del-down-box')) {
-      setThreeDotToggle(false);
-    }
-  };
-  document.addEventListener('click', handleClickOutside);
-  return () => document.removeEventListener('click', handleClickOutside);
-}, []);
+        const handleClickOutside = (e) => {
+            if (!e.target.closest('.three-dot-option') && !e.target.closest('.edit-del-down-box')) {
+                setThreeDotToggle(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
 
 
     // ----------------------------------------------------------------
@@ -436,17 +435,17 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                     ><FontAwesomeIcon className="me-2"
                                       icon={faAngleLeft}/> Back</span>
                 }
-                <div className="d-flex justify-content-between align-items-center gap-3">
-                    <button className={`${sortListView ? "btn-active " : "btn-unactive add-module-button"}`}
-                            onClick={showSortView}>
-                        <FontAwesomeIcon icon={faTableCellsLarge}/>
-                    </button>
+                {/*<div className="d-flex justify-content-between align-items-center gap-3">*/}
+                {/*    <button className={`${sortListView ? "btn-active " : "btn-unactive add-module-button"}`}*/}
+                {/*            onClick={showSortView}>*/}
+                {/*        <FontAwesomeIcon icon={faTableCellsLarge}/>*/}
+                {/*    </button>*/}
 
-                    <button className={` ${sortListView ? "btn-unactive add-module-button" : "btn-active"}`}
-                            onClick={showListView}>
-                        <FontAwesomeIcon icon={faList}/>
-                    </button>
-                </div>
+                {/*    <button className={` ${sortListView ? "btn-unactive add-module-button" : "btn-active"}`}*/}
+                {/*            onClick={showListView}>*/}
+                {/*        <FontAwesomeIcon icon={faList}/>*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
 
 
@@ -467,13 +466,13 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                             <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
                                                 <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
                                                 {!viewAllCard && (
-  <button
-    onClick={() => viewAllCardShow(module.id)}
-    className="view-all-btn add-module-button"
-  >
-    View all
-  </button>
-)}
+                                                    <button
+                                                        onClick={() => viewAllCardShow(module.id)}
+                                                        className="view-all-btn add-module-button"
+                                                    >
+                                                        View all
+                                                    </button>
+                                                )}
                                             </div>
                                             <Swiper
                                                 className="video-all-card"
@@ -527,13 +526,13 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                                         onChange={() => handleCheckboxChange(data.id)}
                                                                     />
 
-                                                                     {hoveredCardId === data.id && !(selectedCardId === data.id && threeDotToggle) && (
+                                                                    {hoveredCardId === data.id && !(selectedCardId === data.id && threeDotToggle) && (
                                                                         <FontAwesomeIcon
-                                                                          onClick={() => editDelDownload(data.id)}
-                                                                          className="three-dot-option"
-                                                                          icon={faEllipsisVertical}
+                                                                            onClick={() => editDelDownload(data.id)}
+                                                                            className="three-dot-option"
+                                                                            icon={faEllipsisVertical}
                                                                         />
-                                                                      )}
+                                                                    )}
 
                                                                     {/*{selectedCardId === data.id && threeDotToggle && (*/}
                                                                     {/*    <FontAwesomeIcon className="message-angel"*/}
@@ -545,20 +544,25 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                                         <div className="edit-del-down-box">
                                                                             <span className="edit-del-down"
                                                                                   onClick={handleVideoShow}>
-                                                                                <FontAwesomeIcon icon={faPen} color='lightseagreen'/>
+                                                                                <FontAwesomeIcon icon={faPen}
+                                                                                                 color='lightseagreen'/>
                                                                                 {/*Edit*/}
                                                                             </span>
                                                                             <span className="edit-del-down"
                                                                                   onClick={deleteModalOpen}>
-                                                                                <FontAwesomeIcon icon={faTrash} color='darkorange'/>
+                                                                                <FontAwesomeIcon icon={faTrash}
+                                                                                                 color='darkorange'/>
                                                                                 {/*Delete*/}
                                                                             </span>
                                                                             <span className="edit-del-down">
-                                                                                <FontAwesomeIcon icon={faDownload} color='blue'/>
+                                                                                <FontAwesomeIcon icon={faDownload}
+                                                                                                 color='blue'/>
                                                                                 {/*Download*/}
                                                                             </span>
-                                                                            <span className="edit-del-down" onClick={() => editDelDownload(data.id)}>
-                                                                                <FontAwesomeIcon icon={faClose} color='red'/>
+                                                                            <span className="edit-del-down"
+                                                                                  onClick={() => editDelDownload(data.id)}>
+                                                                                <FontAwesomeIcon icon={faClose}
+                                                                                                 color='red'/>
                                                                                 {/*Close*/}
                                                                             </span>
                                                                         </div>
@@ -669,13 +673,13 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                         <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
                                         <div className="d-flex justify-content-between align-items-center gap-3">
                                             {!viewAllCard && (
-  <button
-    onClick={() => viewAllCardShow(module.id)}
-    className="view-all-btn add-module-button"
-  >
-    View all
-  </button>
-)}
+                                                <button
+                                                    onClick={() => viewAllCardShow(module.id)}
+                                                    className="view-all-btn add-module-button"
+                                                >
+                                                    View all
+                                                </button>
+                                            )}
                                             <div className="swiper-button-prev">
                                                 <FontAwesomeIcon className="" icon={faChevronLeft}/>
                                             </div>
@@ -872,13 +876,13 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                             <div className="d-flex align-items-center justify-content-between mb-3 mt-3">
                                 <h4 className="video-category-title">{selectedModuleId ? module.name : module.name}</h4>
                                 {!viewAllCard && (
-  <button
-    onClick={() => viewAllCardShow(module.id)}
-    className="view-all-btn add-module-button"
-  >
-    View all
-  </button>
-)}
+                                    <button
+                                        onClick={() => viewAllCardShow(module.id)}
+                                        className="view-all-btn add-module-button"
+                                    >
+                                        View all
+                                    </button>
+                                )}
                             </div>
                             <div className={sortListView ? "video-all-card" : "list-video-all-Card"}>
                                 {moduleVideoData.map((data) => {
