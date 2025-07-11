@@ -74,3 +74,11 @@
         line-height: 1;
     }
 }
+
+.single-input input {
+  &:focus {
+    border: 1px solid var(--primary-color) !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}

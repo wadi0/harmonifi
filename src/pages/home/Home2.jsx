@@ -417,6 +417,16 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                 value={moduleList.find(option => option.value === selectedModuleId)}
                                 isClearable
                                 classNamePrefix="react-select"
+                                styles={{
+                                    control: (base, state) => ({
+                                        ...base,
+                                        border: state.isFocused ? '1px solid var(--primary-color)' : '1px solid #ccc',
+                                        boxShadow: 'none',
+                                        '&:hover': {
+                                            borderColor: 'none',
+                                        },
+                                    }),
+                                }}
                             />
 
 
@@ -931,24 +941,24 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                                                                  color='lightseagreen'/>
                                                                                 {/*Edit*/}
                                                                             </span>
-                                                                            <span className="edit-del-down"
-                                                                                  onClick={deleteModalOpen}>
+                                                                    <span className="edit-del-down"
+                                                                          onClick={deleteModalOpen}>
                                                                                 <FontAwesomeIcon icon={faTrash}
                                                                                                  color='darkorange'/>
-                                                                                {/*Delete*/}
+                                                                        {/*Delete*/}
                                                                             </span>
-                                                                            <span className="edit-del-down">
+                                                                    <span className="edit-del-down">
                                                                                 <FontAwesomeIcon icon={faDownload}
                                                                                                  color='blue'/>
-                                                                                {/*Download*/}
+                                                                        {/*Download*/}
                                                                             </span>
-                                                                            <span className="edit-del-down"
-                                                                                  onClick={() => editDelDownload(data.id)}>
+                                                                    <span className="edit-del-down"
+                                                                          onClick={() => editDelDownload(data.id)}>
                                                                                 <FontAwesomeIcon icon={faClose}
                                                                                                  color='red'/>
-                                                                                {/*Close*/}
+                                                                        {/*Close*/}
                                                                             </span>
-                                                                        </div>
+                                                                </div>
                                                                 // <div className="edit-del-down-box">
                                                                 //     <span className="edit-del-down" onClick={handleVideoShow}>
                                                                 //         <FontAwesomeIcon
