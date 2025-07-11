@@ -216,169 +216,168 @@
 
 
         .video-thumbnail {
-  position: relative;
-  cursor: pointer;
+          position: relative;
+          cursor: pointer;
 
-  .video-thumbnail-img {
-    position: relative;
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
+          .video-thumbnail-img {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
 
-    img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      object-fit: cover;
-      display: block;
-    }
+            img {
+              width: 100%;
+              height: auto;
+              border-radius: 10px;
+              object-fit: cover;
+              display: block;
+            }
 
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0);
-      transition: background 0.3s ease;
-      border-radius: 10px;
-    }
+            .overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0);
+              transition: background 0.3s ease;
+              border-radius: 10px;
+            }
 
-    &:hover .overlay {
-      background: rgba(0, 0, 0, 0.3);
-    }
+            &:hover .overlay {
+              background: rgba(0, 0, 0, 0.3);
+            }
 
-    .play-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.5rem;
-      color: white;
-      z-index: 2;
-      display: none;
-    }
+            .play-icon {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-size: 2.5rem;
+              color: white;
+              z-index: 2;
+              display: none;
+            }
 
-    .video-checkbox {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 22px;
-      height: 22px;
-      z-index: 3;
-      display: none;
-    }
+            .video-checkbox {
+              position: absolute;
+              top: 10px;
+              left: 10px;
+              width: 22px;
+              height: 22px;
+              z-index: 3;
+              display: none;
+            }
 
-    .video-checkbox-visibility {
-      display: block;
-    }
+            .video-checkbox-visibility {
+              display: block;
+            }
 
-    .three-dot-option {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: white;
-      padding: 5px;
-      border-radius: 50%;
-      z-index: 3;
-      color: black;
-      display: none;
-    }
+            .three-dot-option {
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              background-color: white;
+              padding: 5px;
+              border-radius: 50%;
+              z-index: 3;
+              color: black;
+              display: none;
+            }
 
-    .three-dot-visibility {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+            .three-dot-visibility {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
 
-    &:hover .play-icon,
-    &:hover .video-checkbox,
-    &:hover .three-dot-option {
-      display: flex;
-    }
+            &:hover .play-icon,
+            &:hover .video-checkbox,
+            &:hover .three-dot-option {
+              display: flex;
+            }
 
-    .edit-del-down-box {
-      position: absolute;
-  top: 7px;
-  right: 10px;
-  background: white;
-  border-radius: 8px;
-  //padding: 5px 0;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 8px 16px rgba(0, 0, 0, 0.15);
+            .edit-del-down-box {
+              position: absolute;
+              top: 7px;
+              right: 10px;
+              background: white;
+              border-radius: 8px;
+              //padding: 5px 0;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+              0 12px 24px rgba(0, 0, 0, 0.25);
+              z-index: 999;
+              display: flex;
+              flex-wrap: wrap;
 
-  z-index: 4;
-  display: flex;
-      flex-wrap: wrap;
+              .edit-del-down {
+                padding: 8px;
+                font-size: 12px;
+                color: #333;
+                white-space: nowrap;
+                transition: 0.2s;
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                border-radius: 8px;
 
-      .edit-del-down {
-        padding: 8px;
-        font-size: 12px;
-        color: #333;
-        white-space: nowrap;
-        transition: 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 3px;
-        border-radius: 8px;
+                &:hover {
+                  background: #f5f5f5;
+                  color: var(--primary-color);
+                }
 
-        &:hover {
-          background: #f5f5f5;
-          color: var(--primary-color);
+                svg {
+                  font-size: 12px;
+                }
+              }
+            }
+
+            //  .message-angel {
+            //    position: absolute;
+            //top: 15px;
+            //right: 32px;
+            //color: white;
+            //z-index: 4;
+            //transform: rotate(15deg);
+            //  }
+
+            .d-none {
+              display: none !important;
+            }
+
+          }
         }
 
-        svg {
-          font-size: 12px;
+        /* Mobile & Tablet Responsive Fix */
+        //@media (max-width: 768px) {
+        //  .video-thumbnail .video-thumbnail-img {
+        //    .play-icon {
+        //      font-size: 2rem;
+        //    }
+        //
+        //    .edit-del-down-box {
+        //      top: 45px;
+        //      right: 5px;
+        //      min-width: 130px;
+        //
+        //      .edit-del-down {
+        //        padding: 8px 12px;
+        //        font-size: 13px;
+        //      }
+        //    }
+        //
+        //    .video-checkbox {
+        //      width: 18px;
+        //      height: 18px;
+        //    }
+        //
+        .three-dot-option {
+          width: 13px;
+          height: 13px;
         }
-      }
-    }
 
-  //  .message-angel {
-  //    position: absolute;
-  //top: 15px;
-  //right: 32px;
-  //color: white;
-  //z-index: 4;
-  //transform: rotate(15deg);
-  //  }
-
-    .d-none {
-  display: none !important;
-}
-
-  }
-}
-
-/* Mobile & Tablet Responsive Fix */
-//@media (max-width: 768px) {
-//  .video-thumbnail .video-thumbnail-img {
-//    .play-icon {
-//      font-size: 2rem;
-//    }
-//
-//    .edit-del-down-box {
-//      top: 45px;
-//      right: 5px;
-//      min-width: 130px;
-//
-//      .edit-del-down {
-//        padding: 8px 12px;
-//        font-size: 13px;
-//      }
-//    }
-//
-//    .video-checkbox {
-//      width: 18px;
-//      height: 18px;
-//    }
-//
-    .three-dot-option {
-      width: 13px;
-      height: 13px;
-    }
-//  }
-//}
+        //  }
+        //}
 
 
       }
@@ -812,6 +811,7 @@
   margin-bottom: 30px; // নিচে gap রাখে
   margin-top: 30px;
 }
+
 //
 //.video-modal-title {
 //  font-size: 22px;
@@ -828,7 +828,7 @@
 
 .modal-module-select__control {
   height: 46px;
-    border: 1px solid #ccc;
+  border: 1px solid #ccc;
   box-shadow: none !important;
   outline: none !important;
 }
@@ -892,8 +892,8 @@
   }
 }
 
-.add-modal-button{
-display: flex;
+.add-modal-button {
+  display: flex;
   justify-content: end;
   gap: 20px;
 }
@@ -954,6 +954,7 @@ display: flex;
   }
   .video-upload-modal-container {
     margin-bottom: 100px;
+
     .add-module-btn-text {
       display: none;
     }
