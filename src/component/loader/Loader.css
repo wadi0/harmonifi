@@ -2,13 +2,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 150px; // or 100vh for full screen
+  min-height: 150px; /* Or 100vh for full screen loader */
   width: 100%;
 }
 
+/*.custom-loader-wrapper {*/
+/*  position: fixed;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  width: 100vw;*/
+/*  height: 100vh;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  background: white; !* optional background *!*/
+/*  z-index: 9999;*/
+/*}*/
+
+
 .custom-spinner {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid var(--primary-color); // your primary color
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-color); /* Your theme color */
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -16,6 +30,11 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
