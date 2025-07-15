@@ -8,6 +8,7 @@ import HeaderLayout from "./component/layout/headerLayout/HeaderLayout.jsx";
 import SideMenuLayout from "./component/layout/sideMenuLayout/SideMenuLayout.jsx";
 import {useState} from "react";
 import Home2 from "./pages/home/Home2.jsx";
+import {ToastContainer} from "react-toastify";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
     //     setSidebarOpen(!sidebarOpen);
     // };
     //
-    const handleShowModule = () =>{
+    const handleShowModule = () => {
         setShowModule(true)
         setShowVideo(false)
     };
@@ -32,6 +33,7 @@ function App() {
     return (
 
         <>
+            <ToastContainer position="top-right" autoClose={3000}/>
             <BrowserRouter>
                 {/*<Header />*/}
                 <Routes>

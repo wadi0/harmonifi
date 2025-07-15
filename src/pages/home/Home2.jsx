@@ -32,6 +32,7 @@ import 'swiper/css';
 import 'swiper/css/grid';
 import {Dialog} from "@headlessui/react";
 import Loader from "../../component/loader/Loader.jsx";
+import {toast} from "react-toastify";
 
 const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, handleCloseVideo, handleVideoShow}) => {
 
@@ -290,10 +291,8 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
             AxiosServices.get(ApiUrlServices.MODULE_ALL_CARD_DATA, payload)
                 .then((response) => {
                     const modules = response.data.data.modules;
-                    console.log(modules);
                     setModuleAllCardData(modules);
                     let moduleDetails = modules.map(data => data.videos).flat();
-                    console.log(moduleDetails);
                     setModuleVideoData(moduleDetails);
                 }).catch((error) => {
                 console.log(error);
@@ -336,10 +335,6 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
         setSelectedModuleId(selectedOption ? selectedOption.value : null);
     };
 
-    const handleModalSelectChange = (selectedOption) => {
-        setModalSelectedModuleId(selectedOption ? selectedOption.value : null);
-    };
-
 
     // --------------------------------------------------
 
@@ -364,6 +359,7 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                 console.log(response);
                 resetForm();
                 handleCloseModule(true)
+                toast.success("Add module successfully")
             }).catch((error) => {
             console.log(error);
         }).finally(() => {
@@ -381,16 +377,64 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
         onSubmit: submitModuleForm,
     });
 
-    // ----------------------------------------------------------------
+    // ----------------------------------------
 
-    const CustomDropdownIndicator = (props) => {
-        return (
-            <components.DropdownIndicator {...props}>
-                {/* Replace this with your custom icon */}
-                <span>🔽</span>
-            </components.DropdownIndicator>
-        );
+    // const handleModalSelectChange = (selectedOption) => {
+    //       setModalSelectedModuleId(selectedOption ? selectedOption.value : null);
+    //   };
+    const handleModalSelectChange = (selectedOption) => {
+        setModalSelectedModuleId(selectedOption?.value || null);
+        uploadVideoForm.setFieldValue('module_id', selectedOption?.value || null);
     };
+
+    const uploadVideoFormValidate = (values) => {
+        const errors = {};
+        if (!values.title) {
+            errors.title = "Title is required";
+        }
+        if (!values.module_id) {
+            errors.module_id = "Module is required";
+        }
+        if (!values.video_file) {
+            errors.video_file = "Video file is required";
+        }
+        if (!values.thumbnail) {
+            errors.thumbnail = "Thumbnail is required";
+        }
+        return errors;
+    };
+
+
+    const submitUploadVideoForm = (values, {resetForm}) => {
+        setModalSelectedModuleId(null);
+        uploadVideoForm.resetForm();
+        handleCloseVideo();
+        toast.warning("I don't have api so data not added!")
+    };
+
+    const handleCloseUploadVideoModal = () => {
+        setModalSelectedModuleId(null);
+        uploadVideoForm.resetForm();
+        handleCloseVideo();
+    };
+
+
+    const uploadVideoForm = useFormik({
+        initialValues: {
+            title: "",
+            module_id: null,
+            video_file: null,
+            thumbnail: null,
+            description: ""
+        },
+        validateOnChange: true,
+        validateOnBlur: true,
+        validate: uploadVideoFormValidate,
+        onSubmit: submitUploadVideoForm,
+    });
+
+
+    // ----------------------------------------------------------------
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -415,15 +459,14 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
     const [swiperStates, setSwiperStates] = useState({});
 
     const handleSlideChange = (swiper, moduleId) => {
-    setSwiperStates(prev => ({
-        ...prev,
-        [moduleId]: {
-            isBeginning: swiper.isBeginning,
-            isEnd: swiper.isEnd,
-        }
-    }));
-};
-
+        setSwiperStates(prev => ({
+            ...prev,
+            [moduleId]: {
+                isBeginning: swiper.isBeginning,
+                isEnd: swiper.isEnd,
+            }
+        }));
+    };
 
 
     return (
@@ -475,7 +518,6 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                 <Loader/>
             ) : (
                 <>
-                    {/*--normal slider card--------------------------------------------*/}
                     {!viewAllCard ? (
                         <>
                             {sortListView ? (
@@ -508,7 +550,7 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                             ) : (
                                                 <Swiper
                                                     onSwiper={(swiper) => handleSlideChange(swiper, module.id)}
-    onSlideChange={(swiper) => handleSlideChange(swiper, module.id)}
+                                                    onSlideChange={(swiper) => handleSlideChange(swiper, module.id)}
                                                     className="video-all-card"
                                                     key={windowWidthSwiperCard}
                                                     ref={cardSwiperRef}
@@ -550,12 +592,6 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                                         <FontAwesomeIcon
                                                                             onClick={() => videoModalIsOpen(data.id)}
                                                                             className="play-icon" icon={faPlay}/>
-                                                                        {/*<input*/}
-                                                                        {/*    className={`video-checkbox ${checkedIds.includes(data.id) ? 'video-checkbox-visibility' : ''}`}*/}
-                                                                        {/*    type="checkbox"*/}
-                                                                        {/*    checked={checkedIds.includes(data.id)}*/}
-                                                                        {/*    onChange={() => handleCheckboxChange(data.id)}*/}
-                                                                        {/*/>*/}
 
                                                                         {hoveredCardId === data.id && !(selectedCardId === data.id && threeDotToggle) && (
                                                                             <FontAwesomeIcon
@@ -664,28 +700,25 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                                 </Swiper>
                                             )}
 
-                                            <div
-  className={`swiper-left-button swiper-left-button-${module.id} ${
-    swiperStates[module.id]?.isBeginning ? 'swiper-button-disabled' : ''
-  }`}
->
-  <FontAwesomeIcon icon={faChevronLeft} />
-</div>
+                                            {hasVideos(module.id) ?
+                                                <div
+                                                    className={`swiper-left-button swiper-left-button-${module.id} ${
+                                                        swiperStates[module.id]?.isBeginning ? 'swiper-button-disabled' : ''
+                                                    }`}
+                                                >
+                                                    <FontAwesomeIcon icon={faChevronLeft}/>
+                                                </div>
+                                                : null}
 
-<div
-  className={`swiper-right-button swiper-right-button-${module.id} ${
-    swiperStates[module.id]?.isEnd ? 'swiper-button-disabled' : ''
-  }`}
->
-  <FontAwesomeIcon icon={faChevronRight} />
-</div>
-
-                                            {/*<div className={`swiper-left-button swiper-left-button-${module.id}`}>*/}
-                                            {/*    <FontAwesomeIcon icon={faChevronLeft}/>*/}
-                                            {/*</div>*/}
-                                            {/*<div className={`swiper-right-button swiper-right-button-${module.id}`}>*/}
-                                            {/*    <FontAwesomeIcon icon={faChevronRight}/>*/}
-                                            {/*</div>*/}
+                                            {hasVideos(module.id) ?
+                                                <div
+                                                    className={`swiper-right-button swiper-right-button-${module.id} ${
+                                                        swiperStates[module.id]?.isEnd ? 'swiper-button-disabled' : ''
+                                                    }`}
+                                                >
+                                                    <FontAwesomeIcon icon={faChevronRight}/>
+                                                </div>
+                                                : null}
                                         </div>
                                     ))}
                                 </>
@@ -1169,18 +1202,24 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                         <div className="video-modal">
                             <div className="select-add-module">
                                 <div className="video-modal-select-field">
+                                    <label className="video-module-label mb-1" htmlFor="module_id">Module Name</label>
                                     <Select
+                                        inputId="module_id"
+                                        name="module_id"
                                         className="modal-module-select"
                                         options={!moduleListLoading ? moduleList : []}
                                         placeholder={!moduleListLoading ? "All" : "Loading..."}
                                         onChange={handleModalSelectChange}
                                         value={moduleList.find(option => option.value === modalSelectedModuleId)}
-                                        // isClearable
                                         classNamePrefix="react-select"
+                                        onBlur={() => uploadVideoForm.setFieldTouched("module_id", true)}
                                         styles={{
                                             control: (base, state) => ({
                                                 ...base,
                                                 height: '46px',
+                                                fontWeight: '500',
+                                                paddingLeft: '15px',
+                                                borderRadius: '6px',
                                                 border: state.isFocused ? '1px solid var(--primary-color)' : '1px solid #ccc',
                                                 boxShadow: 'none',
                                                 '&:hover': {
@@ -1189,86 +1228,97 @@ const Home2 = ({showModule, handleCloseModule, handleShowModule, showVideo, hand
                                             }),
                                         }}
                                     />
+                                    {uploadVideoForm.touched.module_id && uploadVideoForm.errors.module_id && (
+                                        <div className="invalid-feedback d-block">
+                                            {uploadVideoForm.errors.module_id}
+                                        </div>
+                                    )}
                                 </div>
-                                <button className="add-module-button upload-video-add-module"
-                                        onClick={handleShowModule}>
-                                    <FontAwesomeIcon icon={faPlus}/><span
-                                    className="ms-2 add-module-btn-text">Add Module</span>
-                                </button>
                             </div>
-                            {/*<form onSubmit={moduleForm.handleSubmit}>*/}
-                            {/*    <label className="module-label">Module Name</label>*/}
                             <div className='mt-3 mb-2'>
                                 <InputField
                                     labelName="Title"
                                     labelClass="title-label-class"
-                                    inputClassName="video-modal-input-title"
+                                    inputClass="video-modal-input-title mt-1"
                                     id="title"
                                     placeholder='Title'
                                     textType="text"
                                     inputName="title"
-                                    asterisk={true}
+                                    asterisk={false}
                                     whiteSpace={false}
-                                    // onBlur={moduleForm.handleBlur}
-                                    // value={moduleForm.values.moduleName}
-                                    // onchangeCallback={moduleForm.handleChange}
-                                    // inputClassName={moduleForm.touched.moduleName && moduleForm.errors.moduleName ? " is-invalid" : ""}
-                                    // requiredMessage={moduleForm.touched.moduleName && moduleForm.errors.moduleName}
-                                    // requiredMessageLabel={moduleForm.touched.moduleName || moduleForm.isSubmitting ? moduleForm.errors.moduleName : ""}
+                                    onBlur={uploadVideoForm.handleBlur}
+                                    value={uploadVideoForm.values.title}
+                                    onchangeCallback={uploadVideoForm.handleChange}
+                                    inputClassName={uploadVideoForm.touched.title && uploadVideoForm.errors.title ? " is-invalid" : ""}
+                                    requiredMessage={uploadVideoForm.touched.title && uploadVideoForm.errors.title}
+                                    requiredMessageLabel={uploadVideoForm.touched.title || uploadVideoForm.isSubmitting ? uploadVideoForm.errors.title : ""}
                                 />
                             </div>
-                            {/*</form>*/}
                             <div className="file-upload-component mt-3">
                                 <div>
                                     <h5 className="title-name nunito-700">Dr. Rohrer</h5>
-                                    <InputFileUploadDesign/>
+                                    <InputFileUploadDesign
+                                        name="video_file"
+                                        onChange={(file) => uploadVideoForm.setFieldValue('video_file', file)}
+                                        error={uploadVideoForm.touched.video_file && uploadVideoForm.errors.video_file}
+                                    />
                                 </div>
-                                <div className="mt-3">
+                                <div className="">
                                     <h5 className="thumbnail-name nunito-700">Thumbnail</h5>
-                                    <ThumbnailUpload/>
+                                    <ThumbnailUpload
+                                        name="thumbnail"
+                                        onChange={(file) => uploadVideoForm.setFieldValue('thumbnail', file)}
+                                        error={uploadVideoForm.touched.thumbnail && uploadVideoForm.errors.thumbnail}
+                                    />
                                 </div>
                             </div>
                             <label className="textarea-label nunito-700 mt-3">Description</label>
-                            <textarea className="custom-textarea" placeholder="Description" rows={4}></textarea>
+                            {/*<textarea className="custom-textarea nunito-500" placeholder="Description"*/}
+                            {/*          rows={4}></textarea>*/}
+                            <textarea
+                                className={`custom-textarea nunito-500 ${uploadVideoForm.touched.description && uploadVideoForm.errors.description ? 'is-invalid' : ''}`}
+                                placeholder="Description"
+                                rows={4}
+                                name="description"
+                                onChange={uploadVideoForm.handleChange}
+                                onBlur={uploadVideoForm.handleBlur}
+                                value={uploadVideoForm.values.description}
+                            />
                         </div>
 
                         <div className="video-modal-footer">
                             <button
                                 type="button"
-                                // btnText="Cancel"
                                 className="cancelBtn add-modal-button add-module-button"
-                                onClick={() => {
-                                    handleCloseVideo();
-                                    setModalSelectedModuleId(null);
-                                }}
-                            >Cancel
+                                onClick={handleCloseUploadVideoModal}
+                            >
+                                Cancel
                             </button>
+
                             <button
                                 type="submit"
-                                // btnText="Save"
                                 className="saveBtn add-modal-button add-module-button"
-                                onClick={() => {
-                                    handleCloseVideo();
-                                    setModalSelectedModuleId(null);
-                                }}
-                            >Save
+                                onClick={uploadVideoForm.handleSubmit}
+                            >
+                                Save
                             </button>
+
                         </div>
                     </Dialog.Panel>
                 </div>
             </Dialog>
             {/*--------------------------------------------------------*/}
 
-            {checkedIds.length > 0 && (
-                <>
-                    <p>{`Checked Count: ${getCheckedCount()}`}</p>
-                    <div>
-                        {checkedIds.map((id) => (
-                            <p key={id}>Checked ID: {id}</p>
-                        ))}
-                    </div>
-                </>
-            )}
+            {/*{checkedIds.length > 0 && (*/}
+            {/*    <>*/}
+            {/*        <p>{`Checked Count: ${getCheckedCount()}`}</p>*/}
+            {/*        <div>*/}
+            {/*            {checkedIds.map((id) => (*/}
+            {/*                <p key={id}>Checked ID: {id}</p>*/}
+            {/*            ))}*/}
+            {/*        </div>*/}
+            {/*    </>*/}
+            {/*)}*/}
         </div>
     );
 };

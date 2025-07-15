@@ -262,10 +262,10 @@
       right: 10px; // ✅ thumbnail-er vitore thakbe
     }
 
- .swiper-button-disabled {
-  pointer-events: none;
-  opacity: 0.3;
-}
+    .swiper-button-disabled {
+      pointer-events: none;
+      opacity: 0.3;
+    }
 
 
   }
@@ -694,6 +694,7 @@
 
 .custom-textarea {
   width: 100%;
+  color: var(--body-color);
   padding: 10px 12px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -704,8 +705,7 @@
 
   &:focus {
     outline: none;
-    border-color: #005fcc;
-    box-shadow: 0 0 5px rgba(0, 95, 204, 0.5);
+    border-color: var(--primary-color);
   }
 }
 
@@ -821,4 +821,18 @@
       }
     }
   }
+}
+
+.file-upload-component {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.video-module-label {
+  font-size: 20px;
+  font-weight: 700
 }
